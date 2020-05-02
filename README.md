@@ -27,3 +27,17 @@ Replace `[my-app-name]` with the desired directory name for your new application
 * `storage`:    Log files, cache files...
 * `public`:     The public directory contains `index.php` file, assets such as images, JavaScript, and CSS
 * `vendor`:     Composer dependencies
+
+## Contributing
+
+ - welcome to discuss a bugs, features and ideas.
+ 
+## Thanks
+
+This project is based on the project in [jupitern/slim3-skeleton] feel free to contribute to this and the other project.
+
+- [jupitern]
+
+[jupitern]: https://github.com/jupitern
+[jupitern/slim3-skeleton]: https://github.com/jupitern/slim3-skeleton
+
