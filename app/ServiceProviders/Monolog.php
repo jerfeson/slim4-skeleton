@@ -18,10 +18,13 @@ use Psr\Log\LogLevel;
 class Monolog implements ProviderInterface
 {
 
+    /**
+     *
+     */
     public static function register()
     {
         $app = app();
-        $appName = $app->appType;
+        $appName = $app->isConsole() ? 'console' : 'http';
         $logFilePath = $logFilePath ?? $app->getConfig("settings.log.file");
 
         $logger = new Logger($appName);
@@ -35,16 +38,18 @@ class Monolog implements ProviderInterface
             $logger->pushHandler($handler);
         }
 
-        $logFilePath = $logFilePath ?? $app->getConfig("settings.log.file");
+        app()->getContainer()->set(LoggerInterface::class, function () {
+            $app = app();
+            $logFilePath = $logFilePath ?? $app->getConfig("settings.log.file");
 
-        $logger = new Logger($appName);
-        $formatter = new LineFormatter(null, null, true);
-        $formatter->includeStacktraces(false);
-        $handler = new StreamHandler($logFilePath, LogLevel::DEBUG);
-        $handler->setFormatter($formatter);
-        $logger->pushHandler($handler);
+            $logger = new Logger($app->appType);
+            $formatter = new LineFormatter(null, null, true);
+            $formatter->includeStacktraces(false);
+            $handler = new StreamHandler($logFilePath, LogLevel::DEBUG);
+            $handler->setFormatter($formatter);
+            $logger->pushHandler($handler);
 
-        $app->getContainer()->set(LoggerInterface::class, $logger);
+            return $logger;
+        });
     }
-
 }

@@ -21,12 +21,14 @@ class Twig implements ProviderInterface
      */
     public static function register()
     {
-        $settings = app()->getConfig('settings.twig');
-        $loader = new FilesystemLoader($settings['templates']);
-        $twig = new \Slim\Views\Twig($loader, $settings['settings']);
-        $twig->addExtension(new DebugExtension());
 
-        app()->getContainer()->set(\Slim\Views\Twig::class, $twig);
+        app()->getContainer()->set(\Slim\Views\Twig::class, function () {
+            $settings = app()->getConfig('settings.twig');
+            $loader = new FilesystemLoader($settings['templates']);
+            $twig = new \Slim\Views\Twig($loader, $settings['settings']);
+            $twig->addExtension(new DebugExtension());
+            return $twig;
+        });
     }
 
 }

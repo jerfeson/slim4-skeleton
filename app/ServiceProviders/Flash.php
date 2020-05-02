@@ -14,10 +14,13 @@ use Slim\Flash\Messages;
 class Flash implements ProviderInterface
 {
 
+    /**
+     *
+     */
     public static function register()
     {
-        session_start();
-        $flash = new Messages();
-        app()->getContainer()->set(Messages::class, $flash);
+        app()->getContainer()->set(Messages::class, function () {
+            return new Messages();
+        });
     }
 }

@@ -31,7 +31,7 @@ class Session
             $secure = (bool)$settings['secure'];
             $httponly = (bool)$settings['httponly'];
 
-            session_save_path($settings['filesPath']);
+//            session_save_path($settings['filesPath']);
             session_set_cookie_params($lifetime, $path, $domain, $secure, $httponly);
             session_name($settings['name']);
             session_cache_limiter($settings['cache_limiter']);

@@ -1,8 +1,9 @@
 <?php
 
 namespace App\ServiceProviders;
-use SlashTrace\SlashTrace as ST;
+
 use SlashTrace\EventHandler\DebugHandler;
+use SlashTrace\SlashTrace as ST;
 
 /**
  * Class SlashTrace
@@ -19,10 +20,11 @@ class SlashTrace implements ProviderInterface
      */
     public static function register()
     {
-        $st = new ST();
-        $st->addHandler(new DebugHandler());
-
-        app()->getContainer()->set('slashtrace', $st);
+        app()->getContainer()->set('slashtrace', function () {
+            $st = new ST();
+            $st->addHandler(new DebugHandler());
+            return $st;
+        });
     }
 
 }
