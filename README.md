@@ -1,5 +1,7 @@
 # Slim Framework 4 Skeleton Application (http + cli)
 
+[![CircleCI](https://circleci.com/gh/jerfeson/slim4-skeleton.svg?style=svg)](https://circleci.com/gh/jerfeson/slim4-skeleton)
+
 Use this skeleton application to quickly setup and start working on a new Slim Framework 4 application (Tested with slim 4.5). This application handles http and command line requests. This application ships with a few service providers and a Session middleware out of the box. Supports container resolution and auto-wiring.
 
 To remove a service provider comment it on config/app.php file and remove it from composer.json, update composer.
