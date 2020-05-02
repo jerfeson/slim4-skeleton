@@ -12,6 +12,7 @@ Available service providers:
 - [Monolog]
 - [Twig]
 - [Flash Message]
+- [Codeception]
 
 ### Install the Application
 
@@ -41,6 +42,28 @@ Replace `[my-app-name]` with the desired directory name for your new application
 * `public`:     The public directory contains `index.php` file, assets such as images, JavaScript, and CSS
 * `vendor`:     Composer dependencies
 
+### Codeception test examples
+
+Have the version 79 of chrome installed. otherwise, [download] your version driver 
+
+go to the test folder and run the following command. (Windows)
+```
+tests/_drivers/chromedriver_79_windows.exe --url-base=/wd/hub
+```
+go to the test folder and run the following command. (linux)
+```
+./tests/_drivers/chromedriver_79_linux --url-base=/wd/hub
+```
+go to project folder and run the following command.
+
+```
+./vendor/bin/codecept run --steps 
+```
+or 
+``` 
+php vendor/bin/codecept run --steps
+``` 
+
 ## Roadmap
 
  - [ ] more service providers
@@ -68,3 +91,5 @@ This project is based on the project in [jupitern/slim3-skeleton] feel free to c
 [Eloquent]:https://github.com/illuminate/database
 [Twig]:https://github.com/twigphp/Twig
 [Flash Message]:https://github.com/slimphp/Slim-Flash
+[Codeception]:https://codeception.com
+[download]:https://sites.google.com/a/chromium.org/chromedriver/downloads

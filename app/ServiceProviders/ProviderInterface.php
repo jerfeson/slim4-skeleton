@@ -5,7 +5,7 @@ namespace App\ServiceProviders;
 /**
  * Interface ProviderInterface
  * @package App\ServiceProviders
- * @author  Jerfeson Guerreiro <jerfeson@codeis.com.br>
+ * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  * @since   1.0.0
  * @version 1.0.0
  */

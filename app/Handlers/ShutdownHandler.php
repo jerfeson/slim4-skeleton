@@ -9,7 +9,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 /**
  * Class ShutdownHandler
  * @package App\Handlers
- * @author  Jerfeson Guerreiro <jerfeson@codeis.com.br>
+ * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  * @since   1.0.0
  * @version 1.0.0
  */
