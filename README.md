@@ -1,6 +1,6 @@
 # Slim Framework 4 Skeleton Application (http + cli)
 
-[![CircleCI](https://circleci.com/gh/jerfeson/slim4-skeleton.svg?style=svg)](https://circleci.com/gh/jerfeson/slim4-skeleton)
+  [![Total Downloads](https://img.shields.io/packagist/dt/jerfeson/slim4-skeleton.svg)](https://packagist.org/packages/jerfeson/slim4-skeleton/stats)
 
 Use this skeleton application to quickly setup and start working on a new Slim Framework 4 application (Tested with slim 4.5). This application handles http and command line requests. This application ships with a few service providers and a Session middleware out of the box. Supports container resolution and auto-wiring.
 
@@ -26,6 +26,37 @@ Replace `[my-app-name]` with the desired directory name for your new application
 * Ensure `storage/` is web writable.
 * make the necessary changes in config file config/app.php
 
+## Set permissions (Linux only)
+
+    sudo chown -R www-data storage/
+    sudo chmod -R ug+w storage/
+    
+    sudo chmod -R 760 storage/
+    
+    chmod +x bin/console.php
+    
+## Database setup
+Create a new database for development
+
+    mysql -e 'CREATE DATABASE IF NOT EXISTS default'
+
+Copy the file: config/env.example.php to config/development.php
+
+    cp config/env.example.php config/development.php
+    
+Change the connection configuration in config/development.php:
+
+    'settings' => [
+        'database' => [
+            'default' => [
+                'driver'    => 'mysql',
+                'host'      => 'localhost',
+                'database'  => 'default',
+                'username'  => '',
+                'password'  => '',
+
+
+
 ### Run it:
 
 1. `$ cd [my-app-name]\public`
@@ -41,6 +72,89 @@ Replace `[my-app-name]` with the desired directory name for your new application
 * `storage`:    Log files, cache files...
 * `public`:     The public directory contains `index.php` file, assets such as images, JavaScript, and CSS
 * `vendor`:     Composer dependencies
+
+### Console usage
+
+* Usage: php bin/console.php [command-name]
+* List: php bin/console.php For list all commands 
+How to create a new command:
+ 1. Create a class under directory app\Console in namespace App\Console
+ 2. Your class should extend Symfony\Component\Console\Command\Command
+ 4. DONE!
+
+Example:
+
+Command class:
+```php
+namespace App\Console;
+
+use Psr\Container\ContainerInterface;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+class ExampleCommand extends Command
+{
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * Constructor.
+     *
+     * @param ContainerInterface $container The container
+     * @param string|null $name The name
+     */
+    public function __construct(ContainerInterface $container, ?string $name = null)
+    {
+        parent::__construct($name);
+        $this->container = $container;
+    }
+
+    /**
+     * Configure.
+     *
+     * @return void
+     */
+    protected function configure(): void
+    {
+        parent::configure();
+
+        $this->setName('example');
+        $this->setDescription('A sample command');
+    }
+
+    /**
+     * Execute command.
+     *
+     * @param InputInterface $input The input
+     * @param OutputInterface $output The output
+     *
+     * @return int The error code, 0 on success
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $output->writeln(sprintf('<info>Hello, console</info>'));
+        return 0;
+    }
+}
+```
+
+Execute the class:method from command line:
+
+```php
+php bin/console.php example
+```
+
+### Code examples
+
+Get application instance
+```php
+$app = \Lib\Framework\App::instance();
+// or simpler using a helper function
+$app = app();
+```
 
 ### Codeception test examples
 

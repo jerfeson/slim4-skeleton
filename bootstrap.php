@@ -1,9 +1,5 @@
 <?php
 
-//todo make better (this must be in php.ini)
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
-
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT_PATH', realpath(__DIR__ . '/') . DS);
 define('APP_PATH', realpath(__DIR__ . '/app/') . DS);

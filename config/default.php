@@ -1,6 +1,10 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
 $default = [];
+
 $default['default'] = [
     'env' => \Lib\Framework\App::getAppEnv(),
     'addContentLengthHeader' => false,
@@ -8,6 +12,9 @@ $default['default'] = [
     'timezone' => 'America/Sao_Paulo',
     'locale' => 'pt_BR',
 ];
+
+// Timezone
+date_default_timezone_set($default['default']['timezone']);
 
 // log file path
 $default['log'] = [
@@ -94,7 +101,8 @@ $default['middleware'] = [
 
 // add your middleware here
 $default['commands'] = [
-    App\Console\ExampleCommand::class
+    App\Console\ExampleCommand::class,
+    App\Console\MigrationsCommand::class
 ];
 
 return $default;

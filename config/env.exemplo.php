@@ -1,7 +1,7 @@
 <?php
 
 $default['default']['debug'] = true;
-$default['default']['baseUrl'] = 'http://local.slim4/';
+$default['default']['baseUrl'] = 'http://localhost:8080/';
 $default['default']['indexFile'] = true;
 
 return [
@@ -10,10 +10,10 @@ return [
             // default db connection settings
             'default' => [
                 'driver'    => 'mysql',
-                'host'      => 'mysql',
+                'host'      => 'localhost',
                 'database'  => 'default',
-                'username'  => 'root',
-                'password'  => 'root',
+                'username'  => '',
+                'password'  => '',
                 'charset'   => 'utf8',
                 'collation' => 'utf8_unicode_ci',
                 'prefix'    => ''

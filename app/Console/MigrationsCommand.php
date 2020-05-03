@@ -2,12 +2,16 @@
 
 namespace App\Console;
 
+use Illuminate\Database\Capsule\Manager as DB;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Builder;
+use Illuminate\Support\Facades\Schema;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ExampleCommand extends Command
+class MigrationsCommand extends Command
 {
     /**
      * @var ContainerInterface
@@ -36,7 +40,7 @@ class ExampleCommand extends Command
         parent::configure();
 
         $this->setName('migrations');
-        $this->setDescription('Migrations database');
+        $this->setDescription('A sample command');
     }
 
     /**
@@ -49,7 +53,19 @@ class ExampleCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln(sprintf('<info>Hello, console</info>'));
+        $output->writeln(sprintf('<info>Starting migration</info>'));
+        $this->migrations();
+        $output->writeln(sprintf('<info>Migration completed</info>'));
         return 0;
+    }
+
+    private function migrations()
+    {
+        $connection = DB::connection('default');
+        /** @var Builder $schema */
+        $schema = $connection->getSchemaBuilder();
+        $schema->create('teste', function (Blueprint $table) {
+            $table->id();
+        });
     }
 }

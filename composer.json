@@ -3,6 +3,7 @@
     "description": "Slim4 skeleton (http + cli + oauth2) with some add-ons out of the box",
     "type": "project",
     "require": {
+        "php": "^7.2",
         "slim/slim": "4.5.*",
         "slim/psr7": "1.0.*",
         "slim/twig-view": "3.1.*",
