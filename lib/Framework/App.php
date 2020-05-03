@@ -22,23 +22,19 @@ use ReflectionParameter;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
 
-
 /**
- * Class App
- * @package Lib\Framework
+ * Class App.
+ *
  * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
  * @since   1.0.0
+ *
  * @version 1.0.0
  */
 class App
 {
-    /**
-     *
-     */
     const DEVELOPMENT = 'development';
-    /**
-     *
-     */
+
     const PRODUCTION = 'production';
     /**
      * @var null
@@ -59,8 +55,10 @@ class App
 
     /**
      * App constructor.
+     *
      * @param string $appType
      * @param array $settings
+     *
      * @throws Exception
      */
     public function __construct($appType = '', $settings = [])
@@ -80,14 +78,13 @@ class App
     {
         /**
          * The routing middleware should be added before the ErrorMiddleware
-         * Otherwise exceptions thrown from it will not be handled
+         * Otherwise exceptions thrown from it will not be handled.
          */
         $this->app->addRoutingMiddleware();
 
         $this->app->add(function (Request $request, RequestHandler $handler) {
             return $handler->handle($request);
         });
-
 
         $serverRequestCreator = ServerRequestCreatorFactory::create();
         $request = $serverRequestCreator->createServerRequestFromGlobals();
@@ -103,7 +100,6 @@ class App
         }
     }
 
-
     /**
      * @return ContainerInterface|null
      */
@@ -112,9 +108,6 @@ class App
         return $this->app->getContainer();
     }
 
-    /**
-     *
-     */
     private function errorHandlers()
     {
         $displayErrorDetails = $this->getConfig('default.debug');
@@ -135,6 +128,7 @@ class App
 
     /**
      * @param $settings
+     *
      * @return bool
      */
     public function isProduction($settings)
@@ -147,12 +141,14 @@ class App
     }
 
     /**
-     * Application Singleton Factory
+     * Application Singleton Factory.
      *
      * @param string $appName
      * @param array $settings
-     * @return App
+     *
      * @throws Exception
+     *
+     * @return App
      */
     final public static function instance($appName = '', $settings = [])
     {
@@ -166,22 +162,24 @@ class App
     /**
      * @param $fn
      * @param array $args
-     * @return mixed
+     *
      * @throws Exception
+     *
+     * @return mixed
      */
     public function __call($fn, $args = [])
     {
         if (method_exists($this->app, $fn)) {
             return call_user_func_array([
                 $this->app,
-                $fn
+                $fn,
             ], $args);
         }
         throw new Exception('Method not found :: ' . $fn);
     }
 
     /**
-     * register providers
+     * register providers.
      *
      * @return void
      */
@@ -197,20 +195,22 @@ class App
     }
 
     /**
-     * get configuration param
+     * get configuration param.
      *
      * @param string $param
      * @param string $defaultValue
+     *
      * @return mixed
      */
     public function getConfig($param, $defaultValue = null)
     {
         $dn = new DotNotation($this->settings);
+
         return $dn->get($param, $defaultValue);
     }
 
     /**
-     * register providers
+     * register providers.
      *
      * @return void
      */
@@ -219,36 +219,40 @@ class App
         $middlewares = array_reverse((array)$this->getConfig('middleware'));
         array_walk($middlewares, function ($appType, $middleware) {
             if (strpos($appType, $this->appType) !== false) {
-                $this->app->add(new $middleware);
+                $this->app->add(new $middleware());
             }
         });
     }
 
     /**
-     * resolve and call a given class / method
+     * resolve and call a given class / method.
      *
      * @param string $className
      * @param string $methodName
      * @param array $requestParams
      * @param string $namespace
-     * @return Response
+     *
      * @throws HttpException
      * @throws ReflectionException
+     *
+     * @return Response
      */
     public function resolveRoute($className, $methodName, $requestParams = [], $namespace = "\App\Http")
     {
-
         try {
             $class = new ReflectionClass($namespace . '\\' . $className);
 
             if (!$class->isInstantiable() || !$class->hasMethod($methodName)) {
-                throw new ReflectionException("route class is not instantiable or method does not exist");
+                throw new ReflectionException('route class is not instantiable or method does not exist');
             }
         } catch (ReflectionException $e) {
-            throw new HttpException($this->getContainer()->get(
-                Request::class),
+            throw new HttpException(
+                $this->getContainer()->get(
+                    Request::class
+                ),
                 HttpErrorHandler::RESOURCE_NOT_FOUND,
-                404);
+                404
+            );
         }
 
         $constructorArgs = $this->resolveMethodDependencies($class->getConstructor());
@@ -258,14 +262,16 @@ class App
         $args = $this->resolveMethodDependencies($method, $requestParams);
 
         $ret = $method->invokeArgs($controller, $args);
+
         return  $this->sendResponse($ret);
     }
 
     /**
-     * resolve dependencies for a given class method
+     * resolve dependencies for a given class method.
      *
      * @param ReflectionMethod $method
      * @param array $urlParams
+     *
      * @return array
      */
     private function resolveMethodDependencies(ReflectionMethod $method, $urlParams = [])
@@ -276,19 +282,18 @@ class App
     }
 
     /**
-     * resolve a dependency parameter
+     * resolve a dependency parameter.
      *
      * @param ReflectionParameter $param
      * @param array $urlParams
-     * @return mixed
      *
+     * @return mixed
      */
     private function resolveDependency(ReflectionParameter $param, $urlParams = [])
     {
         $resolve = null;
         // try to resolve from container
         try {
-
             // for controller method para injection from $_GET
             if (count($urlParams) && array_key_exists($param->name, $urlParams)) {
                 return $urlParams[$param->name];
@@ -313,12 +318,14 @@ class App
     }
 
     /**
-     * resolve a dependency from the container
+     * resolve a dependency from the container.
      *
      * @param string $name
      * @param array $params
-     * @return mixed
+     *
      * @throws ReflectionException
+     *
+     * @return mixed
      */
     public function resolve($name, $params = [])
     {
@@ -339,6 +346,7 @@ class App
 
         if ($constructor = $reflector->getConstructor()) {
             $dependencies = $this->resolveMethodDependencies($constructor);
+
             return $reflector->newInstanceArgs($dependencies);
         }
 
@@ -346,12 +354,13 @@ class App
     }
 
     /**
-     * return a response object
+     * return a response object.
      *
      * @param mixed $resp
      *
-     * @return mixed|Response
      * @throws ReflectionException
+     *
+     * @return mixed|Response
      */
     public function sendResponse($resp)
     {
@@ -368,11 +377,10 @@ class App
         return $response;
     }
 
-
     /**
-     * get if running application is console
+     * get if running application is console.
      *
-     * @return boolean
+     * @return bool
      */
     public function isConsole()
     {

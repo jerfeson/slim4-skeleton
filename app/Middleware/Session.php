@@ -6,10 +6,12 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
 /**
- * Class Session
- * @package App\Middleware
+ * Class Session.
+ *
  * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
  * @since   1.0.0
+ *
  * @version 1.0.0
  */
 class Session
@@ -17,7 +19,6 @@ class Session
     public function __invoke(Request $request, RequestHandler $handler)
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
-
             $settings = app()->getConfig('session');
 
             if (!is_dir($settings['filesPath'])) {

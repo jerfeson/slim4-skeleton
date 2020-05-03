@@ -50,6 +50,7 @@ class ExampleCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln(sprintf('<info>Hello, console</info>'));
+
         return 0;
     }
 }

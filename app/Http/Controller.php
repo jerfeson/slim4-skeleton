@@ -4,17 +4,19 @@ namespace App\Http;
 
 use App\Message\Message;
 use Exception;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
 use Slim\Flash\Messages;
 use Slim\Views\Twig;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
- * Class Controller
- * @package App\Http
+ * Class Controller.
+ *
  * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
  * @since   1.0.0
+ *
  * @version 1.0.0
  */
 abstract class Controller
@@ -49,6 +51,7 @@ abstract class Controller
 
     /**
      * Controller constructor.
+     *
      * @param Request $request
      * @param Response $response
      * @param Twig $view
@@ -61,8 +64,7 @@ abstract class Controller
         Twig $view,
         LoggerInterface $logger,
         Messages $flash
-    )
-    {
+    ) {
         $this->setRequest($request);
         $this->setResponse($response);
         $this->setView($view);
@@ -151,8 +153,9 @@ abstract class Controller
     }
 
     /**
-     * @return mixed
      * @throws Exception
+     *
+     * @return mixed
      */
     protected function getBusiness()
     {
@@ -160,7 +163,7 @@ abstract class Controller
             throw new Exception(Message::BUSINESS_CLASS_NOT_DEFINED);
         }
 
-        if (! $this->business) {
+        if (!$this->business) {
             $this->business = new $this->businessClass($this->getRequest(), $this->getResponse());
         }
 

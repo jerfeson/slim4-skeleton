@@ -2,6 +2,14 @@
     "name": "jerfeson/slim4-skeleton",
     "description": "Slim4 skeleton (http + cli + oauth2) with some add-ons out of the box",
     "type": "project",
+    "keywords": [
+        "slim-framework",
+        "skeleton",
+        "slim",
+        "slim4",
+        "apache",
+        "nginx"
+    ],
     "require": {
         "php": "^7.2",
         "slim/slim": "4.5.*",
@@ -27,6 +35,10 @@
         }
     ],
     "minimum-stability": "dev",
+    "config": {
+        "process-timeout": 0,
+        "sort-packages": true
+    },
     "autoload": {
         "psr-4": {
             "App\\": "app/",
@@ -37,10 +49,18 @@
         ]
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.16",
         "herloct/codeception-slim-module": "^1.1",
         "codeception/codeception": "4.0.*",
         "codeception/module-phpbrowser": "^1.0.0",
         "codeception/module-asserts": "^1.0.0",
         "codeception/module-webdriver": "^1.0"
+    },
+    "scripts": {
+        "build:check": [
+            "@cs:check"
+        ],
+        "cs:check": "php-cs-fixer fix --dry-run --format=txt --verbose --diff --diff-format=udiff --config=.cs.php",
+        "cs:fix": "php-cs-fixer fix --config=.cs.php"
     }
 }

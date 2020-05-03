@@ -10,10 +10,12 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
 /**
- * Class Welcome
- * @package App\Http\Site
+ * Class Welcome.
+ *
  * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
  * @since   1.0.0
+ *
  * @version 1.0.0
  */
 class Welcome extends Controller
@@ -28,19 +30,19 @@ class Welcome extends Controller
      */
     public function index()
     {
-
         // log some message
-        $this->getLogger()->info("log a message");
+        $this->getLogger()->info('log a message');
 
         //flash message
-        $this->getFlash()->addMessage(Message::STATUS_SUCCESS, "A flash message");
+        $this->getFlash()->addMessage(Message::STATUS_SUCCESS, 'A flash message');
 
         $users = $this->getBusiness()->getAll();
 
         return $this->getView()->render(
-            $this->getResponse(), "@site/test/welcome.twig",
+            $this->getResponse(),
+            '@site/test/welcome.twig',
             [
-                'users' => $users
+                'users' => $users,
             ]
         );
     }

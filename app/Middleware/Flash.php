@@ -9,10 +9,12 @@ use Slim\Flash\Messages;
 use Slim\Views\Twig;
 
 /**
- * Class Flash
- * @package App\Middleware
+ * Class Flash.
+ *
  * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
  * @since   1.0.0
+ *
  * @version 1.0.0
  */
 class Flash

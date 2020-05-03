@@ -9,10 +9,12 @@ use function is_array;
 use function strlen;
 
 /**
- * Class FilesystemLoader
- * @package App\Twig
+ * Class FilesystemLoader.
+ *
  * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
  * @since   1.0.0
+ *
  * @version 1.0.0
  */
 class FilesystemLoader implements LoaderInterface
@@ -23,11 +25,11 @@ class FilesystemLoader implements LoaderInterface
     /**
      * @var array
      */
-    protected $paths      = [];
+    protected $paths = [];
     /**
      * @var array
      */
-    protected $cache      = [];
+    protected $cache = [];
     /**
      * @var array
      */
@@ -41,6 +43,7 @@ class FilesystemLoader implements LoaderInterface
     /**
      * @param string|array $paths A path or an array of paths where to look for templates
      * @param string|null $rootPath The root path common to all relative paths (null for getcwd())
+     *
      * @throws LoaderError
      */
     public function __construct($paths = [], string $rootPath = null)
@@ -57,7 +60,9 @@ class FilesystemLoader implements LoaderInterface
 
     /**
      * Returns the paths to the templates.
+     *
      * @param string $namespace
+     *
      * @return array
      */
     public function getPaths(string $namespace = self::MAIN_NAMESPACE): array
@@ -67,6 +72,7 @@ class FilesystemLoader implements LoaderInterface
 
     /**
      * @param string|array $paths A path or an array of paths where to look for templates
+     *
      * @throws LoaderError
      */
     public function setPaths($paths): void
@@ -93,6 +99,7 @@ class FilesystemLoader implements LoaderInterface
     /**
      * @param string $path
      * @param string $namespace
+     *
      * @throws LoaderError
      */
     public function addPath(string $path, string $namespace = self::MAIN_NAMESPACE): void
@@ -111,6 +118,7 @@ class FilesystemLoader implements LoaderInterface
     /**
      * @param string $path
      * @param string $namespace
+     *
      * @throws LoaderError
      */
     public function prependPath(string $path, string $namespace = self::MAIN_NAMESPACE): void
@@ -134,12 +142,14 @@ class FilesystemLoader implements LoaderInterface
 
     /**
      * @param string $file
+     *
      * @return bool
      */
     private function isAbsolutePath(string $file): bool
     {
         return strspn($file, '/\\', 0, 1)
-            || (strlen($file) > 3 && ctype_alpha($file[0])
+            || (
+                strlen($file) > 3 && ctype_alpha($file[0])
                 && ':' === $file[1]
                 && strspn($file, '/\\', 2, 1)
             )
@@ -148,8 +158,10 @@ class FilesystemLoader implements LoaderInterface
 
     /**
      * @param string $name
-     * @return Source
+     *
      * @throws LoaderError
+     *
+     * @return Source
      */
     public function getSourceContext(string $name): Source
     {
@@ -163,8 +175,10 @@ class FilesystemLoader implements LoaderInterface
     /**
      * @param string $name
      * @param bool $throw
-     * @return string|null
+     *
      * @throws LoaderError
+     *
+     * @return string|null
      */
     protected function findTemplate(string $name, bool $throw = true)
     {
@@ -232,6 +246,7 @@ class FilesystemLoader implements LoaderInterface
 
     /**
      * @param string $name
+     *
      * @return string
      */
     private function normalizeName(string $name): string
@@ -241,6 +256,7 @@ class FilesystemLoader implements LoaderInterface
 
     /**
      * @param string $name
+     *
      * @throws LoaderError
      */
     private function validateName(string $name): void
@@ -254,9 +270,9 @@ class FilesystemLoader implements LoaderInterface
         $level = 0;
         foreach ($parts as $part) {
             if ('..' === $part) {
-                --$level;
+                $level--;
             } elseif ('.' !== $part) {
-                ++$level;
+                $level++;
             }
 
             if ($level < 0) {
@@ -268,8 +284,10 @@ class FilesystemLoader implements LoaderInterface
     /**
      * @param string $name
      * @param string $default
-     * @return array|string[]
+     *
      * @throws LoaderError
+     *
+     * @return array|string[]
      */
     private function parseName(string $name, string $default = self::MAIN_NAMESPACE): array
     {
@@ -283,20 +301,22 @@ class FilesystemLoader implements LoaderInterface
 
             return [
                 $namespace,
-                $shortname
+                $shortname,
             ];
         }
 
         return [
             $default,
-            $name
+            $name,
         ];
     }
 
     /**
      * @param string $name
-     * @return string
+     *
      * @throws LoaderError
+     *
+     * @return string
      */
     public function getCacheKey(string $name): string
     {
@@ -313,8 +333,10 @@ class FilesystemLoader implements LoaderInterface
 
     /**
      * @param string $name
-     * @return bool
+     *
      * @throws LoaderError
+     *
+     * @return bool
      */
     public function exists(string $name)
     {
@@ -330,8 +352,10 @@ class FilesystemLoader implements LoaderInterface
     /**
      * @param string $name
      * @param int $time
-     * @return bool
+     *
      * @throws LoaderError
+     *
+     * @return bool
      */
     public function isFresh(string $name, int $time): bool
     {

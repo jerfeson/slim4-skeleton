@@ -5,7 +5,6 @@ namespace App\Console;
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
-use Illuminate\Support\Facades\Schema;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -56,6 +55,7 @@ class MigrationsCommand extends Command
         $output->writeln(sprintf('<info>Starting migration</info>'));
         $this->migrations();
         $output->writeln(sprintf('<info>Migration completed</info>'));
+
         return 0;
     }
 

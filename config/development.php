@@ -9,24 +9,24 @@ return [
         'database' => [
             // default db connection settings
             'default' => [
-                'driver'    => 'mysql',
-                'host'      => 'mysql',
-                'database'  => 'default',
-                'username'  => 'root',
-                'password'  => 'root',
-                'charset'   => 'utf8',
+                'driver' => 'mysql',
+                'host' => 'mysql',
+                'database' => 'default',
+                'username' => 'root',
+                'password' => 'root',
+                'charset' => 'utf8',
                 'collation' => 'utf8_unicode_ci',
-                'prefix'    => ''
+                'prefix' => '',
             ],
         ],
         'cache' => [
             'default' => [
-                'driver' 	=> 'redis',
-                'scheme' 	=> 'tcp',
-                'host' 		=> 'redis',
-                'port' 		=> 6379,
-                'database' 	=> 0,
-            ]
-        ]
-    ]
+                'driver' => 'redis',
+                'scheme' => 'tcp',
+                'host' => 'redis',
+                'port' => 6379,
+                'database' => 0,
+            ],
+        ],
+    ],
 ];

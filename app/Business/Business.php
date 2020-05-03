@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Business;
 
 use App\Message\Message;
@@ -10,10 +9,12 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
- * Class Business
- * @package App\Business
+ * Class Business.
+ *
  * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
  * @since   1.0.0
+ *
  * @version 1.0.0
  */
 abstract class Business
@@ -35,6 +36,7 @@ abstract class Business
 
     /**
      * Business constructor.
+     *
      * @param Request $request
      * @param Response $response
      */
@@ -45,8 +47,9 @@ abstract class Business
     }
 
     /**
-     * @return Repository $repository
      * @throws Exception
+     *
+     * @return Repository $repository
      */
     public function getRepository()
     {
@@ -73,9 +76,11 @@ abstract class Business
     }
 
     /**
-     * Return all results
-     * @return mixed
+     * Return all results.
+     *
      * @throws Exception
+     *
+     * @return mixed
      */
     public function getAll()
     {

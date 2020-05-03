@@ -7,18 +7,16 @@ use Predis\Client;
 use Psr\SimpleCache\CacheInterface;
 
 /**
- * Class Cache
- * @package App\ServiceProviders
+ * Class Cache.
+ *
  * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
  * @since   1.0.0
+ *
  * @version 1.0.0
  */
 class Cache implements ProviderInterface
 {
-
-    /**
-     *
-     */
     public static function register()
     {
         app()->getContainer()->set(CacheInterface::class, function () {

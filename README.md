@@ -1,6 +1,7 @@
 # Slim Framework 4 Skeleton Application (http + cli)
 
-  [![Total Downloads](https://img.shields.io/packagist/dt/jerfeson/slim4-skeleton.svg)](https://packagist.org/packages/jerfeson/slim4-skeleton/stats)
+[![Latest Version on Packagist](https://img.shields.io/github/release/jerfeson/slim4-skeleton.svg)](https://packagist.org/packages/jerfeson/slim4-skeleton)
+[![Total Downloads](https://img.shields.io/packagist/dt/jerfeson/slim4-skeleton.svg)](https://packagist.org/packages/jerfeson/slim4-skeleton/stats)
 
 Use this skeleton application to quickly setup and start working on a new Slim Framework 4 application (Tested with slim 4.5). This application handles http and command line requests. This application ships with a few service providers and a Session middleware out of the box. Supports container resolution and auto-wiring.
 

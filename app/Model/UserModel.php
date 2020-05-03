@@ -3,10 +3,12 @@
 namespace App\Model;
 
 /**
- * Class User
- * @package App\Model
+ * Class User.
+ *
  * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
  * @since   1.0.0
+ *
  * @version 1.0.0
  */
 class UserModel extends Model

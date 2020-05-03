@@ -9,23 +9,21 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
 /**
- * Class Monolog
- * @package App\ServiceProviders
+ * Class Monolog.
+ *
  * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
  * @since   1.0.0
+ *
  * @version 1.0.0
  */
 class Monolog implements ProviderInterface
 {
-
-    /**
-     *
-     */
     public static function register()
     {
         $app = app();
         $appName = $app->isConsole() ? 'console' : 'http';
-        $logFilePath = $logFilePath ?? $app->getConfig("log.file");
+        $logFilePath = $logFilePath ?? $app->getConfig('log.file');
 
         $logger = new Logger($appName);
 
@@ -40,7 +38,7 @@ class Monolog implements ProviderInterface
 
         app()->getContainer()->set(LoggerInterface::class, function () {
             $app = app();
-            $logFilePath = $logFilePath ?? $app->getConfig("log.file");
+            $logFilePath = $logFilePath ?? $app->getConfig('log.file');
 
             $logger = new Logger($app->appType);
             $formatter = new LineFormatter(null, null, true);

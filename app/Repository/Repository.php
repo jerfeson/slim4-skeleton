@@ -15,21 +15,23 @@ use Illuminate\Support\Collection;
 use Slim\Flash\Messages;
 
 /**
- * Class Repository
- * @package App\Repository
+ * Class Repository.
+ *
  * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
  * @since   1.0.0
+ *
  * @version 1.0.0
  */
 abstract class Repository
 {
     /**
-     * @var String
+     * @var string
      */
     protected $modelClass;
 
     /**
-     * @return String
+     * @return string
      */
     public function getModel(): string
     {
@@ -39,18 +41,21 @@ abstract class Repository
     /**
      * @param $item
      *
-     * @return mixed
      * @throws Exception
+     *
+     * @return mixed
      */
     public function insert($item)
     {
         $qb = $this->newQuery();
+
         return $qb->create($item);
     }
 
     /**
-     * @return mixed
      * @throws Exception
+     *
+     * @return mixed
      */
     protected function newQuery()
     {
@@ -69,8 +74,9 @@ abstract class Repository
      * @param int $take
      * @param bool $paginate
      *
-     * @return EloquentCollection|Paginator
      * @throws Exception
+     *
+     * @return EloquentCollection|Paginator
      */
     public function getAll($take = 15, $paginate = true)
     {
@@ -82,8 +88,9 @@ abstract class Repository
      * @param int $take
      * @param bool $paginate
      *
-     * @return LengthAwarePaginator|EloquentQueryBuilder[]|EloquentCollection|Collection
      * @throws Exception
+     *
+     * @return LengthAwarePaginator|EloquentQueryBuilder[]|EloquentCollection|Collection
      */
     protected function doQuery($query = null, $take = 15, $paginate = true)
     {
@@ -106,8 +113,9 @@ abstract class Repository
      * @param string $column
      * @param string|null $key
      *
-     * @return Collection
      * @throws Exception
+     *
+     * @return Collection
      */
     public function lists($column, $key = null)
     {
@@ -121,9 +129,10 @@ abstract class Repository
      * @param int $id
      * @param bool $fail
      *
-     * @return Model
      * @throws NotFoundException
      * @throws Exception
+     *
+     * @return Model
      */
     public function findById($id, $fail = true)
     {

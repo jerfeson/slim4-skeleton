@@ -3,20 +3,22 @@
 namespace Lib\Utils;
 
 /**
- * Class Session
- * @package Lib\Utils
+ * Class Session.
+ *
  * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
  * @since   1.0.0
+ *
  * @version 1.0.0
  */
 final class Session
 {
-
     /**
-     * Get one session var
+     * Get one session var.
      *
      * @param $key
      * @param mixed $default
+     *
      * @return mixed
      */
     public static function get($key, $default = null)
@@ -24,14 +26,16 @@ final class Session
         if (array_key_exists($key, $_SESSION)) {
             return $_SESSION[$key];
         }
+
         return $default;
     }
 
     /**
-     * Set one session var
+     * Set one session var.
      *
      * @param mixed $key
      * @param mixed $value
+     *
      * @return void
      */
     public static function set($key, $value)
@@ -40,9 +44,10 @@ final class Session
     }
 
     /**
-     * Delete one session var by key
+     * Delete one session var by key.
      *
      * @param $key
+     *
      * @return void
      */
     public static function delete($key)
@@ -53,7 +58,7 @@ final class Session
     }
 
     /**
-     * Clear all session vars
+     * Clear all session vars.
      *
      * @return void
      */
@@ -63,7 +68,7 @@ final class Session
     }
 
     /**
-     * Regenerate current session id
+     * Regenerate current session id.
      *
      * @return void
      */
@@ -75,28 +80,27 @@ final class Session
     }
 
     /**
-     * Destroy current session and delete session cookie
+     * Destroy current session and delete session cookie.
      *
      * @return void
      */
     public static function destroy()
     {
         $_SESSION = [];
-        if (ini_get("session.use_cookies")) {
+        if (ini_get('session.use_cookies')) {
             $params = session_get_cookie_params();
             setcookie(
                 session_name(),
                 '',
                 time() - 42000,
-                $params["path"],
-                $params["domain"],
-                $params["secure"],
-                $params["httponly"]
+                $params['path'],
+                $params['domain'],
+                $params['secure'],
+                $params['httponly']
             );
         }
         if (session_status() == PHP_SESSION_ACTIVE) {
             session_destroy();
         }
     }
-
 }

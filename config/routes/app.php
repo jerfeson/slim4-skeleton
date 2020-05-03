@@ -11,6 +11,7 @@ $app->any('/', function (Request $request, Response $response, $args) use ($app)
 $app->get('/hello/{name}', function (Request $request, Response $response, $args) {
     $name = $request->getAttribute('name');
     $response->getBody()->write("Hello, $name");
+
     return $response;
 });
 
@@ -23,7 +24,8 @@ $app->any('/{class}/{method}', function (Request $request, Response $response, $
 /*API ROUTE*/
 $app->any('/api/v1/{module}/{class}/{method}', function (Request $request, Response $response, $args) use ($app) {
     $nameSpace = "\App\Http\Api\V1\\" . ucfirst($args['module']);
-    $method = $args['method'] . "Action";
+    $method = $args['method'] . 'Action';
     $class = ucfirst($args['class']);
+
     return $app->resolveRoute($class, $method, $args, $nameSpace);
 });

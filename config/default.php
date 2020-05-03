@@ -1,7 +1,7 @@
 <?php
 
 error_reporting(E_ALL);
-ini_set("display_errors", 1);
+ini_set('display_errors', 1);
 
 $default = [];
 
@@ -19,23 +19,23 @@ date_default_timezone_set($default['default']['timezone']);
 // log file path
 $default['log'] = [
     // log file path
-    'file' => STORAGE_PATH . "logs" . DS . "app_" . date('Ymd') . ".log",
+    'file' => STORAGE_PATH . 'logs' . DS . 'app_' . date('Ymd') . '.log',
 ];
 
 // template folders
 $default['twig'] = [
-    'path' => RESOURCES_PATH . "views",
+    'path' => RESOURCES_PATH . 'views',
     'templates' => [
-        'error' => RESOURCES_PATH . "views" . DS . "http" . DS . "error",
-        'console' => RESOURCES_PATH . "views" . DS . "console",
-        'site' => RESOURCES_PATH . "views" . DS . "http" . DS . "site",
-        'mail' => RESOURCES_PATH . "views" . DS . "mail",
+        'error' => RESOURCES_PATH . 'views' . DS . 'http' . DS . 'error',
+        'console' => RESOURCES_PATH . 'views' . DS . 'console',
+        'site' => RESOURCES_PATH . 'views' . DS . 'http' . DS . 'site',
+        'mail' => RESOURCES_PATH . 'views' . DS . 'mail',
     ],
     'settings' => [
         'cache' => STORAGE_PATH . 'twig',
         'debug' => true,
         'auto_reload' => true,
-    ]
+    ],
 ];
 
 //session
@@ -80,7 +80,7 @@ $default['mail'] = [
         'from' => '',
         'fromName' => '',
         'replyTo' => '',
-    ]
+    ],
 ];
 
 $default['providers'] = [
@@ -90,7 +90,7 @@ $default['providers'] = [
     App\ServiceProviders\Flash::class => 'http',
     App\ServiceProviders\Eloquent::class => 'http,console',
     App\ServiceProviders\FileSystem::class => 'http,console',
-    App\ServiceProviders\Mailer::class => 'http,console'
+    App\ServiceProviders\Mailer::class => 'http,console',
 ];
 
 // add your middleware here
@@ -102,7 +102,7 @@ $default['middleware'] = [
 // add your middleware here
 $default['commands'] = [
     App\Console\ExampleCommand::class,
-    App\Console\MigrationsCommand::class
+    App\Console\MigrationsCommand::class,
 ];
 
 return $default;
