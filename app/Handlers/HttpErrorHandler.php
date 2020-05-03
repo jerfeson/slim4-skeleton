@@ -3,6 +3,7 @@
 
 namespace App\Handlers;
 
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Slim\Exception\HttpBadRequestException;
@@ -13,7 +14,6 @@ use Slim\Exception\HttpNotFoundException;
 use Slim\Exception\HttpNotImplementedException;
 use Slim\Exception\HttpUnauthorizedException;
 use Slim\Handlers\ErrorHandler;
-use Exception;
 use Throwable;
 
 /**
@@ -25,13 +25,13 @@ use Throwable;
  */
 class HttpErrorHandler extends ErrorHandler
 {
-    public const BAD_REQUEST = 'BAD_REQUEST';
+    public const BAD_REQUEST             = 'BAD_REQUEST';
     public const INSUFFICIENT_PRIVILEGES = 'INSUFFICIENT_PRIVILEGES';
-    public const NOT_ALLOWED = 'NOT_ALLOWED';
-    public const NOT_IMPLEMENTED = 'NOT_IMPLEMENTED';
-    public const RESOURCE_NOT_FOUND = 'RESOURCE_NOT_FOUND';
-    public const SERVER_ERROR = 'SERVER_ERROR';
-    public const UNAUTHENTICATED = 'UNAUTHENTICATED';
+    public const NOT_ALLOWED             = 'NOT_ALLOWED';
+    public const NOT_IMPLEMENTED         = 'NOT_IMPLEMENTED';
+    public const RESOURCE_NOT_FOUND      = 'RESOURCE_NOT_FOUND';
+    public const SERVER_ERROR            = 'SERVER_ERROR';
+    public const UNAUTHENTICATED         = 'UNAUTHENTICATED';
 
     protected function respond(): ResponseInterface
     {
@@ -64,32 +64,33 @@ class HttpErrorHandler extends ErrorHandler
             app()->resolve(LoggerInterface::class)->error($exception);
         }
 
+        $response = $this->responseFactory->createResponse($statusCode);
+
+
         if (app()->getContainer()->has('slashtrace') && (app()->isConsole() || $this->displayErrorDetails)) {
             app()->resolve('slashtrace')->register();
             http_response_code($statusCode);
-            throw $exception;
+            $response->getBody()->write($exception);
+        } else {
+
+            if (
+                !($exception instanceof HttpException)
+                && ($exception instanceof Exception || $exception instanceof Throwable)
+                && $this->displayErrorDetails
+            ) {
+                $description = $exception->getMessage();
+            }
+
+            $error = [
+                'statusCode' => $statusCode,
+                'error' => [
+                    'type' => $type,
+                    'description' => $description,
+                ],
+            ];
+            $payload = json_encode($error, JSON_PRETTY_PRINT);
+            $response->getBody()->write($payload);
         }
-
-        if (
-            !($exception instanceof HttpException)
-            && ($exception instanceof Exception || $exception instanceof Throwable)
-            && $this->displayErrorDetails
-        ) {
-            $description = $exception->getMessage();
-        }
-
-        $error = [
-            'statusCode' => $statusCode,
-            'error' => [
-                'type' => $type,
-                'description' => $description,
-            ],
-        ];
-
-        $payload = json_encode($error, JSON_PRETTY_PRINT);
-
-        $response = $this->responseFactory->createResponse($statusCode);
-        $response->getBody()->write($payload);
 
         return $response;
     }

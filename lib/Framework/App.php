@@ -73,6 +73,11 @@ class App
         AppFactory::setContainer($containerBuilder->build());
         $this->app = AppFactory::create();
 
+        $this->prepare($containerBuilder);
+    }
+
+    private function prepare($containerBuilder)
+    {
         /**
          * The routing middleware should be added before the ErrorMiddleware
          * Otherwise exceptions thrown from it will not be handled
@@ -83,6 +88,7 @@ class App
             return $handler->handle($request);
         });
 
+
         $serverRequestCreator = ServerRequestCreatorFactory::create();
         $request = $serverRequestCreator->createServerRequestFromGlobals();
         $response = $this->app->getResponseFactory()->createResponse();
@@ -90,19 +96,7 @@ class App
         $this->getContainer()->set(Request::class, $request);
         $this->getContainer()->set(Response::class, $response);
 
-        /**
-         * Add Error Handling Middleware
-         * todo make better, create parameter control error handler
-         * @param bool $displayErrorDetails -> Should be set to false in production
-         * @param bool $logErrors -> Parameter is passed to the default ErrorHandler
-         * @param bool $logErrorDetails -> Display error details in error log
-         * which can be replaced by a callable of your choice.
-         * Note: This middleware should be added last. It will not handle any exceptions/errors
-         * for middleware added after it.
-         */
-//        $this->app->addErrorMiddleware(true, true, true);
         $this->errorHandlers();
-
         // Should be set to true in production
         if ($this->isProduction($this->settings)) {
             $containerBuilder->enableCompilation(__DIR__ . '/../var/cache');
@@ -129,20 +123,12 @@ class App
 
         $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
 
-        try {
-
-            $shutdownHandler = new ShutdownHandler(
-                $this->getContainer()->get(Request::class),
-                $errorHandler,
-                $displayErrorDetails
-            );
-            register_shutdown_function($shutdownHandler);
-        } catch (DependencyException $e) {
-            //do something
-        } catch (NotFoundException $e) {
-            //do something
-        }
-
+        $shutdownHandler = new ShutdownHandler(
+            $this->getContainer()->get(Request::class),
+            $errorHandler,
+            $displayErrorDetails
+        );
+        register_shutdown_function($shutdownHandler);
         $errorMiddleware = $this->app->addErrorMiddleware($displayErrorDetails, false, false);
         $errorMiddleware->setDefaultErrorHandler($errorHandler);
     }
@@ -272,16 +258,7 @@ class App
         $args = $this->resolveMethodDependencies($method, $requestParams);
 
         $ret = $method->invokeArgs($controller, $args);
-
-        $resolve = null;
-        try {
-            $resolve = $this->sendResponse($ret);
-        } catch (DependencyException $e) {
-        } catch (NotFoundException $e) {
-        } catch (ReflectionException $e) {
-        }
-
-        return $resolve;
+        return  $this->sendResponse($ret);
     }
 
     /**

@@ -5,7 +5,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 // automatic console command resolver
 $app->get('/{command}/{method}', function (Request $request, Response $response, $args) use ($app, $argv) {
-
+var_dump(1);exit;
     $params = [];
     for ($i = 2; $i < count($argv); ++$i) {
         $parts = explode("=", $argv[$i], 2);

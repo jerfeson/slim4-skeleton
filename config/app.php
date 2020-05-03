@@ -72,17 +72,16 @@ return [
     // add your service providers here
     'providers' => [
         App\ServiceProviders\Monolog::class => 'http,console',
-        App\ServiceProviders\SlashTrace::class => 'http,console',
+        App\ServiceProviders\SlashTrace::class => 'http',
         App\ServiceProviders\Twig::class => 'http',
         App\ServiceProviders\Flash::class => 'http',
         App\ServiceProviders\Eloquent::class => 'http,console',
         App\ServiceProviders\FileSystem::class => 'http,console',
-        App\ServiceProviders\Mailer::class => 'http,console',
-        App\ServiceProviders\Cache::class => 'http,console',
+        App\ServiceProviders\Mailer::class => 'http,console'
     ],
     // add your middleware here
     'middleware' => [
-        App\Middleware\Session::class => 'http,console',
+        App\Middleware\Session::class => 'http',
         App\Middleware\Flash::class => 'http',
     ],
 

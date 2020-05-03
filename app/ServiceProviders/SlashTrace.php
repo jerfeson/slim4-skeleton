@@ -20,11 +20,9 @@ class SlashTrace implements ProviderInterface
      */
     public static function register()
     {
-        app()->getContainer()->set('slashtrace', function () {
-            $st = new ST();
-            $st->addHandler(new DebugHandler());
-            return $st;
-        });
+        $st = new ST();
+        $st->addHandler(new DebugHandler());
+        app()->getContainer()->set('slashtrace', $st);
     }
 
 }

@@ -21,6 +21,19 @@ $settings = require CONFIG_PATH . 'app.php';
 $settingsEnv = require CONFIG_PATH . ($settings['settings']['env']) . '.php';
 $settings = array_merge_recursive($settings, $settingsEnv);
 
+if ($appType == 'console') {
+
+
+    set_time_limit(0);
+    $argv = $GLOBALS['argv'];
+    array_shift($argv);
+
+    // Convert $argv to PATH_INFO and mock console environment
+    $settings['environment'] = Slim\Psr7\Environment::mock([
+        'SCRIPT_NAME' => $_SERVER['SCRIPT_NAME'],
+        'REQUEST_URI' => count($argv) >= 2 ? "/{$argv[0]}/{$argv[1]}" : "/help"
+    ]);
+}
 
 // instance app
 $app = app($appType, $settings);
