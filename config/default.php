@@ -92,4 +92,9 @@ $default['middleware'] = [
     App\Middleware\Flash::class => 'http',
 ];
 
+// add your middleware here
+$default['commands'] = [
+    App\Console\ExampleCommand::class
+];
+
 return $default;
