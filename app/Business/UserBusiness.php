@@ -2,6 +2,7 @@
 
 namespace App\Business;
 
+use App\Model\UserModel;
 use App\Repository\UserRepository;
 
 /**
@@ -19,4 +20,33 @@ class UserBusiness extends Business
      * @var string
      */
     protected $repositoryClass = UserRepository::class;
+
+    /**
+     * @throws \Exception
+     *
+     * @return mixed
+     */
+    public function getUserByUserCredentials()
+    {
+        $user = $this->getRepository()->getUser(
+            $this->getRequest()->getParsedBody()['username'],
+            $this->getRequest()->getParsedBody()['password']
+        );
+
+        $this->validate($user);
+
+        return $user;
+    }
+
+    /**
+     * @param $user
+     *
+     * @throws \Exception
+     */
+    private function validate($user)
+    {
+        if ($user->status == UserModel::STATUS_INACTIVE) {
+            throw new \Exception('error');
+        }
+    }
 }

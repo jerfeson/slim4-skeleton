@@ -22,13 +22,21 @@ class Message
 
     /*COMMON MESSAGES*/
 
-    const REGISTER_NOT_FOUND = 'Register not found';
+    public const REGISTER_NOT_FOUND = 'Register not found';
 
-    const MODEL_CLASS_NOT_DEFINED = 'Model class not defined';
+    public const MODEL_CLASS_NOT_DEFINED = 'Model class not defined';
 
-    const REPOSITORY_CLASS_NOT_DEFINED = 'Repository class not defined';
+    public const REPOSITORY_CLASS_NOT_DEFINED = 'Repository class not defined';
 
-    const BUSINESS_CLASS_NOT_DEFINED = 'Business class not defined';
+    public const BUSINESS_CLASS_NOT_DEFINED = 'Business class not defined';
+
+    /*Authentication messages*/
+    public const ACCESS_DENIED = 'Access denied';
+
+    public const LOGIN_SUCCESSFUL = 'Login Successful';
+
+    /*Default messages*/
+    public const UNKNOWN_ERROR = 'An unknown error has occurred, contact your system administrator;.';
 
     /**
      * @param Messages $messages

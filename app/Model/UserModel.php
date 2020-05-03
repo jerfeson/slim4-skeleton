@@ -14,4 +14,8 @@ namespace App\Model;
 class UserModel extends Model
 {
     protected $table = 'user';
+    protected $fillable = ['name', 'user', 'password'];
+
+    public const STATUS_ACTIVE = 1;
+    public const STATUS_INACTIVE = 0;
 }
