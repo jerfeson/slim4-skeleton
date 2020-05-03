@@ -48,8 +48,16 @@
             "lib/helpers.php"
         ]
     },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Test\\": "tests/"
+        }
+    },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
+        "squizlabs/php_codesniffer": "^3.4",
+        "phpstan/phpstan": "0.*",
+        "overtrue/phplint": "^1.1",
         "herloct/codeception-slim-module": "^1.1",
         "codeception/codeception": "4.0.*",
         "codeception/module-phpbrowser": "^1.0.0",
@@ -58,9 +66,17 @@
     },
     "scripts": {
         "build:check": [
-            "@cs:check"
+            "@lint",
+            "@cs:check",
+            "@sniffer:check"
         ],
+        "lint": "phplint ./ --exclude=vendor --no-interaction --no-cache",
         "cs:check": "php-cs-fixer fix --dry-run --format=txt --verbose --diff --diff-format=udiff --config=.cs.php",
-        "cs:fix": "php-cs-fixer fix --config=.cs.php"
+        "cs:fix": "php-cs-fixer fix --config=.cs.php",
+        "sniffer:check": "phpcs --standard=phpcs.xml",
+        "sniffer:fix": "phpcbf --standard=phpcs.xml",
+        "phpstan": "phpstan analyse tests --level=max -c phpstan.neon --no-progress --ansi",
+        "test:coverage": "php vendor/bin/codecept run --coverage",
+        "schema:dump": "php bin/console.php schema-dump"
     }
 }

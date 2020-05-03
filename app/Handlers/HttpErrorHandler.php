@@ -18,7 +18,7 @@ use Throwable;
 /**
  * Class HttpErrorHandler.
  *
- * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ * @author  Jerfeson Guerreiro <jerfeson@codeis.com.br>
  *
  * @since   1.0.0
  *
@@ -27,7 +27,6 @@ use Throwable;
 class HttpErrorHandler extends ErrorHandler
 {
     public const BAD_REQUEST = 'BAD_REQUEST';
-    public const INSUFFICIENT_PRIVILEGES = 'INSUFFICIENT_PRIVILEGES';
     public const NOT_ALLOWED = 'NOT_ALLOWED';
     public const NOT_IMPLEMENTED = 'NOT_IMPLEMENTED';
     public const RESOURCE_NOT_FOUND = 'RESOURCE_NOT_FOUND';

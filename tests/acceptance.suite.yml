@@ -10,4 +10,4 @@ modules:
         - PhpBrowser:
             url: http://local.slim4
         - \Helper\Acceptance
-    step_decorators: ~        
+    step_decorators: ~

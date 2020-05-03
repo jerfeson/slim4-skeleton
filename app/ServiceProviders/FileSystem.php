@@ -10,7 +10,7 @@ use League\Flysystem\FilesystemInterface;
 /**
  * Class FileSystem.
  *
- * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ * @author  Jerfeson Guerreiro <jerfeson@codeis.com.br>
  *
  * @since   1.0.0
  *

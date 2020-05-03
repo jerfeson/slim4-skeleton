@@ -103,6 +103,7 @@ $default['middleware'] = [
 $default['commands'] = [
     App\Console\ExampleCommand::class,
     App\Console\MigrationsCommand::class,
+    App\Console\SchemaDumpCommand::class,
 ];
 
 return $default;
