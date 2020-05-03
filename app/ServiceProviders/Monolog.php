@@ -25,7 +25,7 @@ class Monolog implements ProviderInterface
     {
         $app = app();
         $appName = $app->isConsole() ? 'console' : 'http';
-        $logFilePath = $logFilePath ?? $app->getConfig("settings.log.file");
+        $logFilePath = $logFilePath ?? $app->getConfig("log.file");
 
         $logger = new Logger($appName);
 
@@ -40,7 +40,7 @@ class Monolog implements ProviderInterface
 
         app()->getContainer()->set(LoggerInterface::class, function () {
             $app = app();
-            $logFilePath = $logFilePath ?? $app->getConfig("settings.log.file");
+            $logFilePath = $logFilePath ?? $app->getConfig("log.file");
 
             $logger = new Logger($app->appType);
             $formatter = new LineFormatter(null, null, true);

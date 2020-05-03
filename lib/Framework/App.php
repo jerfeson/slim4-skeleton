@@ -117,7 +117,7 @@ class App
      */
     private function errorHandlers()
     {
-        $displayErrorDetails = $this->settings['settings']['debug'];
+        $displayErrorDetails = $this->getConfig('default.debug');
         $callableResolver = $this->app->getCallableResolver();
         $responseFactory = $this->app->getResponseFactory();
 
@@ -139,7 +139,7 @@ class App
      */
     public function isProduction($settings)
     {
-        if ($settings['settings']['env'] == self::PRODUCTION) {
+        if ($this->getConfig('default.env') == self::PRODUCTION) {
             return true;
         }
 

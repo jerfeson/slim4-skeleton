@@ -1,13 +1,11 @@
 <?php
 
+$default['default']['debug'] = true;
+$default['default']['baseUrl'] = 'http://localhost:8080/';
+$default['default']['indexFile'] = true;
+
 return [
     'settings' => [
-        // debug options
-        'debug' => true,
-        // url config. Url must end with a slash '/'
-        'baseUrl' => 'http://localhost:8080/',
-        'indexFile' => true,
-        // database configs
         'database' => [
             // default db connection settings
             'default' => [

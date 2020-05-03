@@ -24,7 +24,7 @@ class Mailer implements ProviderInterface
         app()->getContainer()->set(PHPMailer::class, function () {
             $configName = 'default';
             $configsOverride = [];
-            $defaultConfigs = app()->getConfig("settings.mail.{$configName}");
+            $defaultConfigs = app()->getConfig("mail.{$configName}");
             $configs = array_merge($defaultConfigs, $configsOverride);
 
             $mail = new PHPMailer;

@@ -17,12 +17,11 @@ require ROOT_PATH . 'vendor' . DS . 'autoload.php';
 
 $appType = php_sapi_name() == 'cli' ? 'console' : 'http';
 
-$settings = require CONFIG_PATH . 'app.php';
-$settingsEnv = require CONFIG_PATH . ($settings['settings']['env']) . '.php';
-$settings = array_merge_recursive($settings, $settingsEnv);
+$default  = require CONFIG_PATH . 'default.php';
+$env = require CONFIG_PATH . ($default['default']['env']) . '.php';
+$settings = array_merge_recursive($default, $env);
 
 if ($appType == 'console') {
-
 
     set_time_limit(0);
     $argv = $GLOBALS['argv'];

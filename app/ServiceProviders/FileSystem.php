@@ -28,7 +28,7 @@ class FileSystem implements ProviderInterface
         {
             $configName = 'local';
             $configsOverride = [];
-            $defaultConfigs = app()->getConfig("settings.filesystem.{$configName}");
+            $defaultConfigs = app()->getConfig("filesystem.{$configName}");
             $configs = array_merge($defaultConfigs, $configsOverride);
 
             $filesystem = null;

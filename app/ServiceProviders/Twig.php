@@ -23,7 +23,7 @@ class Twig implements ProviderInterface
     {
 
         app()->getContainer()->set(\Slim\Views\Twig::class, function () {
-            $settings = app()->getConfig('settings.twig');
+            $settings = app()->getConfig('twig');
             $loader = new FilesystemLoader($settings['templates']);
             $twig = new \Slim\Views\Twig($loader, $settings['settings']);
             $twig->addExtension(new DebugExtension());
