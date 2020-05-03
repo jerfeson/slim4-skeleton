@@ -9,7 +9,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Command.
+ * Class SchemaDumpCommand.
+ *
+ * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
  */
 final class SchemaDumpCommand extends Command
 {
