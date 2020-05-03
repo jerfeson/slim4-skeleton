@@ -12,10 +12,10 @@ return [
             // default db connection settings
             'default' => [
                 'driver'    => 'mysql',
-                'host'      => 'localhost',
-                'database'  => '',
-                'username'  => '',
-                'password'  => '',
+                'host'      => 'mysql',
+                'database'  => 'default',
+                'username'  => 'root',
+                'password'  => 'root',
                 'charset'   => 'utf8',
                 'collation' => 'utf8_unicode_ci',
                 'prefix'    => ''
@@ -25,7 +25,7 @@ return [
             'default' => [
                 'driver' 	=> 'redis',
                 'scheme' 	=> 'tcp',
-                'host' 		=> 'localhost',
+                'host' 		=> 'redis',
                 'port' 		=> 6379,
                 'database' 	=> 0,
             ]

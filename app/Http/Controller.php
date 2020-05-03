@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Message\Message;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Slim\Flash\Messages;
 use Slim\Views\Twig;
@@ -17,6 +19,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  */
 abstract class Controller
 {
+    protected $businessClass;
+
     /**
      * @var Request
      */
@@ -37,6 +41,11 @@ abstract class Controller
      * @var Messages
      */
     private $flash;
+
+    /**
+     * @var mixed
+     */
+    private $business;
 
     /**
      * Controller constructor.
@@ -139,5 +148,22 @@ abstract class Controller
     public function getFlash(): Messages
     {
         return $this->flash;
+    }
+
+    /**
+     * @return mixed
+     * @throws Exception
+     */
+    protected function getBusiness()
+    {
+        if (!$this->businessClass) {
+            throw new Exception(Message::BUSINESS_CLASS_NOT_DEFINED);
+        }
+
+        if (! $this->business) {
+            $this->business = new $this->businessClass($this->getRequest(), $this->getResponse());
+        }
+
+        return $this->business;
     }
 }

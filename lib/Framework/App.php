@@ -4,15 +4,14 @@ namespace Lib\Framework;
 
 use App\Handlers\HttpErrorHandler;
 use App\Handlers\ShutdownHandler;
-use App\Middleware\Session;
 use App\ServiceProviders\ProviderInterface;
-use DI\Container;
 use DI\ContainerBuilder;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
 use HttpException;
 use Lib\Utils\DotNotation;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
@@ -59,12 +58,6 @@ class App
     private $app;
 
     /**
-     * @var Container
-     */
-    private $container;
-
-
-    /**
      * App constructor.
      * @param string $appType
      * @param array $settings
@@ -99,16 +92,15 @@ class App
 
         /**
          * Add Error Handling Middleware
-         *
+         * todo make better, create parameter control error handler
          * @param bool $displayErrorDetails -> Should be set to false in production
          * @param bool $logErrors -> Parameter is passed to the default ErrorHandler
          * @param bool $logErrorDetails -> Display error details in error log
          * which can be replaced by a callable of your choice.
-
          * Note: This middleware should be added last. It will not handle any exceptions/errors
          * for middleware added after it.
          */
-        $this->app->addErrorMiddleware(true, true, true);
+//        $this->app->addErrorMiddleware(true, true, true);
         $this->errorHandlers();
 
         // Should be set to true in production
@@ -119,7 +111,7 @@ class App
 
 
     /**
-     * @return \Psr\Container\ContainerInterface|null
+     * @return ContainerInterface|null
      */
     public function getContainer()
     {
@@ -254,9 +246,7 @@ class App
      * @param array $requestParams
      * @param string $namespace
      * @return Response
-     * @throws DependencyException
      * @throws HttpException
-     * @throws NotFoundException
      * @throws ReflectionException
      */
     public function resolveRoute($className, $methodName, $requestParams = [], $namespace = "\App\Http")
@@ -352,8 +342,6 @@ class App
      * @param array $params
      * @return mixed
      * @throws ReflectionException
-     * @throws DependencyException
-     * @throws NotFoundException
      */
     public function resolve($name, $params = [])
     {
@@ -387,8 +375,6 @@ class App
      *
      * @return mixed|Response
      * @throws ReflectionException
-     * @throws DependencyException
-     * @throws NotFoundException
      */
     public function sendResponse($resp)
     {

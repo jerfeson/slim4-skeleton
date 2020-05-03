@@ -1,5 +1,25 @@
 {% extends "@site/layout/main.twig" %}
 
 {% block content %}
-  <br/><br/>Welcome to SLIM!
+    <p>Welcome to SLIM!</p>
+    <small>{{ message.message }}</small>
+
+    <p>
+        List User
+    </p>
+    <table>
+        <thead>
+        <tr>
+            <td>Name</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}
