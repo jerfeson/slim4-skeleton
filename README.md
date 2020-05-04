@@ -190,7 +190,7 @@ php vendor/bin/codecept run --steps
  
 ## License
 
-jerfeson/slim4-skeleton is release under the Apache 2 license.
+jerfeson/slim4-skeleton  is release under the MIT license.
  
 ## Thanks
 
