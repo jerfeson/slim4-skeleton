@@ -69,7 +69,7 @@ class HttpErrorHandler extends ErrorHandler
         if (app()->getContainer()->has('slashtrace') && (app()->isConsole() || $this->displayErrorDetails)) {
             app()->resolve('slashtrace')->register();
             http_response_code($statusCode);
-            $response->getBody()->write($exception);
+            throw $exception;
         } else {
             if (
                 !($exception instanceof HttpException)

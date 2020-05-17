@@ -4,6 +4,9 @@
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.md)
 [![Total Downloads](https://img.shields.io/packagist/dt/jerfeson/slim4-skeleton.svg)](https://packagist.org/packages/jerfeson/slim4-skeleton/stats)
 
+![Landing Page](screenshot.png)
+
+
 Use this skeleton application to quickly setup and start working on a new Slim Framework 4 application (Tested with slim 4.5). This application handles http and command line requests. This application ships with a few service providers and a Session middleware out of the box. Supports container resolution and auto-wiring.
 
 To remove a service provider comment it on config/app.php file and remove it from composer.json, update composer.

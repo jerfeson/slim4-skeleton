@@ -1,25 +1,56 @@
 {% extends "@site/layout/main.twig" %}
-
 {% block content %}
-    <p>Welcome to SLIM4!</p>
-    <small>{{ message.message }}</small>
 
-    <p>
-        List User
-    </p>
-    <table>
-        <thead>
-        <tr>
-            <td>Name</td>
-        </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.username }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
+    <!-- Introduction -->
+    <section id="intro" class="main">
+        <div class="spotlight">
+            <div class="content">
+                <header class="major">
+                    <h2>Another awesome skeleton</h2>
+                    <small>{{ message.message }}</small>
+
+                </header>
+                <ul>
+                    <li>SlashTrace</li>
+                    <li>Monolog</li>
+                    <li>Twig</li>
+                    <li>Flash Message</li>
+                    <li>Codeception</li>
+                    <li>oAuth2</li>
+                </ul>
+            </div>
+            <span class="image"><img src="images/slim.png" alt=""/></span>
+        </div>
+    </section>
+
+    <!-- First Section -->
+    <section id="first" class="main special">
+        <header class="major">
+            <h2>Database data</h2>
+        </header>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}
+
+{% block page_styles %}
+    {# someone style here #}
+{% endblock %}
+{% block page_scripts %}
+    {# someone script here #}
 {% endblock %}
