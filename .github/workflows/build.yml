@@ -10,7 +10,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        php-versions: ['7.2', '7.3', '7.4']
     services:
       mysql:
         image: mysql:5.7
@@ -22,6 +24,22 @@ jobs:
           - 33306:3306
     steps:
     - uses: actions/checkout@v2
+
+    - name: Setup PHP
+        uses: jerfeson/setup-php@v1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, pdo, pdo_mysql, intl, zip, json
+          coverage: none
+
+    - name: Start MySQL
+      run: sudo systemctl start mysql
+
+    - name: Create database
+      run: mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS slim_skeleton CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+    - name: Copy settings
+      run: cp config/env.exemplo.php config/development.php
 
     - name: Validate composer.json and composer.lock
       run: composer validate

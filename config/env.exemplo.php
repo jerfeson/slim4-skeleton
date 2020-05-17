@@ -11,9 +11,9 @@ return [
             'default' => [
                 'driver' => 'mysql',
                 'host' => 'localhost',
-                'database' => 'default',
-                'username' => '',
-                'password' => '',
+                'database' => 'slim_skeleton',
+                'username' => 'root',
+                'password' => 'root',
                 'charset' => 'utf8',
                 'collation' => 'utf8_unicode_ci',
                 'prefix' => '',
