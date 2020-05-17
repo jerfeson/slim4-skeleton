@@ -8,3 +8,9 @@ actor_suffix: Tester
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
+coverage:
+    enabled: true
+    remote: false
+    include:
+        - app/*
+    c3_url: 'http://localhost'

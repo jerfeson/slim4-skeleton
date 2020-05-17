@@ -63,7 +63,8 @@
         "codeception/codeception": "4.0.*",
         "codeception/module-phpbrowser": "^1.0.0",
         "codeception/module-asserts": "^1.0.0",
-        "codeception/module-webdriver": "^1.0"
+        "codeception/module-webdriver": "^1.0",
+        "codeception/module-rest": "1.2.*"
     },
     "scripts": {
         "build:check": [
@@ -77,7 +78,8 @@
         "sniffer:check": "phpcs --standard=phpcs.xml",
         "sniffer:fix": "phpcbf --standard=phpcs.xml",
         "phpstan": "phpstan analyse tests --level=max -c phpstan.neon --no-progress --ansi",
-        "test:coverage": "php vendor/bin/codecept run --coverage",
-        "schema:dump": "php bin/console.php schema-dump"
+        "test:coverage": "php vendor/bin/codecept run --coverage --coverage-xml --coverage-html",
+        "schema:dump": "php bin/console.php schema-dump",
+        "test": "php vendor/bin/codecept run --steps"
     }
 }

@@ -1,6 +1,7 @@
 # Slim Framework 4 Skeleton Application (http + cli)
 
 [![Latest Version on Packagist](https://img.shields.io/github/release/jerfeson/slim4-skeleton.svg)](https://packagist.org/packages/jerfeson/slim4-skeleton)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.md)
 [![Total Downloads](https://img.shields.io/packagist/dt/jerfeson/slim4-skeleton.svg)](https://packagist.org/packages/jerfeson/slim4-skeleton/stats)
 
 Use this skeleton application to quickly setup and start working on a new Slim Framework 4 application (Tested with slim 4.5). This application handles http and command line requests. This application ships with a few service providers and a Session middleware out of the box. Supports container resolution and auto-wiring.
@@ -14,6 +15,7 @@ Available service providers:
 - [Twig]
 - [Flash Message]
 - [Codeception]
+- [oAuth2]
 
 ### Install the Application
 
@@ -208,3 +210,4 @@ This project is based on the project in [jupitern/slim3-skeleton] feel free to c
 [Flash Message]:https://github.com/slimphp/Slim-Flash
 [Codeception]:https://codeception.com
 [download]:https://sites.google.com/a/chromium.org/chromedriver/downloads
+[oAuth2]:https://oauth2.thephpleague.com/
