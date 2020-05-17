@@ -11,6 +11,10 @@ use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
  * Class OAuthScopeRepository.
  *
  * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
  */
 class OAuthScopeRepository extends Repository implements ScopeRepositoryInterface
 {

@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Model\OAuthAuthCodeModel;
+use App\Model\OAuthRefreshTokenCodeModel;
 use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
 use League\OAuth2\Server\Exception\UniqueTokenIdentifierConstraintViolationException;
 use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
@@ -11,15 +11,19 @@ use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
  * Class OAuthRefreshTokenRepository.
  *
  * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
  */
 class OAuthRefreshTokenRepository extends Repository implements RefreshTokenRepositoryInterface
 {
-    protected $model = OAuthAuthCodeModel::class;
+    protected $model = OAuthRefreshTokenCodeModel::class;
 
     /**
      * Creates a new refresh token.
      *
-     * @return RefreshTokenEntityInterface|null
+     * @return RefreshTokenEntityInterface|void
      */
     public function getNewRefreshToken()
     {

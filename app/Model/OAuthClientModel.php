@@ -24,15 +24,13 @@ class OAuthClientModel extends Model implements ClientEntityInterface
         // TODO: Implement getName() method.
     }
 
-    /**
-     * Returns the registered redirect URI (as a string).
-     *
-     * Alternatively return an indexed array of redirect URIs.
-     *
-     * @return string|string[]
-     */
     public function getRedirectUri()
     {
         // TODO: Implement getRedirectUri() method.
+    }
+
+    public function isConfidential()
+    {
+        // TODO: Implement isConfidential() method.
     }
 }

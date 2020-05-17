@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Builder;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
-use League\OAuth2\Server\Exception\UniqueTokenIdentifierConstraintViolationException;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
 
 /**
@@ -35,7 +34,8 @@ class OAuthAccessTokenRepository extends Repository implements AccessTokenReposi
         foreach ($scopes as $scope) {
             $accessToken->addScope($scope);
         }
-        $accessToken->setUserIdentifier($userIdentifier);
+
+        $accessToken->setUserIdentifier($userIdentifier->id);
 
         return $accessToken;
     }
@@ -44,33 +44,24 @@ class OAuthAccessTokenRepository extends Repository implements AccessTokenReposi
      * Persists a new access token to permanent storage.
      *
      * @param AccessTokenEntityInterface $accessTokenEntity
-     *
-     * @throws UniqueTokenIdentifierConstraintViolationException
+     * return void
      */
     public function persistNewAccessToken(AccessTokenEntityInterface $accessTokenEntity)
     {
         $token = new OAuthAccessTokenModel();
         $token->access_token = $accessTokenEntity->getIdentifier();
         $token->expiry_date_time = $accessTokenEntity->getExpiryDateTime();
-        $token->user_id = $accessTokenEntity->getUserIdentifier()->id;
+        $token->user_id = $accessTokenEntity->getUserIdentifier();
         $token->oauth_client_id = $accessTokenEntity->getClient()->getIdentifier();
         $token->save();
-    }
-
-    /**
-     * Revoke an access token.
-     *
-     * @param string $tokenId
-     */
-    public function revokeAccessToken($tokenId)
-    {
-        // TODO: Implement revokeAccessToken() method.
     }
 
     /**
      * Check if the access token has been revoked.
      *
      * @param string $tokenId
+     *
+     * @throws \Exception
      *
      * @return bool Return true if this token has been revoked
      */
@@ -85,5 +76,15 @@ class OAuthAccessTokenRepository extends Repository implements AccessTokenReposi
         }
 
         return true;
+    }
+
+    /**
+     * Revoke an access token.
+     *
+     * @param string $tokenId
+     */
+    public function revokeAccessToken($tokenId)
+    {
+        // TODO: Implement revokeAccessToken() method.
     }
 }

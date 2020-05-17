@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Message\Message;
 use Exception;
+use League\OAuth2\Server\AuthorizationServer;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
@@ -50,6 +51,11 @@ abstract class Controller
     private $business;
 
     /**
+     * @var AuthorizationServer
+     */
+    private $oAuthServer;
+
+    /**
      * Controller constructor.
      *
      * @param Request $request
@@ -57,19 +63,22 @@ abstract class Controller
      * @param Twig $view
      * @param LoggerInterface $logger
      * @param Messages $flash
+     * @param AuthorizationServer $oAuthServer
      */
     public function __construct(
         Request $request,
         Response $response,
         Twig $view,
         LoggerInterface $logger,
-        Messages $flash
+        Messages $flash,
+        AuthorizationServer $oAuthServer
     ) {
         $this->setRequest($request);
         $this->setResponse($response);
         $this->setView($view);
         $this->setLogger($logger);
         $this->setFlash($flash);
+        $this->setOAuthServer($oAuthServer);
     }
 
     /**
@@ -150,6 +159,22 @@ abstract class Controller
     public function getFlash(): Messages
     {
         return $this->flash;
+    }
+
+    /**
+     * @return AuthorizationServer
+     */
+    public function getOAuthServer(): AuthorizationServer
+    {
+        return $this->oAuthServer;
+    }
+
+    /**
+     * @param AuthorizationServer $oAuthServer
+     */
+    public function setOAuthServer(AuthorizationServer $oAuthServer): void
+    {
+        $this->oAuthServer = $oAuthServer;
     }
 
     /**

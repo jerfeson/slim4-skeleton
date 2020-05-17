@@ -125,8 +125,7 @@ class MigrationsCommand extends Command
             //oauth_client
             $schema->create('oauth_client', function ($table) {
                 $table->increments('id')->unsigned();
-                $table->string('client_secret', 255);
-                $table->string('client_id', 255);
+                $table->string('secret', 255);
                 $table->dateTime('created_at');
                 $table->dateTime('updated_at');
             });
@@ -248,10 +247,8 @@ class MigrationsCommand extends Command
         ]);
 
         $connection->table('oauth_client')->insert([
-            'client_secret' => Password::hash($nameClient),
-            //  Define secret pattern
-            'client_id' => base64_encode($nameClient),
-            //  Define id pattern
+            //  Define your secret pattern
+            'secret' => Password::hash($nameClient),
             'created_at' => $date,
             'updated_at' => $date,
         ]);

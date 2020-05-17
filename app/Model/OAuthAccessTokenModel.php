@@ -3,12 +3,13 @@
 namespace App\Model;
 
 use DateTime;
+use DateTimeImmutable;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
-use Lcobucci\JWT\Token;
 use League\OAuth2\Server\CryptKey;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
+use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
 
 /**
@@ -36,15 +37,20 @@ class OAuthAccessTokenModel extends Model implements AccessTokenEntityInterface
     private $expiryDateTime;
 
     /**
+     * @var CryptKey|mixed
+     */
+    private $privateKey;
+
+    /**
      * @return OAuthClientModel
      */
-    public function getClient(): OAuthClientModel
+    public function getClient(): ClientEntityInterface
     {
         return $this->client;
     }
 
     /**
-     * @param OAuthClientModel $client
+     * @param ClientEntityInterface $client
      */
     public function setClient($client)
     {
@@ -52,15 +58,15 @@ class OAuthAccessTokenModel extends Model implements AccessTokenEntityInterface
     }
 
     /**
-     * @return UserModel
+     * @return UserModel|int|string|null
      */
-    public function getUserIdentifier(): UserModel
+    public function getUserIdentifier()
     {
         return $this->userIdentifier;
     }
 
     /**
-     * @param UserModel $userIdentifier
+     * @param int|string|null $userIdentifier
      */
     public function setUserIdentifier($userIdentifier)
     {
@@ -68,32 +74,11 @@ class OAuthAccessTokenModel extends Model implements AccessTokenEntityInterface
     }
 
     /**
-     * @param DateTime $dateTime
+     * @param DateTimeImmutable $dateTime
      */
-    public function setExpiryDateTime(DateTime $dateTime)
+    public function setExpiryDateTime(DateTimeImmutable $dateTime)
     {
         $this->expiryDateTime = $dateTime;
-    }
-
-    /**
-     * Generate a JWT from the access token.
-     *
-     * @param CryptKey $privateKey
-     *
-     * @return Token
-     */
-    public function convertToJWT(CryptKey $privateKey)
-    {
-        return (new Builder())
-            ->setAudience($this->getClient()->getIdentifier())
-            ->setId($this->getIdentifier())
-            ->setIssuedAt(time())
-            ->setNotBefore(time())
-            ->setExpiration($this->getExpiryDateTime()->getTimestamp())
-            ->setSubject($this->getUserIdentifier()->id)
-            ->set('scopes', $this->getScopes())
-            ->sign(new Sha256(), new Key($privateKey->getKeyPath(), $privateKey->getPassPhrase()))
-            ->getToken();
     }
 
     /**
@@ -124,5 +109,40 @@ class OAuthAccessTokenModel extends Model implements AccessTokenEntityInterface
     public function getScopes()
     {
         // TODO: Implement getScopes() method.
+    }
+
+    /**
+     * @param CryptKey $privateKey
+     */
+    public function setPrivateKey(CryptKey $privateKey)
+    {
+        $this->privateKey = $privateKey;
+    }
+
+    /**
+     * @return CryptKey|mixed
+     */
+    public function getPrivateKey()
+    {
+        return  $this->privateKey;
+    }
+
+    /**
+     * @return string|void
+     */
+    public function __toString()
+    {
+        $barrer = (new Builder())
+            ->setAudience($this->getClient()->getIdentifier())
+            ->setId($this->getIdentifier())
+            ->setIssuedAt(time())
+            ->setNotBefore(time())
+            ->setExpiration($this->getExpiryDateTime()->getTimestamp())
+            ->setSubject($this->getUserIdentifier())
+            ->set('scopes', $this->getScopes())
+            ->sign(new Sha256(), new Key($this->getPrivateKey()->getKeyPath(), $this->getPrivateKey()->getPassPhrase()))
+            ->getToken();
+
+        return (string)$barrer;
     }
 }

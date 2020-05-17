@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use League\OAuth2\Server\Entities\UserEntityInterface;
+
 /**
  * Class User.
  *
@@ -11,7 +13,7 @@ namespace App\Model;
  *
  * @version 1.0.0
  */
-class UserModel extends Model
+class UserModel extends Model implements UserEntityInterface
 {
     protected $table = 'user';
     protected $fillable = ['name', 'user', 'password'];

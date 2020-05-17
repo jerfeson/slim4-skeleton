@@ -83,6 +83,12 @@ $default['mail'] = [
     ],
 ];
 
+//oAuth2
+$default['oauth2'] = [
+    'private_key' => DATA_PATH . 'keys' . DS . 'oauth' . DS . 'private.key',
+    'public_key' => DATA_PATH . 'keys' . DS . 'oauth' . DS . 'public.key',
+];
+
 $default['providers'] = [
     App\ServiceProviders\Monolog::class => 'http,console',
     App\ServiceProviders\SlashTrace::class => 'http',
@@ -91,6 +97,7 @@ $default['providers'] = [
     App\ServiceProviders\Eloquent::class => 'http,console',
     App\ServiceProviders\FileSystem::class => 'http,console',
     App\ServiceProviders\Mailer::class => 'http,console',
+    App\ServiceProviders\OAuthServer::class => 'http,console',
 ];
 
 // add your middleware here

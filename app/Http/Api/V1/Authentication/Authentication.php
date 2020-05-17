@@ -6,11 +6,17 @@ use App\Business\AuthenticationBusiness;
 use App\Business\UserBusiness;
 use App\Enum\HttpStatusCode;
 use App\Http\Controller;
+use Exception;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Authentication.
  *
- * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
  */
 class Authentication extends Controller
 {
@@ -23,26 +29,30 @@ class Authentication extends Controller
      */
     private $userBusiness;
 
+    /**
+     * @return mixed
+     */
     public function loginAction()
     {
         try {
             $this->getAuthenticationBusiness()->setRequest($this->getRequest());
 
             return $this->getAuthenticationBusiness()->login();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->getResponse()->withJson(
                 json_decode($e->getMessage())
             )->withStatus($e->getCode());
         }
     }
 
+    /**
+     * @return ResponseInterface
+     */
     public function tokenAction()
     {
         try {
-            $this->oAuthServer->respondToAccessTokenRequest($this->getRequest(), $this->getResponse());
-
-            return $this->getResponse()->withStatus(HttpStatusCode::OK);
-        } catch (\Exception $e) {
+            return $this->getOAuthServer()->respondToAccessTokenRequest($this->getRequest(), $this->getResponse());
+        } catch (Exception $e) {
             return $this->getResponse()->withStatus(HttpStatusCode::UNAUTHORIZED);
         }
     }

@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Helpers\Password;
 use App\Model\OAuthClientModel;
+use DI\NotFoundException;
+use Exception;
 use Illuminate\Database\Query\Builder;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
@@ -12,36 +14,49 @@ use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
  * Class OAuthClientRepository.
  *
  * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
  */
 class OAuthClientRepository extends Repository implements ClientRepositoryInterface
 {
-    protected $model = OAuthClientModel::class;
+    protected $modelClass = OAuthClientModel::class;
 
     /**
-     * Get a client.
+     * @param string $clientIdentifier
+     * @param string|null $clientSecret
+     * @param string|null $grantType
      *
-     * @param string $clientIdentifier The client's identifier
-     * @param string|null $grantType The grant type used (if sent)
-     * @param string|null $clientSecret The client's secret (if sent)
-     * @param bool $mustValidateSecret If true the client must attempt to validate the secret if the client
-     *                                        is confidential
+     * @throws NotFoundException
      *
-     * @return ClientEntityInterface
+     * @return bool
      */
-    public function getClientEntity($clientIdentifier, $grantType = null, $clientSecret = null, $mustValidateSecret = true)
+    public function validateClient($clientIdentifier, $clientSecret, $grantType)
     {
         /** @var Builder $qb */
-        $qb = $this->newQuery();
-        $qb->where('client_id', '=', $clientIdentifier);
-        $client = $this->doQuery($qb, 1, false)->first();
-        if (Password::verify($clientSecret, $client->client_secret) === false) {
-            return;
+        $client = $this->findById($clientIdentifier);
+        if (Password::verify($clientSecret, $client->secret) === false) {
+            return false;
         }
 
+        return true;
+    }
+
+    /**
+     * @param string $clientIdentifier
+     *
+     * @throws Exception
+     *
+     * @return ClientEntityInterface|mixed|null
+     */
+    public function getClientEntity($clientIdentifier)
+    {
+        /** @var Builder $qb */
+        $client = $this->findById($clientIdentifier);
         $client->setIdentifier($clientIdentifier);
         //Define scope by client
-//        $client->setScope($client['scope']);
-
+        //$client->setScope($client['scope']);
         return $client;
     }
 }

@@ -5,6 +5,7 @@ namespace App\Business;
 use App\Enum\HttpStatusCode;
 use App\Message\Message;
 use App\Repository\OAuthAccessTokenRepository;
+use Exception;
 use League\OAuth2\Server\AuthorizationValidators\BearerTokenValidator;
 use League\OAuth2\Server\CryptKey;
 use League\OAuth2\Server\Exception\OAuthServerException;
@@ -17,7 +18,7 @@ use League\OAuth2\Server\Exception\OAuthServerException;
 class AuthenticationBusiness extends Business
 {
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function login()
     {
@@ -37,6 +38,9 @@ class AuthenticationBusiness extends Business
         }
     }
 
+    /**
+     * @throws OAuthServerException
+     */
     private function validator()
     {
         $this->validateBearer();
