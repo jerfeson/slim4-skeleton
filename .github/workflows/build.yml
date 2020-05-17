@@ -26,29 +26,30 @@ jobs:
         ports:
           - 33306:3306
     steps:
-    - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - name: Setup PHP
-        uses: actions/setup-php@v1
-        with:
-          php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, pdo, pdo_mysql, intl, zip, json
-          coverage: none
+      - name: Setup PHP
+          uses: shivammathur/setup-php@v1
+          with:
+            php-version: ${{ matrix.php-versions }}
+            extensions: mbstring, pdo, pdo_mysql, intl, zip, json
+            coverage: none
 
-    - name: Start MySQL
-      run: sudo systemctl start mysql
+      - name: Start MySQL
+        run: sudo systemctl start mysql
 
-    - name: Create database
-      run: mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS slim_skeleton CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+      - name: Create database
+        run: mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS slim_skeleton CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-    - name: Copy settings
-      run: cp config/env.exemplo.php config/development.php
+      - name: Copy settings
+        run: cp config/env.exemplo.php config/development.php
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate
+      - name: Validate composer.json and composer.lock
+        run: composer validate
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
