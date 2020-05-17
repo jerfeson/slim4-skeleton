@@ -22,20 +22,18 @@ class AuthenticationBusiness extends Business
      */
     public function login()
     {
-        try {
-            $this->validator();
+        $this->validator();
+        $payload = [
+            'result' => Message::STATUS_SUCCESS,
+            'message' => Message::LOGIN_SUCCESSFUL,
+            'redirect_url' => '',
+        ];
+        $this->getResponse()->getBody()->write(json_encode($payload));
 
-            return $this->getResponse()->withJson([
-                'result' => Message::STATUS_SUCCESS,
-                'message' => Message::LOGIN_SUCCESSFUL,
-                'redirect_url' => '',
-            ])->withStatus(HttpStatusCode::OK);
-        } catch (OAuthServerException $exception) {
-            return $this->getResponse()->withJson([
-                'result' => Message::STATUS_ERROR,
-                'message' => Message::ACCESS_DENIED,
-            ])->withStatus(HttpStatusCode::UNAUTHORIZED);
-        }
+        return $this->getResponse()->withHeader(
+            'Content-Type',
+            'application/json'
+        )->withStatus(HttpStatusCode::OK);
     }
 
     /**
@@ -50,16 +48,27 @@ class AuthenticationBusiness extends Business
      *  Check if Bearer token is ok, check expiration date and token is revoked
      *  Update the request with data about the user.
      *
+     * @throws Exception
      * @throws OAuthServerException
      *
      * @return mixed
      */
     private function validateBearer()
     {
-        $oauth2Config = app()->getConfig('settings.oauth2');
+        $oauth2Config = app()->getConfig('oauth2');
+
+        $publicKey = file_get_contents($oauth2Config['public_key']);
+        if (!$publicKey) {
+            throw new OAuthServerException(
+                Message::PUBLIC_KEYS_NOT_DEFINED,
+                HttpStatusCode::UNAUTHORIZED,
+                Message::PUBLIC_KEYS_NOT_DEFINED
+            );
+        }
+
         $accessTokenRepository = new OAuthAccessTokenRepository();
         $validator = new BearerTokenValidator($accessTokenRepository);
-        $cryptKey = new CryptKey(file_get_contents($oauth2Config['public_key']));
+        $cryptKey = new CryptKey($publicKey);
         $validator->setPublicKey($cryptKey);
         $this->setRequest($validator->validateAuthorization($this->getRequest()));
     }

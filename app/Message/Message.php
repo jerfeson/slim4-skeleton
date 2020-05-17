@@ -30,6 +30,8 @@ class Message
 
     public const BUSINESS_CLASS_NOT_DEFINED = 'Business class not defined';
 
+    public const PUBLIC_KEYS_NOT_DEFINED = 'Public oAuth2  key have not been defined';
+
     /*Authentication messages*/
     public const ACCESS_DENIED = 'Access denied';
 

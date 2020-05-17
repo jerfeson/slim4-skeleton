@@ -6,6 +6,7 @@ use App\Business\AuthenticationBusiness;
 use App\Business\UserBusiness;
 use App\Enum\HttpStatusCode;
 use App\Http\Controller;
+use App\Message\Message;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 
@@ -35,13 +36,19 @@ class Authentication extends Controller
     public function loginAction()
     {
         try {
-            $this->getAuthenticationBusiness()->setRequest($this->getRequest());
-
             return $this->getAuthenticationBusiness()->login();
         } catch (Exception $e) {
-            return $this->getResponse()->withJson(
-                json_decode($e->getMessage())
-            )->withStatus($e->getCode());
+            $payload = [
+                'result' => Message::STATUS_ERROR,
+                'message' => $e->getMessage(),
+            ];
+
+            $this->getResponse()->getBody()->write(json_encode($payload));
+
+            return $this->getResponse()->withHeader(
+                'Content-Type',
+                'application/json'
+            )->withStatus(HttpStatusCode::UNAUTHORIZED);
         }
     }
 

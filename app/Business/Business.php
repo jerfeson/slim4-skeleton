@@ -76,6 +76,14 @@ abstract class Business
     }
 
     /**
+     * @param Request $request
+     */
+    public function setRequest(Request $request): void
+    {
+        $this->request = $request;
+    }
+
+    /**
      * Return all results.
      *
      * @throws Exception

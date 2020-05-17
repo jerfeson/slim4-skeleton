@@ -369,7 +369,7 @@ class App
         if ($resp instanceof Response) {
             $response = $resp;
         } elseif (is_array($resp) || is_object($resp)) {
-            $response = $response->withJson($resp);
+            $response = $response->withJson(json_encode($resp));
         } else {
             $response = $response->write($resp);
         }

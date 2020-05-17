@@ -16,7 +16,7 @@ use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
  */
 class OAuthAccessTokenRepository extends Repository implements AccessTokenRepositoryInterface
 {
-    protected $model = OAuthAccessTokenModel::class;
+    protected $modelClass = OAuthAccessTokenModel::class;
 
     /**
      * Create a new access token.
@@ -71,7 +71,7 @@ class OAuthAccessTokenRepository extends Repository implements AccessTokenReposi
         $query = $this->newQuery();
         $query->where('access_token', '=', $tokenId);
 
-        if ($this->doQuery($query, 1, false)->first()) {
+        if ($this->doQuery($query, 1, false)->count()) {
             return false;
         }
 

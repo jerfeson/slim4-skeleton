@@ -14,7 +14,7 @@ use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
  */
 class OAuthAuthCodeRepository extends Repository implements AuthCodeRepositoryInterface
 {
-    protected $model = OAuthAuthCodeModel::class;
+    protected $modelClass = OAuthAuthCodeModel::class;
 
     /**
      * Creates a new AuthCode.

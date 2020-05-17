@@ -18,7 +18,7 @@ use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
  */
 class OAuthScopeRepository extends Repository implements ScopeRepositoryInterface
 {
-    protected $model = OAuthClientModel::class;
+    protected $modelClass = OAuthClientModel::class;
 
     /**
      * Return information about a scope.

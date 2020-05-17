@@ -18,7 +18,7 @@ use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
  */
 class OAuthRefreshTokenRepository extends Repository implements RefreshTokenRepositoryInterface
 {
-    protected $model = OAuthRefreshTokenCodeModel::class;
+    protected $modelClass = OAuthRefreshTokenCodeModel::class;
 
     /**
      * Creates a new refresh token.
