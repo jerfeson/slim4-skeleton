@@ -52,13 +52,14 @@ class MigrationsCommand extends Command
         parent::configure();
 
         $this->setName('migrations');
-        $this->setDescription('A migratons command');
+
         $this->addArgument(
             'down',
             InputArgument::OPTIONAL,
             'Do you want to delete existing data(N/y) ?',
             false
         );
+        $this->setDescription("A migratons command \n Arguments: \n * down - Drop tables");
     }
 
     /**

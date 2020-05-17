@@ -6,4 +6,5 @@
 
 #files
 composer.lock
+/config/development.php
 

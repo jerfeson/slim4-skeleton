@@ -12,7 +12,10 @@ Available service providers:
 
 - [SlashTrace]
 - [Monolog]
+- [Eloquent]
 - [Twig]
+- [FlySystem]
+- [Redis Cache]
 - [Flash Message]
 - [Codeception]
 - [oAuth2]
@@ -59,6 +62,63 @@ Change the connection configuration in config/development.php:
                 'password'  => '',
 
 
+## Migrations
+
+Use the command for create initial tables, used in oAuth2 
+
+    php bin/console.php migrations
+
+Vá até a pasta `data/keys/oauth` e crie as chaves publica e privada do seu projeto
+
+#### Generating public and private keys
+
+The public/private key pair is used to sign and verify JWTs transmitted. The Authorization Server possesses the private key to sign tokens and the Resource Server possesses the corresponding public key to verify the signatures. To generate the private key run this command on the terminal:
+
+    openssl genrsa -out private.key 2048
+
+If you want to provide a passphrase for your private key run this command instead:
+
+     openssl genrsa -passout pass:_passphrase_ -out private.key 2048
+     
+then extract the public key from the private key:
+
+    openssl rsa -in private.key -pubout -out public.key
+
+or use your passphrase if provided on private key generation:
+
+    openssl rsa -in private.key -passin pass:_passphrase_ -pubout -out public.key
+
+The private key must be kept secret (i.e. out of the web-root of the authorization server). The authorization server also requires the public key.
+
+If a passphrase has been used to generate private key it must be provided to the authorization server.
+
+The public key should be distributed to any services (for example resource servers) that validate access tokens.
+
+#### Generating encryption keys 
+
+Encryption keys are used to encrypt authorization and refresh codes. The AuthorizationServer accepts two kinds of encryption keys, a string password or a \Defuse\Crypto\Key object from the [Secure PHP Encryption Library].
+
+##### string password
+
+A `string` password can vary in strength depending on the password chosen. To turn it into a strong encryption key the [PBKDF2] key derivation function is used. This function derives an encryption key from a password and is slow by design. It uses a lot of CPU resources for a fraction of a second, applying key stretching to the password to reduce vulnerability to brute force attacks.
+
+To generate a `string` password for the `AuthorizationServer`, you can run the following command in the terminal:
+
+    php -r 'echo base64_encode(random_bytes(32)), PHP_EOL;'
+
+Replace the value of OAuthServer::ENCRYPTION_KEY  
+
+##### Key object
+
+A `\Defuse\Crypto\Key` is a strong encryption key. This removes the need to use a slow key derivation function, reducing encryption and decryption times compared to using a string password.
+
+A `Key` can be generated with the `generate-defuse-key` script. To generate a `Key` for the `AuthorizationServer` run the following command in the terminal:
+
+    vendor/bin/generate-defuse-key
+    
+Replace the value of OAuthServer::ENCRYPTION_KEY
+
+The string can be loaded as a Key with Key::loadFromAsciiSafeString(self::ENCRYPTION_KEY).
 
 ### Run it:
 
@@ -74,6 +134,7 @@ Change the connection configuration in config/development.php:
 * `resources`:  Views as well as your raw, un-compiled assets such as LESS, SASS, or JavaScript.
 * `storage`:    Log files, cache files...
 * `public`:     The public directory contains `index.php` file, assets such as images, JavaScript, and CSS
+* `teste`:      The directory contains all tests using in codeception
 * `vendor`:     Composer dependencies
 
 ### Console usage
@@ -211,3 +272,8 @@ This project is based on the project in [jupitern/slim3-skeleton] feel free to c
 [Codeception]:https://codeception.com
 [download]:https://sites.google.com/a/chromium.org/chromedriver/downloads
 [oAuth2]:https://oauth2.thephpleague.com/
+[Eloquent]:https://github.com/illuminate/database
+[FlySystem]:https://github.com/thephpleague/flysystem
+[Redis Cache]:https://github.com/naroga/redis-cache
+[Secure PHP Encryption Library]:https://github.com/defuse/php-encryption
+[PBKDF2]:https://github.com/defuse/php-encryption

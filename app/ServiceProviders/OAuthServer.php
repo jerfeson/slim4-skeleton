@@ -8,6 +8,7 @@ use App\Repository\OAuthRefreshTokenRepository;
 use App\Repository\OAuthScopeRepository;
 use App\Repository\UserRepository;
 use DateInterval;
+use Defuse\Crypto\Key;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Grant\PasswordGrant;
 
@@ -20,6 +21,8 @@ use League\OAuth2\Server\Grant\PasswordGrant;
  */
 class OAuthServer implements ProviderInterface
 {
+    private const ENCRYPTION_KEY = 'uVJd46ThfGSN4PXc9yMXyjmOqMtg3GArizMYbbSL7Wc=';
+
     public static function register()
     {
         app()->getContainer()->set(AuthorizationServer::class, function ($c) {
@@ -40,7 +43,7 @@ class OAuthServer implements ProviderInterface
                 $tokenRepository,
                 $scopeRepository,
                 file_get_contents($oauth2Config['private_key']),
-                'uVJd46ThfGSN4PXc9yMXyjmOqMtg3GArizMYbbSL7Wc='
+                self::ENCRYPTION_KEY
             );
 
             $grant = new PasswordGrant(
