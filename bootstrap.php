@@ -1,7 +1,5 @@
 <?php
 
-include 'c3.php';
-
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT_PATH', realpath(__DIR__ . '/') . DS);
 define('APP_PATH', realpath(__DIR__ . '/app/') . DS);
