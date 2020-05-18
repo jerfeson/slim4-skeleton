@@ -2,6 +2,6 @@ actor: ApiTester
 modules:
     enabled:
         - REST:
-            url: http://localhost/api/v1/
+            url: http://local.slim4/api/v1/
             depends: PhpBrowser
             part: Json

@@ -29,9 +29,3 @@ $app->any('/api/v1/{module}/{class}/{method}', function (Request $request, Respo
 
     return $app->resolveRoute($class, $method, $args, $nameSpace);
 });
-
-// example route to resolve request to that matches '/{class}/{method}'
-// resolveRoute will try to find a corresponding class::method in a given namespace
-$app->any('/c3/report/clear', function (Request $request, Response $response, $args) use ($app) {
-    return true;
-});

@@ -10,7 +10,7 @@ extensions:
         - Codeception\Extension\RunFailed
 coverage:
     enabled: true
-    remote: true
+    remote: false
     include:
         - app/*
-    c3_url: 'http://localhost'
+    c3_url: 'http://127.0.0.1'

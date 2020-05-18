@@ -8,6 +8,6 @@ actor: AcceptanceTester
 modules:
     enabled:
         - PhpBrowser:
-            url: http://localhost
+            url: http://local.slim4
         - \Helper\Acceptance
     step_decorators: ~
