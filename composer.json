@@ -80,6 +80,7 @@
         "phpstan": "phpstan analyse tests --level=max -c phpstan.neon --no-progress --ansi",
         "test:coverage": "php vendor/bin/codecept run --coverage --coverage-xml --coverage-html",
         "schema:dump": "php bin/console.php schema-dump",
-        "test": "php vendor/bin/codecept run --steps"
+        "test": "php vendor/bin/codecept run --steps",
+        "console:migrate": "php bin/console.php migrations down"
     }
 }
