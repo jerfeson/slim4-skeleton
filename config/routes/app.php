@@ -1,5 +1,6 @@
 <?php
 
+use Codeception\Util\FileSystem;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -34,5 +35,5 @@ $app->any('/api/v1/{module}/{class}/{method}', function (Request $request, Respo
 // example route to resolve request to that matches '/{class}/{method}'
 // resolveRoute will try to find a corresponding class::method in a given namespace
 $app->any('/c3/report/clear', function (Request $request, Response $response, $args) use ($app) {
-    var_dump(1);exit;
+    FileSystem::doEmptyDir(C3_CODECOVERAGE_MEDIATE_STORAGE);
 });
