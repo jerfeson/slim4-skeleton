@@ -78,7 +78,7 @@ Use the command for create initial tables, used in oAuth2
 
     php bin/console.php migrations
 
-Vá até a pasta `data/keys/oauth` e crie as chaves publica e privada do seu projeto
+Go to the `data/keys/oauth` folder and create your project's public and private keys
 
 #### Generating public and private keys
 
