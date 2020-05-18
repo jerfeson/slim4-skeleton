@@ -64,4 +64,4 @@ jobs:
         run: composer console:migrate
 
       - name: Run test suite
-        run: composer build:check
+        run: composer test
