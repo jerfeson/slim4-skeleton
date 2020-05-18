@@ -64,4 +64,4 @@ jobs:
         run: composer console:migrate
 
       - name: Run test suite
-        run: composer test
+        run: php php -r 'echo $_SERVER['HTTP_HOST'];'
