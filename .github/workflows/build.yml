@@ -36,6 +36,15 @@ jobs:
           extensions: mbstring, pdo, pdo_mysql, intl, zip, json
           coverage: none
 
+      - name: Check PHP Version
+        run: php -v
+
+      - name: Check Composer Version
+        run: composer -V
+
+      - name: Check PHP Extensions
+        run: php -m
+        
       - name: Start MySQL
         run: sudo systemctl start mysql
 
@@ -51,8 +60,8 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
+      - name: Install tables
+        run: composer console:migrate
 
-    # - name: Run test suite
-    #   run: composer run-script test
+      - name: Run test suite
+        run: composer build:check
