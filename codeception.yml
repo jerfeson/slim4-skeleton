@@ -13,4 +13,3 @@ coverage:
     remote: false
     include:
         - app/*
-    c3_url: 'http://127.0.0.1'
