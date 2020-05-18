@@ -70,7 +70,8 @@
         "build:check": [
             "@lint",
             "@cs:check",
-            "@sniffer:check"
+            "@sniffer:check",
+            "@test:coverage"
         ],
         "lint": "phplint ./ --exclude=vendor --no-interaction --no-cache",
         "cs:check": "php-cs-fixer fix --dry-run --format=txt --verbose --diff --diff-format=udiff --config=.cs.php",

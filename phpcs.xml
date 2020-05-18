@@ -41,6 +41,11 @@
         <type>warning</type>
     </rule>
 
+    <!--  todo switch to only apply to test folders   -->
+    <rule ref="PSR2.Methods.MethodDeclaration.Underscore">
+        <type>warning</type>
+    </rule>
+
     <rule ref="Generic.Metrics.CyclomaticComplexity">
         <properties>
             <property name="absoluteComplexity" value="50"/>

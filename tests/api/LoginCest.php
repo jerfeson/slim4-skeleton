@@ -1,5 +1,8 @@
 <?php
 
+namespace App\Test\api;
+
+use ApiTester;
 use Codeception\Util\HttpCode;
 
 /**
@@ -16,7 +19,9 @@ class LoginCest
     private $token;
     private $tokenParams;
 
-    //prepare test
+    /**
+     * @param ApiTester $I
+     */
     public function _before(ApiTester $I)
     {
         $this->tokenParams = [
