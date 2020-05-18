@@ -13,3 +13,4 @@ coverage:
     remote: false
     include:
         - app/*
+    c3_url: 'http://localhost/c3.php'
