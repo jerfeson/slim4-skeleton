@@ -40,7 +40,7 @@ jobs:
         run: sudo systemctl start mysql
 
       - name: Create database
-        run: mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS slim_skeleton CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+        run: mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS slim_skeleton CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'
 
       - name: Copy settings
         run: cp config/env.exemplo.php config/development.php
