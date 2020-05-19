@@ -29,9 +29,6 @@ jobs:
         image: nginx
         ports:
           - 8080:80
-        environment:
-          - NGINX_HOST=localhost
-          - NGINX_PORT=80
     steps:
       - name: Checkout
         uses: actions/checkout@v2
