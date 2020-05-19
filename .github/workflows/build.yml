@@ -51,8 +51,11 @@ jobs:
       - name: Check PHP Extensions
         run: php -m
 
-      - name: check services
+      - name: check files
         run: wget -O- -S http://localhost
+
+      - name: check services
+        run: ls /var/www/html
 
       - name: Start MySQL
         run: sudo systemctl start mysql
