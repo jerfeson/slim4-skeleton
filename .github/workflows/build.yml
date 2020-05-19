@@ -28,7 +28,7 @@ jobs:
       nginx:
         image: nginx
         volumes:
-          - './default.conf:/etc/nginx/conf.d/default.conf'
+          - "./default.conf":"/etc/nginx/conf.d/default.conf"
         ports:
           - 80:80
     steps:
