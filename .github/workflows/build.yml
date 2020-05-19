@@ -28,8 +28,8 @@ jobs:
       nginx:
         image: nginx
         volumes:
-          - master:/var/www/html
-          - '**/default.conf:/etc/nginx/conf.d/default.conf'
+          - './:/var/www/html'
+          - './default.conf:/etc/nginx/conf.d/default.conf'
         ports:
           - 80:80
     steps:
