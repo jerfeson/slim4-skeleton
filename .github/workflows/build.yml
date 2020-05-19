@@ -50,7 +50,7 @@ jobs:
         run: php -m
 
       - name: check apacheserver
-        run: sudo systemctl start apache2
+        run: sudo systemctl start httpd
 
       - name: Start MySQL
         run: sudo systemctl start mysql
