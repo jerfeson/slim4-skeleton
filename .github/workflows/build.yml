@@ -33,7 +33,7 @@ jobs:
           - 80:80
     steps:
 
-      - name: Prepare2
+      - name: Prepare
         run: sudo chown -R $USER:$USER ${{ github.workspace }}
 
       - name: Checkout
@@ -74,5 +74,5 @@ jobs:
         run: composer console:migrate
 
       - name: check services
-        run: wget -O- -S http://localhost
+        run: console build:check
 
