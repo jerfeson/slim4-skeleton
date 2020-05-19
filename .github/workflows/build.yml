@@ -27,8 +27,8 @@ jobs:
           - 33306:3306
       nginx:
         image: nginx
-        volumes:
-          - ~/var/www:/var/www
+#        volumes:
+#          - ~/var/www:/var/www
         ports:
           - 80:80
     steps:
@@ -52,7 +52,7 @@ jobs:
         run: php -m
 
       - name: check files
-        run: ls /var
+        run: ls /
 
       - name: check services
         run: wget -O- -S http://localhost
