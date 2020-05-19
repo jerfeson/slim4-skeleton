@@ -52,7 +52,7 @@ jobs:
         run: php -m
 
       - name: check files
-        run: ls /home/runner
+        run: ls /home/runner/work
 
       - name: check services
         run: wget -O- -S http://localhost
