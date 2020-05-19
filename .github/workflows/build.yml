@@ -30,7 +30,7 @@ jobs:
           - ${{ github.workspace }}/.github/workflows/vhost:/etc/nginx/conf.d
           - ${{ github.workspace }}:/usr/share/nginx/html
         ports:
-          - 8080:80
+          - 80:80
     steps:
 
       - name: Prepare
