@@ -28,7 +28,9 @@ jobs:
       nginx:
         image: nginx
         volumes:
-          - default.conf:/etc/nginx/conf.d/default.conf
+          - type: bind
+            source: .
+            target: /var/www/html
         ports:
           - 80:80
     steps:
