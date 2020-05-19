@@ -62,3 +62,9 @@ jobs:
 
       - name: Install tables
         run: composer console:migrate
+
+      - name: tests
+        uses: joelwmale/codeception-action@master
+
+      - name: Run test suite
+        run: composer test
