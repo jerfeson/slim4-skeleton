@@ -27,11 +27,11 @@ jobs:
           - 33306:3306
       web:
         image: nginx
-        ports:
-          - 80:80
         volumes:
           - .:/var/www/html
           - ./default.conf:/etc/nginx/conf.d/default.conf
+        ports:
+          - 80:80
     steps:
       - name: Checkout
         uses: actions/checkout@v2
