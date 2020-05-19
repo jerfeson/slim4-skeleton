@@ -27,7 +27,7 @@ jobs:
       nginx:
         image: wyveo/nginx-php-fpm:php73
         volumes:
-          - ${{ github.workspace }}.github/workflows/vhost:/etc/nginx/conf.d
+          - ${{ github.workspace }}/.github/workflows/vhost:/etc/nginx/conf.d
           - ${{ github.workspace }}:/usr/share/nginx/html
         ports:
           - 8080:80
