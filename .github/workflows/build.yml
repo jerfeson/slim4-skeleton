@@ -12,8 +12,10 @@ jobs:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
-        operating-system: [wyveo/nginx-php-fpm:php73]
+        operating-system: [nginx]
         php-versions: ['7.3']
+        ports:
+          - 80:80
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
 
     services:
