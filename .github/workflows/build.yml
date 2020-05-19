@@ -25,6 +25,10 @@ jobs:
           MYSQL_ALLOW_EMPTY_PASSWORD: true
         ports:
           - 33306:3306
+      web:
+        image: httpd:2.4
+        ports:
+          - 8080:80
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -45,6 +49,9 @@ jobs:
       - name: Check PHP Extensions
         run: php -m
 
+      - name: check services
+        run: wget http://localhost:8080
+
       - name: Start MySQL
         run: sudo systemctl start mysql
 
@@ -62,7 +69,4 @@ jobs:
 
       - name: Install tables
         run: composer console:migrate
-
-      - name: Build Check
-        run: cd public && sudo php -S localhost:80 && cd .. && composer build:check
 
