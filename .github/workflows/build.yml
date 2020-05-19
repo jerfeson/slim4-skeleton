@@ -32,7 +32,6 @@ jobs:
 #        ports:
 #          - 80:80
     steps:
-
       - name: Hello world action step
         id: hello
         uses: jerfeson/codeception-action@v1
