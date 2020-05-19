@@ -27,15 +27,13 @@ jobs:
       nginx:
         image: nginx
         volumes:
-          - /home/runner/work/slim4-skeleton/slim4-skeleton/:/usr/share/nginx/html
+          - ${{ github.workspace }}:/usr/share/nginx/html
         ports:
-          - 80:80
+          - 80
     steps:
-      - name: Prepare
-        run: ls ${{ github.workspace }}
 
       - name: Prepare2
-        run: sudo chown -R $USER:$USER /home/runner/work/slim4-skeleton/slim4-skeleton/
+        run: sudo chown -R $USER:$USER ${{ github.workspace }}
 
       - name: Checkout
         uses: actions/checkout@v2
