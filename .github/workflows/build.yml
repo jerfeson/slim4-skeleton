@@ -49,7 +49,7 @@ jobs:
         run: php -m
 
       - name: check files
-        run: ls /home/runner/work
+        run: ls /home/runner/work/slim4-skeleton
 
       - name: check services
         run: wget -O- -S http://localhost
