@@ -28,10 +28,6 @@ jobs:
           - 33306:3306
       nginx:
         image: nginx
-        volumes:
-          - ~/var/www:/var/www
-        ports:
-          - 80:80
     steps:
       - name: Checkout
         uses: actions/checkout@v2
