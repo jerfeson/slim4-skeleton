@@ -22,13 +22,13 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: root
-          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          _ALLOW_EMPTY_PASSWORD: true
         ports:
           - 33306:3306
       nginx:
         image: nginx
-#        volumes:
-#          - /./:/var/www/html
+        volumes:
+          - ~/var/www:/var/www
         ports:
           - 80:80
     steps:
