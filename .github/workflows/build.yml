@@ -28,7 +28,7 @@ jobs:
       web:
         image: nginx
         ports:
-          - 8080:80
+          - 80:80
     steps:
       - name: Checkout
         uses: actions/checkout@v2
