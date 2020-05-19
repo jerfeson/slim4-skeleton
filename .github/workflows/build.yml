@@ -64,4 +64,5 @@ jobs:
         run: composer console:migrate
 
       - name: Run test suite
-        run: php -r 'echo $_SERVER['HTTP_HOST'];'
+        uses: joelwmale/codeception-action@master
+        run: composer build:check
