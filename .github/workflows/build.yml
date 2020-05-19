@@ -8,13 +8,14 @@ on:
 
 jobs:
   build:
+
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
         operating-system: [ubuntu-latest]
         php-versions: ['7.3']
         volumes:
-          - .:nginx/usr/share/nginx/html
+          - my_docker_volume/.:nginx/usr/share/nginx/html
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
 
     services:
@@ -23,7 +24,7 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: root
-          _ALLOW_EMPTY_PASSWORD: true
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
         ports:
           - 33306:3306
       nginx:
@@ -51,7 +52,7 @@ jobs:
         run: php -m
 
       - name: check files
-        run: ls /home/runner/work/slim4-skeleton/slim4-skeleton
+        run: ls /var
 
       - name: check services
         run: wget -O- -S http://localhost
