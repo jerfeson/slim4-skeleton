@@ -25,8 +25,8 @@ jobs:
           MYSQL_ALLOW_EMPTY_PASSWORD: true
         ports:
           - 33306:3306
-      nginx:
-        image: nginx
+      web:
+        image: httpd:2.4
         ports:
           - 8080:80
     steps:
@@ -49,8 +49,8 @@ jobs:
       - name: Check PHP Extensions
         run: php -m
 
-      - name: Start nginx
-        run: sudo systemctl start nginx
+      - name: check apacheserver
+        run: sudo systemctl start apache2
 
       - name: Start MySQL
         run: sudo systemctl start mysql
