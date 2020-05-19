@@ -8,14 +8,14 @@ on:
 
 jobs:
   build:
-
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
         operating-system: [ubuntu-latest]
         php-versions: ['7.3']
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
-
+    volumes:
+      - .:nginx/usr/share/nginx/html
     services:
       mysql:
         image: mysql:5.7
@@ -27,8 +27,8 @@ jobs:
           - 33306:3306
       nginx:
         image: nginx
-#        volumes:
-#          - ~/var/www:/var/www
+        volumes:
+          - ~/var/www:/var/www
         ports:
           - 80:80
     steps:
