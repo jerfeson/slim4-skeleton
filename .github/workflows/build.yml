@@ -73,6 +73,6 @@ jobs:
       - name: Install tables
         run: composer console:migrate
 
-      - name: check services
-        run: console build:check
+      - name: Build
+        run: composer build:check
 
