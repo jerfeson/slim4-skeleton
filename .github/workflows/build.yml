@@ -55,7 +55,7 @@ jobs:
         run: wget -O- -S http://localhost
 
       - name: check services
-        run: ls /var/www/html
+        run: ls .
 
       - name: Start MySQL
         run: sudo systemctl start mysql
