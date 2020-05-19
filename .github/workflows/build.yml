@@ -27,7 +27,8 @@ jobs:
       nginx:
         image: nginx
         volumes:
-          - /home/runner/work/slim4-skeleton/slim4-skeleton:/usr/share/nginx/html
+          - ./:/usr/share/nginx/html
+          - ./config/vhosts:/etc/nginx/conf.d
         ports:
           - 80:80
     steps:
