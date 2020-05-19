@@ -52,10 +52,10 @@ jobs:
         run: php -m
 
       - name: check files
-        run: wget -O- -S http://localhost
+        run: ls /var
 
       - name: check services
-        run: ls .
+        run: wget -O- -S http://localhost
 
       - name: Start MySQL
         run: sudo systemctl start mysql
