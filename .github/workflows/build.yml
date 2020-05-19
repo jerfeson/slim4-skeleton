@@ -49,8 +49,8 @@ jobs:
       - name: Check PHP Extensions
         run: php -m
 
-      - name: check apacheserver
-        run: sudo systemctl start httpd
+      - name: check services
+        run: sudo systemctl list-units
 
       - name: Start MySQL
         run: sudo systemctl start mysql
