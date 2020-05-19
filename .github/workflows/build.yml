@@ -13,9 +13,10 @@ jobs:
       matrix:
         operating-system: [ubuntu-latest]
         php-versions: ['7.3']
+        volumes:
+          - .:nginx/usr/share/nginx/html
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
-    volumes:
-      - .:nginx/usr/share/nginx/html
+
     services:
       mysql:
         image: mysql:5.7
