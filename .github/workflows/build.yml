@@ -26,6 +26,8 @@ jobs:
           - 33306:3306
       nginx:
         image: nginx
+        volumes:
+          - /home/runner/work/slim4-skeleton/slim4-skeleton:/var/www/html
         ports:
           - 80:80
     steps:
@@ -49,7 +51,7 @@ jobs:
         run: php -m
 
       - name: check files
-        run: docker ps
+        run: ls /var
 
       - name: check services
         run: wget -O- -S http://localhost
