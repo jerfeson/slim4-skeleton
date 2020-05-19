@@ -54,12 +54,6 @@ jobs:
       - name: Check PHP Extensions
         run: php -m
 
-      - name: check files
-        run: ls /var
-
-      - name: check services
-        run: wget -O- -S http://localhost
-
       - name: Start MySQL
         run: sudo systemctl start mysql
 
@@ -77,4 +71,7 @@ jobs:
 
       - name: Install tables
         run: composer console:migrate
+
+      - name: check services
+        run: wget -O- -S http://localhost
 
