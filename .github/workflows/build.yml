@@ -32,6 +32,9 @@ jobs:
           - 80:80
     steps:
       - name: Prepare
+        run: ls ${{ github.workspace }}
+
+      - name: Prepare2
         run: sudo chown -R $USER:$USER /home/runner/work/slim4-skeleton/slim4-skeleton/
 
       - name: Checkout
