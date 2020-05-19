@@ -63,8 +63,8 @@ jobs:
       - name: Install tables
         run: composer console:migrate
 
-      - name: tests
-        uses: joelwmale/codeception-action@master
+      - name: Run chromedriver
+        run:  nohup $CHROMEWEBDRIVER/chromedriver --url-base=/wd/hub /dev/null 2>&1 &
 
       - name: Run test suite
         run: composer test
