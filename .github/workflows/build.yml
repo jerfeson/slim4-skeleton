@@ -27,8 +27,8 @@ jobs:
           - 33306:3306
       nginx:
         image: nginx
-        volumes:
-          - /./:/var/www/html
+#        volumes:
+#          - /./:/var/www/html
         ports:
           - 80:80
     steps:
