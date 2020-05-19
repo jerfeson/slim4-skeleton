@@ -50,7 +50,7 @@ jobs:
         run: php -m
 
       - name: check services
-        run: sudo systemctl list-units
+        run: cd public && php -S localhost:80
 
       - name: Start MySQL
         run: sudo systemctl start mysql
