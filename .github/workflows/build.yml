@@ -26,8 +26,6 @@ jobs:
           - 33306:3306
       nginx:
         image: wyveo/nginx-php-fpm:php73
-        links:
-          - mysql
         volumes:
           - ${{ github.workspace }}.github/workflows/vhost:/etc/nginx/conf.d
           - ${{ github.workspace }}:/usr/share/nginx/html
