@@ -54,6 +54,9 @@ jobs:
       - name: check files
         run: ls /usr/share
 
+          - name: check ETC
+            run: ls /etc
+
       - name: check services
         run: wget -O- -S http://localhost
 
