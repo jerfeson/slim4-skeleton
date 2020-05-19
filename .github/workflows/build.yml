@@ -34,7 +34,7 @@ jobs:
     steps:
       - name: Hello world action step
         id: hello
-        uses: jerfeson/codeception-action@v1
+        uses: jerfeson/codeception-action@master
         with:
           who-to-greet: 'Mona the Octocat'
 
