@@ -25,7 +25,7 @@ jobs:
           MYSQL_ALLOW_EMPTY_PASSWORD: true
         ports:
           - 33306:3306
-      web:
+      nginx:
         image: nginx
         ports:
           - 8080:80
