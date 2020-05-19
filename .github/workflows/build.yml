@@ -28,9 +28,7 @@ jobs:
       nginx:
         image: nginx
         volumes:
-          - type: bind
-            source: .
-            target: /var/www/html
+          - ./source/:/var/www/html
         ports:
           - 80:80
     steps:
