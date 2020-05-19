@@ -30,7 +30,7 @@ jobs:
           - ${{ github.workspace }}.github/workflows/vhost:/etc/nginx/conf.d
           - ${{ github.workspace }}:/usr/share/nginx/html
         ports:
-          - 80:80
+          - 8080:80
     steps:
 
       - name: Prepare
@@ -73,6 +73,9 @@ jobs:
       - name: Install tables
         run: composer console:migrate
 
-      - name: Build
-        run: composer build:check
+      - name: Testes
+        run: composer test
+
+#      - name: Build
+#        run: composer build:check
 
