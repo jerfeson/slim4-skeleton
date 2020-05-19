@@ -52,7 +52,7 @@ jobs:
         run: php -m
 
       - name: check files
-        run: ls /
+        run: ls /usr/share/nginx/html
 
       - name: check services
         run: wget -O- -S http://localhost
