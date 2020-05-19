@@ -49,8 +49,8 @@ jobs:
       - name: Check PHP Extensions
         run: php -m
 
-      - name: Check NGINX
-        run: service nginx status
+      - name: Start nginx
+        run: sudo systemctl start nginx
 
       - name: Start MySQL
         run: sudo systemctl start mysql
