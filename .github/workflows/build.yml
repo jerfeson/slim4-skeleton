@@ -33,7 +33,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Change permission folders
-        run: sudo chmod -R 660 ${{ github.workspace }}/data/
+        run: sudo chmod -R 660 ${{ github.workspace }}/data/keys/oauth/
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
