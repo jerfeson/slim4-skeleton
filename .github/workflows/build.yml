@@ -66,4 +66,4 @@ jobs:
         run: composer console:migrate
 
       - name: tests
-        uses: jerfeson/codeception-action@v1
+        uses: jerfeson/codeception-action@v2
