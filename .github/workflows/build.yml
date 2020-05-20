@@ -25,7 +25,6 @@ jobs:
         ports:
           - 33306:3306
     steps:
-
       - name: Prepare
         run: sudo chown -R $USER:$USER ${{ github.workspace }}
 
