@@ -30,39 +30,39 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
-#      - name: Setup PHP
-#        uses: shivammathur/setup-php@v1
-#        with:
-#          php-version: ${{ matrix.php-versions }}
-#          extensions: mbstring, pdo, pdo_mysql, intl, zip, json, xdebug
-#          coverage: true
-#
-#      - name: Check PHP Version
-#        run: php -v
-#
-#      - name: Check Composer Version
-#        run: composer -V
-#
-#      - name: Check PHP Extensions
-#        run: php -m
-#
-#      - name: Start MySQL
-#        run: sudo systemctl start mysql
-#
-#      - name: Create database
-#        run: mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS slim_skeleton CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'
-#
-#      - name: Copy settings
-#        run: cp config/env.exemplo.php config/development.php
-#
-#      - name: Validate composer.json and composer.lock
-#        run: composer validate
-#
-#      - name: Install dependencies
-#        run: composer install --prefer-dist --no-progress
-#
-#      - name: Install tables
-#        run: composer console:migrate
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, pdo, pdo_mysql, intl, zip, json, xdebug
+          coverage: true
+
+      - name: Check PHP Version
+        run: php -v
+
+      - name: Check Composer Version
+        run: composer -V
+
+      - name: Check PHP Extensions
+        run: php -m
+
+      - name: Start MySQL
+        run: sudo systemctl start mysql
+
+      - name: Create database
+        run: mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS slim_skeleton CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'
+
+      - name: Copy settings
+        run: cp config/env.exemplo.php config/development.php
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Install tables
+        run: composer console:migrate
 
       - name: tests
         uses: jerfeson/codeception-action@master
