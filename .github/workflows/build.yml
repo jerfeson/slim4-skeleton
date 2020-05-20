@@ -33,7 +33,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Change permission folders
-        run: sudo chmod -R 660 ${{ github.workspace }}/data/keys/oauth/
+        run: sudo chmod 660 ${{ github.workspace }}/data/keys/oauth/public.key && sudo chmod 660 ${{ github.workspace }}/data/keys/oauth/private.key
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
@@ -70,4 +70,4 @@ jobs:
         run: composer console:migrate
 
       - name: tests
-        uses: jerfeson/codeception-action@v6
+        uses: jerfeson/codeception-action@v7
