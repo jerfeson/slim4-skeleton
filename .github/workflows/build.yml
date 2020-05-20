@@ -32,8 +32,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Prepare
-        run: sudo chmod -R 660 $USER:$USER ${{ github.workspace }}/data/
+      - name: Change permission folders
+        run: sudo chmod -R 660 ${{ github.workspace }}/data/
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
