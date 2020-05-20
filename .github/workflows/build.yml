@@ -65,12 +65,6 @@ jobs:
       - name: Install tables
         run: composer console:migrate
 
-      - name: Testes
-        run: composer test
-
-      - name: Build
-        run: composer build:check
-
       - name: tests
         uses: jerfeson/codeception-action@master
 
