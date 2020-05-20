@@ -34,11 +34,7 @@ jobs:
     steps:
       - name: tests
         uses: jerfeson/codeception-action@master
-        with:
-          who-to-greet: 'Mona the Octocat'
-      # Use the output from the `hello` step
-      - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+
 #      - name: Prepare
 #        run: sudo chown -R $USER:$USER ${{ github.workspace }}
 #
