@@ -32,8 +32,7 @@ jobs:
 #        ports:
 #          - 80:80
     steps:
-      - name: Hello world action step
-        id: hello
+      - name: tests
         uses: jerfeson/codeception-action@master
         with:
           who-to-greet: 'Mona the Octocat'
