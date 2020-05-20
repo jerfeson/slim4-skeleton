@@ -25,14 +25,15 @@ jobs:
         ports:
           - 33306:3306
     steps:
-      - name: Prepare
-        run: sudo chmod -R 660 $USER:$USER ${{ github.workspace }}/data/
 
       - name: Prepare
         run: sudo chown -R $USER:$USER ${{ github.workspace }}
 
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Prepare
+        run: sudo chmod -R 660 $USER:$USER ${{ github.workspace }}/data/
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
