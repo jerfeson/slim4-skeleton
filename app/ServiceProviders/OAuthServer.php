@@ -42,7 +42,7 @@ class OAuthServer implements ProviderInterface
                 $clienteRepository,
                 $tokenRepository,
                 $scopeRepository,
-                file_get_contents($oauth2Config['private_key']),
+                $oauth2Config['private_key'],
                 self::ENCRYPTION_KEY
             );
 

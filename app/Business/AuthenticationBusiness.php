@@ -57,7 +57,7 @@ class AuthenticationBusiness extends Business
     {
         $oauth2Config = app()->getConfig('oauth2');
 
-        $publicKey = file_get_contents($oauth2Config['public_key']);
+        $publicKey = $oauth2Config['public_key'];
         if (!$publicKey) {
             throw new OAuthServerException(
                 Message::PUBLIC_KEYS_NOT_DEFINED,
