@@ -17,14 +17,15 @@ use Codeception\Util\HttpCode;
 class LoginCest
 {
     private $token;
-    private $tokenParams;
+    private $tokenSuccessParams;
+    private $tokenFailParams;
 
     /**
      * @param ApiTester $I
      */
     public function _before(ApiTester $I)
     {
-        $this->tokenParams = [
+        $this->tokenSuccessParams = [
             'grant_type' => 'password',
             'client_id' => '1',
             'client_secret' => 'Administration',
@@ -32,13 +33,22 @@ class LoginCest
             'password' => '123',
             'redirect_uri' => 'TESTE',
         ];
+
+        $this->tokenFailParams = [
+            'grant_type' => 'password',
+            'client_id' => '1',
+            'client_secret' => 'Administration',
+            'username' => 'admin',
+            'password' => '321',
+            'redirect_uri' => 'TESTE',
+        ];
     }
 
     // tests
-    public function getTokenAPI(ApiTester $I)
+    public function getTokenSuccessAPI(ApiTester $I)
     {
         $I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
-        $I->sendPOST('authentication/authentication/token', $this->tokenParams);
+        $I->sendPOST('authentication/authentication/token', $this->tokenSuccessParams);
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseIsJson();
         $I->seeResponseContains('Bearer');
@@ -50,8 +60,17 @@ class LoginCest
         $this->token = $response->access_token;
     }
 
+    // tests
+    public function getTokenFailAPI(ApiTester $I)
+    {
+        $I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
+        $I->sendPOST('authentication/authentication/token', $this->tokenFailParams);
+        $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
+        $I->seeResponseIsJson();
+    }
+
     //test
-    public function loginApi(ApiTester $I)
+    public function loginSuccessApi(ApiTester $I)
     {
         $I->amBearerAuthenticated($this->token);
         $I->sendPOST('authentication/authentication/login');
