@@ -39,6 +39,7 @@ Run this command from the directory in which you want to install your new Slim F
 Replace `[my-app-name]` with the desired directory name for your new application. You'll want to:
 
 * Point your virtual host document root to your new application's `public/` directory.
+* Install the dependencies `composer install --prefer-dist --no-progress`.
 * Ensure `storage/` is web writable.
 * make the necessary changes in config file config/app.php
 
@@ -58,7 +59,7 @@ Create a new database for development
 
 Copy the file: config/env.example.php to config/development.php
 
-    cp config/env.example.php config/development.php
+    cp config/env.exemplo.php config/development.php
     
 Change the connection configuration in config/development.php:
 

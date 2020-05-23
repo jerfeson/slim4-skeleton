@@ -23,7 +23,6 @@ $app->any('/{class}/{method}', function (Request $request, Response $response, $
 
 /*API ROUTE*/
 $app->any('/api/v1/{module}/{class}/{method}', function (Request $request, Response $response, $args) use ($app) {
-
     $nameSpace = "\App\Http\Api\V1\\" . ucfirst($args['module']);
     $method = $args['method'] . 'Action';
     $class = ucfirst($args['class']);
