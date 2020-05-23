@@ -9,7 +9,6 @@ use DI\ContainerBuilder;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
-use HttpException;
 use Lib\Utils\DotNotation;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -19,6 +18,7 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionParameter;
+use Slim\Exception\HttpException;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
 
@@ -250,7 +250,7 @@ class App
                 $this->getContainer()->get(
                     Request::class
                 ),
-                HttpErrorHandler::RESOURCE_NOT_FOUND,
+                $e->getMessage(),
                 404
             );
         }

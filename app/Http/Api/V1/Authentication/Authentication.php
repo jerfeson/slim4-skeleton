@@ -60,7 +60,17 @@ class Authentication extends Controller
         try {
             return $this->getOAuthServer()->respondToAccessTokenRequest($this->getRequest(), $this->getResponse());
         } catch (Exception $e) {
-            return $this->getResponse()->withStatus(HttpStatusCode::UNAUTHORIZED);
+            $payload = [
+                'result' => Message::STATUS_ERROR,
+                'message' => $e->getMessage(),
+            ];
+
+            $this->getResponse()->getBody()->write(json_encode($payload));
+
+            return $this->getResponse()->withHeader(
+                'Content-Type',
+                'application/json'
+            )->withStatus(HttpStatusCode::UNAUTHORIZED);
         }
     }
 

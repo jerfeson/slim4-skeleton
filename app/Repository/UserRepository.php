@@ -63,7 +63,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
         $query->where('username', '=', $username);
 
         $user = $this->doQuery($query, false, false)->first();
-        if (!$user->password && !Password::verify($password, $user->password)) {
+        if (!Password::verify($password, $user->password)) {
             throw new Exception(Message::ACCESS_DENIED);
         }
 

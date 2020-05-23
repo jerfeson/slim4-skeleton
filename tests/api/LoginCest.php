@@ -30,7 +30,7 @@ class LoginCest
             'client_id' => '1',
             'client_secret' => 'Administration',
             'username' => 'admin',
-            'password' => '123',
+            'password' => 'admin',
             'redirect_uri' => 'TESTE',
         ];
 
@@ -39,7 +39,7 @@ class LoginCest
             'client_id' => '1',
             'client_secret' => 'Administration',
             'username' => 'admin',
-            'password' => '321',
+            'password' => '123',
             'redirect_uri' => 'TESTE',
         ];
     }
