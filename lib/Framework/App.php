@@ -68,13 +68,18 @@ class App
 
         // Instantiate PHP-DI ContainerBuilder
         $containerBuilder = new ContainerBuilder();
-        AppFactory::setContainer($containerBuilder->build());
+        // Should be set to true in production
+        if ($this->isProduction($this->settings)) {
+            $containerBuilder->enableCompilation(__DIR__ . '/../var/cache');
+        }
+        $container = $containerBuilder->build();
+        AppFactory::setContainer($container);
         $this->app = AppFactory::create();
 
-        $this->prepare($containerBuilder);
+        $this->prepare();
     }
 
-    private function prepare($containerBuilder)
+    private function prepare()
     {
         /**
          * The routing middleware should be added before the ErrorMiddleware
@@ -94,10 +99,6 @@ class App
         $this->getContainer()->set(Response::class, $response);
 
         $this->errorHandlers();
-        // Should be set to true in production
-        if ($this->isProduction($this->settings)) {
-            $containerBuilder->enableCompilation(__DIR__ . '/../var/cache');
-        }
     }
 
     /**
