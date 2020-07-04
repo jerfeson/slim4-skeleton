@@ -26,7 +26,8 @@
         "league/flysystem": "1.0.*",
         "league/oauth2-server": "8.1.*",
         "phpmailer/phpmailer": "6.1.*",
-        "naroga/redis-cache": "1.0.*"
+        "naroga/redis-cache": "1.0.*",
+        "ext-json": "*"
     },
     "license": "MIT",
     "authors": [

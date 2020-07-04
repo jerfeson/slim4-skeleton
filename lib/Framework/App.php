@@ -5,7 +5,7 @@ namespace Lib\Framework;
 use App\Handlers\HttpErrorHandler;
 use App\Handlers\ShutdownHandler;
 use App\ServiceProviders\ProviderInterface;
-use DI\ContainerBuilder;
+use DI\Container;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
@@ -21,6 +21,7 @@ use ReflectionParameter;
 use Slim\Exception\HttpException;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
+use Slim\Routing\RouteContext;
 
 /**
  * Class App.
@@ -67,37 +68,19 @@ class App
         $this->settings = $settings;
 
         // Instantiate PHP-DI ContainerBuilder
-        $containerBuilder = new ContainerBuilder();
-        // Should be set to true in production
-        if ($this->isProduction($this->settings)) {
-            $containerBuilder->enableCompilation(__DIR__ . '/../var/cache');
-        }
-        $container = $containerBuilder->build();
+        $container = new Container();
+
         AppFactory::setContainer($container);
         $this->app = AppFactory::create();
-
-        $this->prepare();
     }
 
-    private function prepare()
+    /**
+     *
+     */
+    public function prepare()
     {
-        /**
-         * The routing middleware should be added before the ErrorMiddleware
-         * Otherwise exceptions thrown from it will not be handled.
-         */
+        // Add Routing Middleware
         $this->app->addRoutingMiddleware();
-
-        $this->app->add(function (Request $request, RequestHandler $handler) {
-            return $handler->handle($request);
-        });
-
-        $serverRequestCreator = ServerRequestCreatorFactory::create();
-        $request = $serverRequestCreator->createServerRequestFromGlobals();
-        $response = $this->app->getResponseFactory()->createResponse();
-
-        $this->getContainer()->set(Request::class, $request);
-        $this->getContainer()->set(Response::class, $response);
-
         $this->errorHandlers();
     }
 
@@ -109,20 +92,15 @@ class App
         return $this->app->getContainer();
     }
 
+    /**
+     *
+     */
     private function errorHandlers()
     {
         $displayErrorDetails = $this->getConfig('default.debug');
         $callableResolver = $this->app->getCallableResolver();
         $responseFactory = $this->app->getResponseFactory();
-
         $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
-
-        $shutdownHandler = new ShutdownHandler(
-            $this->getContainer()->get(Request::class),
-            $errorHandler,
-            $displayErrorDetails
-        );
-        register_shutdown_function($shutdownHandler);
         $errorMiddleware = $this->app->addErrorMiddleware($displayErrorDetails, false, false);
         $errorMiddleware->setDefaultErrorHandler($errorHandler);
     }
@@ -147,9 +125,9 @@ class App
      * @param string $appName
      * @param array $settings
      *
+     * @return App
      * @throws Exception
      *
-     * @return App
      */
     final public static function instance($appName = '', $settings = [])
     {
@@ -164,9 +142,9 @@ class App
      * @param $fn
      * @param array $args
      *
+     * @return mixed
      * @throws Exception
      *
-     * @return mixed
      */
     public function __call($fn, $args = [])
     {
@@ -178,6 +156,7 @@ class App
         }
         throw new Exception('Method not found :: ' . $fn);
     }
+
 
     /**
      * register providers.
@@ -228,18 +207,22 @@ class App
     /**
      * resolve and call a given class / method.
      *
+     * @param Request $request
+     * @param Response $response
      * @param string $className
      * @param string $methodName
      * @param array $requestParams
      * @param string $namespace
      *
+     * @return Response
      * @throws HttpException
      * @throws ReflectionException
-     *
-     * @return Response
      */
-    public function resolveRoute($className, $methodName, $requestParams = [], $namespace = "\App\Http")
+    public function resolveRoute(Request $request, Response $response, $className, $methodName, $requestParams = [], $namespace = "\App\Http")
     {
+        $this->app->getContainer()->set(Request::class, $request);
+        $this->app->getContainer()->set(Response::class, $response);
+
         try {
             $class = new ReflectionClass($namespace . '\\' . $className);
 
@@ -264,7 +247,7 @@ class App
 
         $ret = $method->invokeArgs($controller, $args);
 
-        return  $this->sendResponse($ret);
+        return $this->sendResponse($ret);
     }
 
     /**
@@ -324,9 +307,9 @@ class App
      * @param string $name
      * @param array $params
      *
+     * @return mixed
      * @throws ReflectionException
      *
-     * @return mixed
      */
     public function resolve($name, $params = [])
     {
@@ -359,9 +342,9 @@ class App
      *
      * @param mixed $resp
      *
+     * @return mixed|Response
      * @throws ReflectionException
      *
-     * @return mixed|Response
      */
     public function sendResponse($resp)
     {

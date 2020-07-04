@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Application\Actions\ActionPayload;
+use App\Helpers\Payload\Payload;
 use App\Message\Message;
 use Exception;
 use League\OAuth2\Server\AuthorizationServer;
@@ -57,7 +59,6 @@ abstract class Controller
 
     /**
      * Controller constructor.
-     *
      * @param Request $request
      * @param Response $response
      * @param Twig $view
@@ -66,13 +67,13 @@ abstract class Controller
      * @param AuthorizationServer $oAuthServer
      */
     public function __construct(
-        Request $request,
-        Response $response,
+        Request $request, Response $response,
         Twig $view,
         LoggerInterface $logger,
         Messages $flash,
         AuthorizationServer $oAuthServer
-    ) {
+    )
+    {
         $this->setRequest($request);
         $this->setResponse($response);
         $this->setView($view);
@@ -178,9 +179,11 @@ abstract class Controller
     }
 
     /**
+     * @return mixed
      * @throws Exception
      *
-     * @return mixed
+     * @throws Exception
+     *
      */
     protected function getBusiness()
     {
@@ -194,4 +197,31 @@ abstract class Controller
 
         return $this->business;
     }
+
+
+    /**
+     * @param array|object|null $data
+     * @return Response
+     */
+    protected function respondWithData($data = null, int $statusCode = 200): Response
+    {
+        $payload = new Payload($statusCode, $data);
+
+        return $this->response($payload);
+    }
+
+    /**
+     * @param Payload $payload
+     * @return Response
+     */
+    protected function respond(Payload $payload): Response
+    {
+        $json = json_encode($payload, JSON_PRETTY_PRINT);
+        $this->getResponse()->getBody()->write($json);
+
+        return $this->response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus($payload->getStatusCode());
+    }
+
 }

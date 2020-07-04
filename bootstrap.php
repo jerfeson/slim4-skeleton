@@ -27,10 +27,14 @@ $app->registerProviders();
 // Register middleware
 $app->registerMiddleware();
 
+
 if ($appType == 'console') {
     return $app;
 }
 
 // include your routes for http requests here
 require CONFIG_PATH . 'routes' . DS . 'app.php';
+
+$app->prepare();
+
 $app->run();
