@@ -6,6 +6,11 @@ namespace App\Model;
  * Class OAuthAuthCodeModel.
  *
  * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
+ *
  */
 class OAuthAuthCodeModel extends Model
 {

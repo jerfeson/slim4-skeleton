@@ -2,41 +2,38 @@
 
 namespace App\Model;
 
-use League\OAuth2\Server\Entities\ClientEntityInterface;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * Class ClientModel.
  *
  * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
+ * @since   1.1.0
+ *
+ * @version 1.1.0
+ *
  */
-class ClientModel extends Model implements ClientEntityInterface
+class ClientModel extends Model
 {
-    const STATUS_ACTIVE = 1;
-    const STATUS_INACTIVE = 0;
-
     protected $table = 'client';
     protected $fillable = ['name', 'status'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function client()
+    public function oAuthClient()
     {
         return $this->hasOne(OAuthClientModel::class, 'id', 'oauth_client_id');
     }
 
-    public function getName()
-    {
-        // TODO: Implement getName() method.
-    }
 
-    public function getRedirectUri()
+    /**
+     * @return HasMany
+     */
+    public function user()
     {
-        // TODO: Implement getRedirectUri() method.
-    }
-
-    public function isConfidential()
-    {
-        // TODO: Implement isConfidential() method.
+        return $this->hasMany(UserModel::class, 'client_id', 'id');
     }
 }
