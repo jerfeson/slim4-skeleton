@@ -2,14 +2,15 @@
 
 namespace App\Http;
 
-use App\Application\Actions\ActionPayload;
 use App\Helpers\Payload\Payload;
 use App\Message\Message;
+use App\Validation\Validator;
 use Exception;
 use League\OAuth2\Server\AuthorizationServer;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
+use Slim\Csrf\Guard;
 use Slim\Flash\Messages;
 use Slim\Views\Twig;
 
@@ -58,6 +59,17 @@ abstract class Controller
     private $oAuthServer;
 
     /**
+     * @var Validator
+     */
+    private $validator;
+
+    /**
+     * @var Guard
+     */
+    private $csrf;
+
+
+    /**
      * Controller constructor.
      * @param Request $request
      * @param Response $response
@@ -65,13 +77,17 @@ abstract class Controller
      * @param LoggerInterface $logger
      * @param Messages $flash
      * @param AuthorizationServer $oAuthServer
+     * @param Validator $validator
+     * @param Guard $csrf
      */
     public function __construct(
         Request $request, Response $response,
         Twig $view,
         LoggerInterface $logger,
         Messages $flash,
-        AuthorizationServer $oAuthServer
+        AuthorizationServer $oAuthServer,
+        Validator $validator,
+        Guard $csrf
     )
     {
         $this->setRequest($request);
@@ -80,14 +96,8 @@ abstract class Controller
         $this->setLogger($logger);
         $this->setFlash($flash);
         $this->setOAuthServer($oAuthServer);
-    }
-
-    /**
-     * @param Request $request
-     */
-    private function setRequest(Request $request): void
-    {
-        $this->request = $request;
+        $this->setValidator($validator);
+        $this->setCsrf($csrf);
     }
 
     /**
@@ -120,22 +130,6 @@ abstract class Controller
     private function setFlash(Messages $flash): void
     {
         $this->flash = $flash;
-    }
-
-    /**
-     * @return Request
-     */
-    public function getRequest(): Request
-    {
-        return $this->request;
-    }
-
-    /**
-     * @return Response
-     */
-    public function getResponse(): Response
-    {
-        return $this->response;
     }
 
     /**
@@ -179,6 +173,38 @@ abstract class Controller
     }
 
     /**
+     * @return Validator
+     */
+    public function getValidator(): Validator
+    {
+        return $this->validator;
+    }
+
+    /**
+     * @param Validator $validator
+     */
+    public function setValidator(Validator $validator): void
+    {
+        $this->validator = $validator;
+    }
+
+    /**
+     * @return Guard
+     */
+    public function getCsrf(): Guard
+    {
+        return $this->csrf;
+    }
+
+    /**
+     * @param Guard $csrf
+     */
+    public function setCsrf(Guard $csrf): void
+    {
+        $this->csrf = $csrf;
+    }
+
+    /**
      * @return mixed
      * @throws Exception
      *
@@ -198,6 +224,29 @@ abstract class Controller
         return $this->business;
     }
 
+    /**
+     * @return Request
+     */
+    public function getRequest(): Request
+    {
+        return $this->request;
+    }
+
+    /**
+     * @param Request $request
+     */
+    protected function setRequest(Request $request): void
+    {
+        $this->request = $request;
+    }
+
+    /**
+     * @return Response
+     */
+    public function getResponse(): Response
+    {
+        return $this->response;
+    }
 
     /**
      * @param array|object|null $data
@@ -214,7 +263,7 @@ abstract class Controller
      * @param Payload $payload
      * @return Response
      */
-    protected function respond(Payload $payload): Response
+    protected function response(Payload $payload): Response
     {
         $json = json_encode($payload, JSON_PRETTY_PRINT);
         $this->getResponse()->getBody()->write($json);
@@ -223,5 +272,4 @@ abstract class Controller
             ->withHeader('Content-Type', 'application/json')
             ->withStatus($payload->getStatusCode());
     }
-
 }

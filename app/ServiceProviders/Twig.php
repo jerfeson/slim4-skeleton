@@ -2,7 +2,11 @@
 
 namespace App\ServiceProviders;
 
+use App\Twig\AppExtension;
+use App\Twig\CsrfExtension;
 use App\Twig\FilesystemLoader;
+use Lib\Utils\Session;
+use Slim\Csrf\Guard;
 use Twig\Extension\DebugExtension;
 
 /**
@@ -12,7 +16,7 @@ use Twig\Extension\DebugExtension;
  *
  * @since   1.0.0
  *
- * @version 1.0.0
+ * @version 1.1.0
  */
 class Twig implements ProviderInterface
 {
@@ -22,7 +26,14 @@ class Twig implements ProviderInterface
             $settings = app()->getConfig('twig');
             $loader = new FilesystemLoader($settings['templates']);
             $twig = new \Slim\Views\Twig($loader, $settings['settings']);
+            $guard = app()->getContainer()->get(Guard::class);
+
             $twig->addExtension(new DebugExtension());
+            $twig->addExtension(new AppExtension());
+            $twig->addExtension(new CsrfExtension($guard));
+
+            //Global vars
+            $twig->getEnvironment()->addGlobal('app_session', Session::get('user'));
 
             return $twig;
         });

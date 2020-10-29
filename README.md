@@ -22,6 +22,8 @@ Available service providers:
 - [Flash Message]
 - [Codeception]
 - [oAuth2]
+- [Validation]
+- [CSRF]
 
 ## Requirements
 
@@ -55,7 +57,7 @@ Replace `[my-app-name]` with the desired directory name for your new application
 ## Database setup
 Create a new database for development
 
-    mysql -e 'CREATE DATABASE IF NOT EXISTS default'
+    mysql -e 'CREATE DATABASE IF NOT EXISTS slim_skeleton'
 
 Copy the file: config/env.example.php to config/development.php
 
@@ -288,3 +290,5 @@ This project is based on the project in [jupitern/slim3-skeleton] feel free to c
 [Redis Cache]:https://github.com/naroga/redis-cache
 [Secure PHP Encryption Library]:https://github.com/defuse/php-encryption
 [PBKDF2]:https://github.com/defuse/php-encryption
+[Validation]:https://github.com/jerfeson/slim-validation
+[CSRF]:https://github.com/slimphp/Slim-Csrf

@@ -7,7 +7,7 @@ use Slim\Csrf\Guard;
 /**
  * Class Csrf.
  *
- * @author Jerfeson Guerreiro <jerfeson@codeis.com.br>
+ * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  *
  * @since 1.1.0
  *

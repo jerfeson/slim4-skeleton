@@ -16,7 +16,7 @@ use Twig\Error\SyntaxError;
  *
  * @since   1.0.0
  *
- * @version 1.0.0
+ * @version 1.1.0
  */
 class Welcome extends Controller
 {
@@ -36,14 +36,9 @@ class Welcome extends Controller
         //flash message
         $this->getFlash()->addMessage(Message::STATUS_SUCCESS, 'A flash message');
 
-        $users = $this->getBusiness()->getAll();
-
         return $this->getView()->render(
             $this->getResponse(),
-            '@site/test/welcome.twig',
-            [
-                'users' => $users,
-            ]
+            '@site/homepage/welcome.twig'
         );
     }
 }

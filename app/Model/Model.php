@@ -13,6 +13,17 @@ namespace App\Model;
  */
 abstract class Model extends \Illuminate\Database\Eloquent\Model
 {
+
+    /**
+     * @var int
+     */
+    public const STATUS_ACTIVE = 1;
+
+    /**
+     * @var int
+     */
+    public const STATUS_INACTIVE = 0;
+
     /**
      * @var bool
      */

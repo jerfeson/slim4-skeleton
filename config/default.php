@@ -98,11 +98,15 @@ $default['providers'] = [
     App\ServiceProviders\FileSystem::class => 'http,console',
     App\ServiceProviders\Mailer::class => 'http,console',
     App\ServiceProviders\OAuthServer::class => 'http,console',
+    App\ServiceProviders\Validator::class => 'http,console',
+    App\ServiceProviders\Csrf::class => 'http,console',
 ];
 
 // add your middleware here
 $default['middleware'] = [
     App\Middleware\Session::class => 'http',
+    App\Middleware\Csrf::class => 'http',
+    App\Middleware\OAuth::class => 'http',
     App\Middleware\Flash::class => 'http',
 ];
 

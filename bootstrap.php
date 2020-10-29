@@ -10,7 +10,13 @@ define('PUBLIC_PATH', realpath(__DIR__ . '/public/') . DS);
 define('LIB_PATH', realpath(__DIR__ . '/lib/') . DS);
 define('DATA_PATH', realpath(__DIR__ . '/data/') . DS);
 
-require ROOT_PATH . 'vendor' . DS . 'autoload.php';
+$autoload = ROOT_PATH . 'vendor' . DS . 'autoload.php';
+
+if (!file_exists($autoload)) {
+    throw new Exception("Please install the project dependencies using the command (composer install or composer install --no-dev)");
+}
+
+require $autoload;
 
 $appType = php_sapi_name() == 'cli' ? 'console' : 'http';
 

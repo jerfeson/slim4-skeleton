@@ -1,0 +1,37 @@
+{% extends "@site/layout/main.twig" %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jumbotron">
+                <h2>Welcome to SLIM4!</h2>
+                <p>
+                    Slim4 skeleton (http + cli + oauth2) with some add-ons out of the box<br/>
+                    built by <a href="https://github.com/jerfeson">Jerfeson Guerreiro</a>.
+                </p>
+                <hr>
+                <h2>Available service providers:</h2>
+                <ul>
+                    <li>SlashTrace</li>
+                    <li>Monolog</li>
+                    <li>Eloquent</li>
+                    <li>Twig</li>
+                    <li>FlySystem</li>
+                    <li>Redis Cache</li>
+                    <li>Flash Message ({{ message.message }})</li>
+                    <li>Codeception</li>
+                    <li>oAuth2</li>
+                    <li><a href="https://github.com/jerfeson/slim-validation">Validation</a></li>
+                    <li>CSRF</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% include "@site/layout/login.twig" %}
+{% endblock %}
+{% block page_styles %}
+    {# someone style here #}
+{% endblock %}
+{% block page_scripts %}
+    {# someone script here #}
+    <script src="/common/js/login.js"></script>
+{% endblock %}

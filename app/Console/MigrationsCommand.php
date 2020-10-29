@@ -3,8 +3,7 @@
 namespace App\Console;
 
 use App\Helpers\Password;
-use App\Model\ClientModel;
-use App\Model\UserModel;
+use App\Model\Model;
 use DateTime;
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Schema\Builder;
@@ -239,7 +238,6 @@ class MigrationsCommand extends Command
     private function data($connection)
     {
         $date = new DateTime();
-        $nameClient = 'Administration';
 
         $connection->table('user_profile')->insert([
             'name' => 'Administrator',
@@ -249,15 +247,15 @@ class MigrationsCommand extends Command
 
         $connection->table('oauth_client')->insert([
             //  Define your secret pattern
-            'secret' => Password::hash($nameClient),
+            'secret' => Password::hash(12345),
             'created_at' => $date,
             'updated_at' => $date,
         ]);
 
         $connection->table('client')->insert([
-            'name' => $nameClient,
+            'name' => 'Administration',
             'oauth_client_id' => 1,
-            'status' => ClientModel::STATUS_ACTIVE,
+            'status' => Model::STATUS_ACTIVE,
             'created_at' => $date,
             'updated_at' => $date,
         ]);
@@ -267,7 +265,7 @@ class MigrationsCommand extends Command
             'client_id' => 1,
             'username' => 'admin',
             'password' => Password::hash('admin'),
-            'status' => UserModel::STATUS_ACTIVE,
+            'status' => Model::STATUS_ACTIVE,
             'created_at' => $date,
             'updated_at' => $date,
         ]);
