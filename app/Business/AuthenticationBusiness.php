@@ -81,7 +81,10 @@ class AuthenticationBusiness extends Business
 
             $header = $this->getRequest()->getHeader('authorization');
             $token = trim((string)preg_replace('/^(?:\s+)?Bearer\s/', '', $header[0]));
-
+            /**
+             * Record your token for validation during the session at the place you think best
+             * @see \App\Middleware\OAuth
+             */
             Session::set(
                 'user',
                 [
