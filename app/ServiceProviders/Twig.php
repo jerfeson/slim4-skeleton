@@ -5,6 +5,7 @@ namespace App\ServiceProviders;
 use App\Twig\AppExtension;
 use App\Twig\CsrfExtension;
 use App\Twig\FilesystemLoader;
+use Lib\Framework\App;
 use Lib\Utils\Session;
 use Slim\Csrf\Guard;
 use Twig\Extension\DebugExtension;
@@ -34,6 +35,13 @@ class Twig implements ProviderInterface
 
             //Global vars
             $twig->getEnvironment()->addGlobal('app_session', Session::get('user'));
+            $version = '1.0.0';
+
+            if (app()->getConfig('default.env') === App::DEVELOPMENT) {
+                $version = time();
+            }
+
+            $twig->getEnvironment()->addGlobal('app_version', $version);
 
             return $twig;
         });

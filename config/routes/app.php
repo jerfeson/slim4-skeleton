@@ -5,7 +5,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 // example route to resolve request to uri '/' to \\App\\Http\\Site\\Welcome::index
 $app->any('/', function (Request $request, Response $response, $args) use ($app) {
-    return $app->resolveRoute($request, $response, 'Welcome', 'index', $args, '\App\Http\Site');
+    return $app->resolveRoute('Welcome', 'index', $args, '\App\Http\Site');
 });
 
 $app->get('/hello/{name}', function (Request $request, Response $response, $args) {
@@ -18,7 +18,7 @@ $app->get('/hello/{name}', function (Request $request, Response $response, $args
 // example route to resolve request to that matches '/{class}/{method}'
 // resolveRoute will try to find a corresponding class::method in a given namespace
 $app->any('/{class}/{method}', function (Request $request, Response $response, $args) use ($app) {
-    return $app->resolveRoute($request, $response, $args['class'], $args['method'], $args, '\App\Http\Site');
+    return $app->resolveRoute($args['class'], $args['method'], $args, '\App\Http\Site');
 });
 
 /*API ROUTE*/
@@ -27,5 +27,5 @@ $app->any('/api/v1/{module}/{class}/{method}', function (Request $request, Respo
     $method = $args['method'] . 'Action';
     $class = ucfirst($args['class']);
 
-    return $app->resolveRoute($request, $response, $class, $method, $args, $nameSpace);
+    return $app->resolveRoute($class, $method, $args, $nameSpace);
 });

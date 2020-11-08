@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder as EloquentQueryBuilder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Pagination\AbstractPaginator as Paginator;
 use Illuminate\Support\Collection;
@@ -55,7 +56,7 @@ abstract class Repository
     /**
      * @throws Exception
      *
-     * @return mixed
+     * @return Builder
      */
     protected function newQuery()
     {

@@ -3,9 +3,9 @@
 namespace Lib\Framework;
 
 use App\Handlers\HttpErrorHandler;
-use App\Handlers\ShutdownHandler;
 use App\ServiceProviders\ProviderInterface;
 use DI\Container;
+use DI\ContainerBuilder;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
@@ -13,7 +13,6 @@ use Lib\Utils\DotNotation;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
@@ -21,7 +20,6 @@ use ReflectionParameter;
 use Slim\Exception\HttpException;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
-use Slim\Routing\RouteContext;
 
 /**
  * Class App.
@@ -30,7 +28,7 @@ use Slim\Routing\RouteContext;
  *
  * @since   1.0.0
  *
- * @version 1.0.0
+ * @version 1.1.0
  */
 class App
 {
@@ -72,11 +70,13 @@ class App
 
         AppFactory::setContainer($container);
         $this->app = AppFactory::create();
+        $serverRequestCreator = ServerRequestCreatorFactory::create();
+        $request = $serverRequestCreator->createServerRequestFromGlobals();
+        $response = $this->app->getResponseFactory()->createResponse();
+        $this->getContainer()->set(Request::class, $request);
+        $this->getContainer()->set(Response::class, $response);
     }
 
-    /**
-     *
-     */
     public function prepare()
     {
         // Add Routing Middleware
@@ -84,17 +84,6 @@ class App
         $this->errorHandlers();
     }
 
-    /**
-     * @return ContainerInterface|null
-     */
-    public function getContainer()
-    {
-        return $this->app->getContainer();
-    }
-
-    /**
-     *
-     */
     private function errorHandlers()
     {
         $displayErrorDetails = $this->getConfig('default.debug');
@@ -103,6 +92,14 @@ class App
         $errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
         $errorMiddleware = $this->app->addErrorMiddleware($displayErrorDetails, false, false);
         $errorMiddleware->setDefaultErrorHandler($errorHandler);
+    }
+
+    /**
+     * @return ContainerInterface|null
+     */
+    public function getContainer()
+    {
+        return $this->app->getContainer();
     }
 
     /**
@@ -125,9 +122,9 @@ class App
      * @param string $appName
      * @param array $settings
      *
-     * @return App
      * @throws Exception
      *
+     * @return App
      */
     final public static function instance($appName = '', $settings = [])
     {
@@ -142,9 +139,9 @@ class App
      * @param $fn
      * @param array $args
      *
-     * @return mixed
      * @throws Exception
      *
+     * @return mixed
      */
     public function __call($fn, $args = [])
     {
@@ -156,7 +153,6 @@ class App
         }
         throw new Exception('Method not found :: ' . $fn);
     }
-
 
     /**
      * register providers.
@@ -214,15 +210,13 @@ class App
      * @param array $requestParams
      * @param string $namespace
      *
-     * @return Response
      * @throws HttpException
      * @throws ReflectionException
+     *
+     * @return Response
      */
-    public function resolveRoute(Request $request, Response $response, $className, $methodName, $requestParams = [], $namespace = "\App\Http")
+    public function resolveRoute($className, $methodName, $requestParams = [], $namespace = "\App\Http")
     {
-        $this->app->getContainer()->set(Request::class, $request);
-        $this->app->getContainer()->set(Response::class, $response);
-
         try {
             $class = new ReflectionClass($namespace . '\\' . $className);
 
@@ -307,9 +301,9 @@ class App
      * @param string $name
      * @param array $params
      *
-     * @return mixed
      * @throws ReflectionException
      *
+     * @return mixed
      */
     public function resolve($name, $params = [])
     {
@@ -342,20 +336,20 @@ class App
      *
      * @param mixed $resp
      *
-     * @return mixed|Response
      * @throws ReflectionException
      *
+     * @return mixed|Response
      */
     public function sendResponse($resp)
     {
-        $response = $this->resolve(Response::class);
-
         if ($resp instanceof Response) {
             $response = $resp;
         } elseif (is_array($resp) || is_object($resp)) {
-            $response = $response->withJson(json_encode($resp));
+            $response = $this->resolve(Response::class);
+            $response = $response->getBody()->write(json_encode($resp));
         } else {
-            $response = $response->write($resp);
+            $response = $this->resolve(Response::class);
+            $response = $response->getBody()->write($resp);
         }
 
         return $response;
