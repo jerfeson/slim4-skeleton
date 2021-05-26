@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Exception;
+use stdClass;
 
 /**
  * Class Dynamic.
@@ -13,8 +14,19 @@ use Exception;
  *
  * @version 1.0.0
  */
-class Dynamic extends \stdClass
+class Dynamic extends stdClass
 {
+    /**
+     * @param $class
+     * @param $param
+     *
+     * @return bool
+     */
+    public static function getIfExist($class, $param)
+    {
+        return $class && property_exists($class, $param) && $class->$param ? $class->$param : null;
+    }
+
     /**
      * @param $key
      * @param $params

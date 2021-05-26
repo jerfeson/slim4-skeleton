@@ -25,14 +25,18 @@ class Validator
             if (count($rule->getRules()) > 1) {
                 foreach ($rule->getRules() as $rule2) {
                     try {
-                        $rule2->setName(ucfirst($field))->assert($request->getParsedBody()[$field]);
+                        if (isset($request->getParsedBody()[$field])) {
+                            $rule2->setName(ucfirst($field))->assert($request->getParsedBody()[$field]);
+                        }
                     } catch (ValidationException $exception) {
                         $this->erros[$field][] = $exception->getMessage();
                     }
                 }
             } else {
                 try {
-                    $rule->setName(ucfirst($field))->assert($request->getParsedBody()[$field]);
+                    if (isset($request->getParsedBody()[$field])) {
+                        $rule->setName(ucfirst($field))->assert($request->getParsedBody()[$field]);
+                    }
                 } catch (NestedValidationException $exception) {
                     $this->erros[$field] = $exception->getMessages();
                 }
@@ -50,6 +54,17 @@ class Validator
     public function getErros($api = false)
     {
         return $api ? json_encode($this->erros) : $this->erros;
+    }
+
+    /**
+     * @param array $erros
+     */
+    public function setErros(array $erros)
+    {
+        foreach ($erros as $key => $erro) {
+            $this->erros[$key] = [$erro];
+        }
+
     }
 
     /**

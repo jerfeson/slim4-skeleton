@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\OAuth;
 
-use App\Model\OAuthAccessTokenModel;
+use App\Model\OAuth\OAuthAccessTokenModel;
+use App\Repository\Repository;
 use Illuminate\Database\Eloquent\Builder;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
@@ -10,9 +11,16 @@ use League\OAuth2\Server\Entities\ScopeEntityInterface;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
 
 /**
- * Class OAuthAccessTokenRepository.
+ * Class OAuthAccessTokenRepository
+ *
+ * @package App\Repository\Client
  *
  * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
+ * @since 1.0.0
+ *
+ * @version 1.0.0
+ *
  */
 class OAuthAccessTokenRepository extends Repository implements AccessTokenRepositoryInterface
 {
@@ -35,7 +43,9 @@ class OAuthAccessTokenRepository extends Repository implements AccessTokenReposi
             $accessToken->addScope($scope);
         }
 
-        $accessToken->setUserIdentifier($userIdentifier->id);
+        if ($userIdentifier) {
+            $accessToken->setUserIdentifier($userIdentifier->id);
+        }
 
         return $accessToken;
     }
@@ -51,8 +61,12 @@ class OAuthAccessTokenRepository extends Repository implements AccessTokenReposi
         $token = new OAuthAccessTokenModel();
         $token->access_token = $accessTokenEntity->getIdentifier();
         $token->expiry_date_time = $accessTokenEntity->getExpiryDateTime();
-        $token->user_id = $accessTokenEntity->getUserIdentifier();
-        $token->oauth_client_id = $accessTokenEntity->getClient()->getIdentifier();
+
+        if ($accessTokenEntity->getUserIdentifier()) {
+            $token->user_id = $accessTokenEntity->getUserIdentifier();
+        }
+
+        $token->client_id = $accessTokenEntity->getClient()->getIdentifier();
         $token->save();
     }
 

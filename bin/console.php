@@ -17,5 +17,4 @@ $application = new Application();
 foreach ($commands as $class) {
     $application->add($container->get($class));
 }
-
 $application->run();

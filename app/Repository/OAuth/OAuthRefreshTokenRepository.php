@@ -1,20 +1,24 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\OAuth;
 
-use App\Model\OAuthRefreshTokenCodeModel;
+use App\Model\OAuth\OAuthRefreshTokenCodeModel;
+use App\Repository\Repository;
 use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
 use League\OAuth2\Server\Exception\UniqueTokenIdentifierConstraintViolationException;
 use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
 
 /**
- * Class OAuthRefreshTokenRepository.
+ * Class OAuthRefreshTokenRepository
+ *
+ * @package App\Repository\Client
  *
  * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  *
- * @since   1.0.0
+ * @since 1.0.0
  *
  * @version 1.0.0
+ *
  */
 class OAuthRefreshTokenRepository extends Repository implements RefreshTokenRepositoryInterface
 {

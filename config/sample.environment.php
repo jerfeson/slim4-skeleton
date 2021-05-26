@@ -1,7 +1,7 @@
 <?php
 
 $default['default']['debug'] = true;
-$default['default']['baseUrl'] = 'http://localhost:8080/';
+$default['default']['baseUrl'] = 'http://localhost:8082';
 $default['default']['indexFile'] = true;
 
 return [
@@ -10,22 +10,13 @@ return [
             // default db connection settings
             'default' => [
                 'driver' => 'mysql',
-                'host' => 'localhost',
+                'host' => 'mysql',
                 'database' => 'slim_skeleton',
                 'username' => 'root',
                 'password' => 'root',
                 'charset' => 'utf8',
                 'collation' => 'utf8_unicode_ci',
                 'prefix' => '',
-            ],
-        ],
-        'cache' => [
-            'default' => [
-                'driver' => 'redis',
-                'scheme' => 'tcp',
-                'host' => 'redis',
-                'port' => 6379,
-                'database' => 0,
             ],
         ],
     ],

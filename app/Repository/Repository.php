@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Enum\HttpStatusCode;
+use App\Helpers\Dynamic;
 use App\Message\Message;
 use App\Model\Model;
 use DI\NotFoundException;
@@ -32,19 +34,11 @@ abstract class Repository
     protected $modelClass;
 
     /**
-     * @return string
-     */
-    public function getModel(): string
-    {
-        return $this->modelClass;
-    }
-
-    /**
      * @param $item
      *
+     * @return mixed
      * @throws Exception
      *
-     * @return mixed
      */
     public function insert($item)
     {
@@ -54,9 +48,9 @@ abstract class Repository
     }
 
     /**
+     * @return Builder
      * @throws Exception
      *
-     * @return Builder
      */
     protected function newQuery()
     {
@@ -68,55 +62,89 @@ abstract class Repository
     }
 
     /**
+     * @return string
+     */
+    public function getModel(): string
+    {
+        return $this->modelClass;
+    }
+
+    /**
      * Returns all records.
      * If $take is false then brings all records
      * If $paginate is true returns Paginator instance.
      *
-     * @param int $take
+     * @param int  $take
      * @param bool $paginate
      *
+     * @return EloquentCollection|Paginator
      * @throws Exception
      *
-     * @return EloquentCollection|Paginator
      */
-    public function getAll($take = 15, $paginate = true)
+    public function getAll($params = null, $take = 15, $paginate = true)
     {
-        return $this->doQuery(null, $take, $paginate);
+        return $this->doQuery(null, $take, $paginate, $params);
     }
 
     /**
      * @param EloquentQueryBuilder|QueryBuilder $query
-     * @param int $take
-     * @param bool $paginate
-     *
-     * @throws Exception
+     * @param int                               $take
+     * @param bool                              $paginate
      *
      * @return LengthAwarePaginator|EloquentQueryBuilder[]|EloquentCollection|Collection
+     * @throws Exception
+     *
      */
-    protected function doQuery($query = null, $take = 15, $paginate = true)
+    protected function doQuery($query = null, $take = 15, $paginate = true, $params = null)
     {
+
+        $last = Dynamic::getIfExist($params, 'last');
+
         if (is_null($query)) {
             $query = $this->newQuery();
+            if ($params) {
+                foreach ($params as $key => $param) {
+                    if (in_array($key, Model::defaultFilters())) {
+                        continue;
+                    }
+                    $query->where($key, '=', $param);
+                }
+            }
         }
 
-        if (true == $paginate) {
-            return $query->paginate($take, ['*'], 'page', $page = null);
+        if (true == $paginate && !$last) {
+            $paginate = $query->paginate($take, ['*'], 'page', Dynamic::getIfExist($params, 'page'));
+            if (!$paginate->count()) {
+                throw new Exception(Message::NO_RESULTS, HttpStatusCode::NO_CONTENT);
+            }
+
+            return $paginate;
+        } else {
+            if ($last) {
+                return $query->get()->last();
+            }
         }
+
 
         if ($take > 0 || false !== $take) {
             $query->take($take);
         }
 
-        return $query->get();
+        $result = $query->get();
+        if (!$result->count()) {
+            throw new Exception(Message::NO_RESULTS, HttpStatusCode::NO_CONTENT);
+        }
+
+        return $result;
     }
 
     /**
-     * @param string $column
+     * @param string      $column
      * @param string|null $key
      *
+     * @return Collection
      * @throws Exception
      *
-     * @return Collection
      */
     public function lists($column, $key = null)
     {
@@ -127,13 +155,13 @@ abstract class Repository
      * Retrieves a record by his id
      * If fail is true $ fires ModelNotFoundException.
      *
-     * @param int $id
+     * @param int  $id
      * @param bool $fail
      *
-     * @throws NotFoundException
+     * @return Model
      * @throws Exception
      *
-     * @return Model
+     * @throws NotFoundException
      */
     public function findById($id, $fail = true)
     {
@@ -142,12 +170,30 @@ abstract class Repository
             if (!$response) {
                 $message = app()->getContainer()->get(Messages::class);
                 $message->addMessage(Message::STATUS_ERROR, Message::REGISTER_NOT_FOUND);
-                throw new NotFoundException();
+                throw new NotFoundException(Message::NO_RESULTS);
             }
 
             return $response;
         }
 
         return $this->newQuery()->find($id);
+    }
+
+    /**
+     * Companion use this only if the select is not too specific
+     *
+     * @param array $params
+     *
+     * @return Collection
+     * @throws Exception
+     */
+    public function findBy(array $params)
+    {
+        $query = $this->newQuery();
+        foreach ($params as $key => $value) {
+            $query->where($key, '=', $value);
+        }
+
+        return $this->doQuery($query, false, false);
     }
 }

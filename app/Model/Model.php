@@ -2,6 +2,9 @@
 
 namespace App\Model;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Lib\Utils\Session;
+
 /**
  * Class Model.
  *
@@ -13,6 +16,7 @@ namespace App\Model;
  */
 abstract class Model extends \Illuminate\Database\Eloquent\Model
 {
+    use SoftDeletes;
 
     /**
      * @var int
@@ -25,14 +29,42 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model
     public const STATUS_INACTIVE = 0;
 
     /**
-     * @var bool
-     */
-    public $timestamps = true;
-
-    /**
      * @var int
      */
     protected $identifier;
+
+    /**
+     * @var string[]
+     */
+    protected $hidden = ['password'];
+
+    /**
+     * ObjectiveModel constructor.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        if (Session::get('user') && !empty($this->attributes)) {
+            foreach ($this->attributes as $key => $attribute) {
+                $val = "{$key}_{$attribute}";
+                $this->setRawAttributes([$val => Session::get('user')[$key][$val]], true);
+            }
+        }
+
+        parent::__construct($attributes);
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function defaultFilters()
+    {
+        return [
+            'page',
+            'last'
+        ];
+    }
 
     /**
      * @return mixed
@@ -49,4 +81,5 @@ abstract class Model extends \Illuminate\Database\Eloquent\Model
     {
         $this->identifier = $identifier;
     }
+
 }

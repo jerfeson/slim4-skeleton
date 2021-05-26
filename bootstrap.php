@@ -9,6 +9,7 @@ define('RESOURCES_PATH', realpath(__DIR__ . '/resources/') . DS);
 define('PUBLIC_PATH', realpath(__DIR__ . '/public/') . DS);
 define('LIB_PATH', realpath(__DIR__ . '/lib/') . DS);
 define('DATA_PATH', realpath(__DIR__ . '/data/') . DS);
+define('MIGRATION_PATH', realpath(__DIR__ . '/app/Console/Migration/') . DS);
 
 $autoload = ROOT_PATH . 'vendor' . DS . 'autoload.php';
 

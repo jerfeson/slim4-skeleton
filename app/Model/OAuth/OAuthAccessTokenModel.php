@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Model;
+namespace App\Model\OAuth;
 
-use DateTime;
 use DateTimeImmutable;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Key;
@@ -11,6 +10,7 @@ use League\OAuth2\Server\CryptKey;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
+use App\Model\Model;
 
 /**
  * Class OAuthAccessTokenModel.
@@ -84,7 +84,7 @@ class OAuthAccessTokenModel extends Model implements AccessTokenEntityInterface
     /**
      * Get the token's expiry date time.
      *
-     * @return DateTime
+     * @return DateTimeImmutable
      */
     public function getExpiryDateTime()
     {
@@ -129,20 +129,23 @@ class OAuthAccessTokenModel extends Model implements AccessTokenEntityInterface
 
     /**
      * @return string|void
+     * @throws \Exception
      */
     public function __toString()
     {
+        $imutable = new DateTimeImmutable();
         $barrer = (new Builder())
-            ->setAudience($this->getClient()->getIdentifier())
-            ->setId($this->getIdentifier())
-            ->setIssuedAt(time())
-            ->setNotBefore(time())
-            ->setExpiration($this->getExpiryDateTime()->getTimestamp())
-            ->setSubject($this->getUserIdentifier())
-            ->set('scopes', $this->getScopes())
-            ->sign(new Sha256(), new Key($this->getPrivateKey()->getKeyPath(), $this->getPrivateKey()->getPassPhrase()))
-            ->getToken();
+            ->permittedFor($this->getClient()->getIdentifier())
+            ->identifiedBy($this->getIdentifier())
+            ->issuedAt($imutable)
+            ->canOnlyBeUsedAfter($imutable)
+            ->expiresAt($this->getExpiryDateTime())
+            ->relatedTo($this->getUserIdentifier())
+            ->withClaim('scopes', $this->getScopes())
+            ->getToken(new Sha256(), new Key($this->getPrivateKey()->getKeyPath(), $this->getPrivateKey()->getPassPhrase()));
 
         return (string)$barrer;
     }
+
+
 }

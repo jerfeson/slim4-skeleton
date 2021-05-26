@@ -103,4 +103,16 @@ final class Session
             session_destroy();
         }
     }
+
+    /**
+     * @param $name
+     * @return bool
+     */
+    public static function exist($name)
+    {
+        if (array_key_exists($name, $_SESSION)) {
+            return true;
+        }
+        return false;
+    }
 }
