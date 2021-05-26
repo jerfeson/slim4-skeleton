@@ -12,9 +12,9 @@ use Slim\Csrf\Guard;
 /**
  * Class Csrf.
  *
- * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  *
- * @since   1.1.0
+ * @since 1.1.0
  *
  * @version 1.1.0
  */
@@ -22,9 +22,8 @@ class Csrf
 {
 
     /**
-     * @param Request        $request
+     * @param Request $request
      * @param RequestHandler $handler
-     *
      * @return Response
      */
     public function __invoke(Request $request, RequestHandler $handler)

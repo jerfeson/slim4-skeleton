@@ -2,7 +2,6 @@
 
 namespace App\Model\OAuth;
 
-use App\Model\UserModel;
 use DateTimeImmutable;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Key;
@@ -130,9 +129,11 @@ class OAuthAccessTokenModel extends Model implements AccessTokenEntityInterface
 
     /**
      * @return string|void
+     * @throws \Exception
      */
     public function __toString()
     {
+        //todo #TOSKELETON
         $imutable = new DateTimeImmutable();
         $barrer = (new Builder())
             ->permittedFor($this->getClient()->getIdentifier())

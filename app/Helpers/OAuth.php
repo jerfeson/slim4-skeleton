@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use App\Enum\HttpStatusCode;
 use App\Message\Message;
-use App\Repository\OAuthAccessTokenRepository;
+use App\Repository\OAuth\OAuthAccessTokenRepository;
 use League\OAuth2\Server\AuthorizationValidators\BearerTokenValidator;
 use League\OAuth2\Server\CryptKey;
 use League\OAuth2\Server\Exception\OAuthServerException;

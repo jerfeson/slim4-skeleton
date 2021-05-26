@@ -2,7 +2,6 @@
 
 namespace App\Repository\OAuth;
 
-use App\Helpers\Password;
 use App\Model\OAuth\OAuthClientModel;
 use App\Repository\Repository;
 use DI\NotFoundException;
@@ -14,11 +13,11 @@ use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 /**
  * Class OAuthClientRepository
  *
- * @package App\Repository\OAuth
+ * @package App\Repository\Client
  *
- * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  *
- * @since   1.0.0
+ * @since 1.0.0
  *
  * @version 1.0.0
  *
@@ -28,13 +27,13 @@ class OAuthClientRepository extends Repository implements ClientRepositoryInterf
     protected $modelClass = OAuthClientModel::class;
 
     /**
-     * @param string      $clientIdentifier
+     * @param string $clientIdentifier
      * @param string|null $clientSecret
      * @param string|null $grantType
      *
-     * @return bool
      * @throws NotFoundException
      *
+     * @return bool
      */
     public function validateClient($clientIdentifier, $clientSecret, $grantType)
     {
@@ -55,9 +54,9 @@ class OAuthClientRepository extends Repository implements ClientRepositoryInterf
     /**
      * @param string $clientIdentifier
      *
-     * @return ClientEntityInterface|mixed|null
      * @throws Exception
      *
+     * @return ClientEntityInterface|mixed|null
      */
     public function getClientEntity($clientIdentifier)
     {

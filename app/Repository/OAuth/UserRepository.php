@@ -4,7 +4,7 @@ namespace App\Repository\OAuth;
 
 use App\Helpers\Password;
 use App\Message\Message;
-use App\Model\UserModel;
+use App\Model\OAuth\UserModel;
 use App\Repository\Repository;
 use Exception;
 use Illuminate\Database\Query\Builder;
@@ -13,13 +13,16 @@ use League\OAuth2\Server\Entities\UserEntityInterface;
 use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 
 /**
- * Class UserRepository.
+ * Class UserRepository
  *
- * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ * @package App\Repository\Client
  *
- * @since   1.0.0
+ * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
+ * @since 1.0.0
  *
  * @version 1.0.0
+ *
  */
 class UserRepository extends Repository implements UserRepositoryInterface
 {

@@ -2,15 +2,15 @@
 
 namespace App\Model\OAuth;
 
+use App\Model\Casts\Json;
 use App\Model\Model;
-use App\Model\OAuth\OAuthClientModel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- * Class ClientModel.
+ * Class CustomerModel.
  *
- * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  *
  * @since   1.1.0
  *
@@ -19,11 +19,18 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class ClientModel extends Model
 {
-    protected $table    = 'client';
-    protected $fillable = [
-        'name',
-        'status'
+    protected $table = 'client';
+    protected $fillable = ['name', 'status'];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'settings' => Json::class,
     ];
+
 
     /**
      * @return HasOne
@@ -42,4 +49,11 @@ class ClientModel extends Model
         return $this->hasMany(UserModel::class, 'client_id', 'id');
     }
 
+    /**
+     * @return HasMany
+     */
+    public function accessToken()
+    {
+        return $this->hasMany(OAuthAccessTokenModel::class, 'client_id', 'id');
+    }
 }

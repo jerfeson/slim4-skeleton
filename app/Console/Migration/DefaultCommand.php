@@ -229,10 +229,10 @@ class DefaultCommand extends Command
             //oauth_access_token
             $schema->create('oauth_access_token', function ($table) {
                 $table->increments('id')->unsigned();
-                $table->string('oauth_client_id', 255);
+                $table->string('client_id', 255);
 
                 //FK
-                $table->integer('user_id')->unsigned();
+                $table->integer('user_id')->unsigned()->nullable();;
                 $table->foreign('user_id')->references('id')->on('user');
 
                 $table->string('access_token', 255);

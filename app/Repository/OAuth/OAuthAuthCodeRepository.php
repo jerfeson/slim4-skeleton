@@ -11,11 +11,11 @@ use League\OAuth2\Server\Repositories\AuthCodeRepositoryInterface;
 /**
  * Class OAuthAuthCodeRepository
  *
- * @package App\Repository\OAuth
+ * @package App\Repository\Client
  *
- * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  *
- * @since   1.0.0
+ * @since 1.0.0
  *
  * @version 1.0.0
  *

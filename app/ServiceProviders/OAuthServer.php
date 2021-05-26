@@ -2,7 +2,6 @@
 
 namespace App\ServiceProviders;
 
-
 use App\Repository\OAuth\OAuthAccessTokenRepository;
 use App\Repository\OAuth\OAuthClientRepository;
 use App\Repository\OAuth\OAuthRefreshTokenRepository;
@@ -28,14 +27,14 @@ class OAuthServer implements ProviderInterface
     {
         app()->getContainer()->set(AuthorizationServer::class, function ($c) {
             $oauth2Config = app()->getConfig('oauth2');
-            $clienteRepository = new OAuthClientRepository();
+            $clientRepository = new OAuthClientRepository();
             $scopeRepository = new OAuthScopeRepository();
             $tokenRepository = new OAuthAccessTokenRepository();
             $userRepository = new UserRepository();
             $refreshTokenRepository = new OAuthRefreshTokenRepository();
 
             $server = new AuthorizationServer(
-                $clienteRepository,
+                $clientRepository,
                 $tokenRepository,
                 $scopeRepository,
                 $oauth2Config['private_key'],

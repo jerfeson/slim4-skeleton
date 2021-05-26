@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Business\User;
+namespace App\Business\Client;
 
 use App\Business\Business;
-use App\Model\UserModel;
-use App\Repository\UserRepository;
+use App\Model\OAuth\UserModel;
+use App\Repository\OAuth\UserRepository;
 
 /**
  * Class UserBusiness.
@@ -23,9 +23,9 @@ class UserBusiness extends Business
     protected $repositoryClass = UserRepository::class;
 
     /**
-     * @return mixed
      * @throws \Exception
      *
+     * @return mixed
      */
     public function getUserByUserCredentials()
     {
@@ -44,7 +44,7 @@ class UserBusiness extends Business
      *
      * @throws \Exception
      */
-    private function validate($user)
+    protected function validate($user)
     {
         if ($user->status == UserModel::STATUS_INACTIVE) {
             throw new \Exception('error');

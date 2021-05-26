@@ -11,7 +11,7 @@ use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
 /**
  * Class OAuthScopeRepository
  *
- * @package App\Repository\OAuth
+ * @package App\Repository\Client
  *
  * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  *

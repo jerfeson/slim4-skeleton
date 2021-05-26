@@ -2,7 +2,6 @@
 
 namespace App\Repository\OAuth;
 
-
 use App\Model\OAuth\OAuthAccessTokenModel;
 use App\Repository\Repository;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,11 +13,11 @@ use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
 /**
  * Class OAuthAccessTokenRepository
  *
- * @package App\Repository\OAuth
+ * @package App\Repository\Client
  *
- * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  *
- * @since   1.0.0
+ * @since 1.0.0
  *
  * @version 1.0.0
  *
@@ -30,9 +29,9 @@ class OAuthAccessTokenRepository extends Repository implements AccessTokenReposi
     /**
      * Create a new access token.
      *
-     * @param ClientEntityInterface  $clientEntity
+     * @param ClientEntityInterface $clientEntity
      * @param ScopeEntityInterface[] $scopes
-     * @param mixed                  $userIdentifier
+     * @param mixed $userIdentifier
      *
      * @return OAuthAccessTokenModel
      */
@@ -76,9 +75,9 @@ class OAuthAccessTokenRepository extends Repository implements AccessTokenReposi
      *
      * @param string $tokenId
      *
-     * @return bool Return true if this token has been revoked
      * @throws \Exception
      *
+     * @return bool Return true if this token has been revoked
      */
     public function isAccessTokenRevoked($tokenId)
     {

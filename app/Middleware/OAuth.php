@@ -156,7 +156,7 @@ class OAuth
             $data = json_encode($payload, JSON_PRETTY_PRINT);
             $response->getBody()->write($data);
             return $response->withHeader('Content-Type', 'application/json')
-                ->withStatus($payload->getStatusCode());
+                            ->withStatus($payload->getStatusCode());
         }
     }
 }

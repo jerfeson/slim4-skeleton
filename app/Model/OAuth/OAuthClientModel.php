@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Model\OAuth;
-
-use App\Model\ClientModel;
 use App\Model\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
@@ -38,12 +36,11 @@ class OAuthClientModel extends Model implements ClientEntityInterface
 
     public function getRedirectUri()
     {
-        return "/";
+       return "/";
     }
 
     public function isConfidential()
     {
         return true;
     }
-
 }

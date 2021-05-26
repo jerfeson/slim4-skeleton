@@ -11,7 +11,7 @@ use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
 /**
  * Class OAuthRefreshTokenRepository
  *
- * @package App\Repository\OAuth
+ * @package App\Repository\Client
  *
  * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  *

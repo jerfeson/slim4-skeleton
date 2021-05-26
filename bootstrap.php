@@ -1,5 +1,4 @@
 <?php
-phpinfo();exit;
 
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT_PATH', realpath(__DIR__ . '/') . DS);

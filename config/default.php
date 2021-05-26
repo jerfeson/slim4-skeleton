@@ -40,7 +40,7 @@ $default['twig'] = [
 
 //session
 $default['session'] = [
-    'name' => 'app',
+    'name' => 'awesome_invoice',
     'lifetime' => 7200,
     'path' => '/',
     'domain' => null,

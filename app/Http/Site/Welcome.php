@@ -19,6 +19,7 @@ use Twig\Error\SyntaxError;
  */
 class Welcome extends Controller
 {
+
     /**
      * @throws LoaderError
      * @throws RuntimeError
