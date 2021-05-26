@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Model;
+namespace App\Model\OAuth;
+
+use App\Model\Model;
 
 /**
  * Class OAuthAuthCodeModel.

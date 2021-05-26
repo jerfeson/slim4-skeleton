@@ -89,6 +89,16 @@ $default['oauth2'] = [
     'public_key' => file_get_contents(DATA_PATH . 'keys' . DS . 'oauth' . DS . 'public.key'),
 ];
 
+$default['settings']['cache'][] = [
+    'default' => [
+        'driver' => 'redis',
+        'scheme' => 'tcp',
+        'host' => 'redis',
+        'port' => 6379,
+        'database' => 0,
+    ],
+];
+
 $default['providers'] = [
     App\ServiceProviders\Monolog::class => 'http,console',
     App\ServiceProviders\SlashTrace::class => 'http',
@@ -110,11 +120,25 @@ $default['middleware'] = [
     App\Middleware\Flash::class => 'http',
 ];
 
-// add your middleware here
-$default['commands'] = [
-    App\Console\ExampleCommand::class,
-    App\Console\MigrationsCommand::class,
+//Migration
+$defaultCommands = [];
+if (\Lib\Framework\App::getAppEnv() === \Lib\Framework\App::DEVELOPMENT) {
+    $migrations = scandir(MIGRATION_PATH);
+
+    foreach ($migrations as $migration) {
+        if ($migration === '.' || $migration === '..' ||  $migration === 'Seeder') {
+            continue;
+        }
+        $defaultCommands[] = "App\\Console\Migration\\" . pathinfo($migration, PATHINFO_FILENAME);
+    }
+};
+
+// add your  custom commands here
+$customCommands = [
     App\Console\SchemaDumpCommand::class,
+    App\Console\Migration\Seeder\DatabaseSeeder::class,
 ];
+
+$default['commands'] = array_merge($defaultCommands, $customCommands);
 
 return $default;

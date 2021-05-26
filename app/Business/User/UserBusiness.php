@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Business;
+namespace App\Business\User;
 
+use App\Business\Business;
 use App\Model\UserModel;
 use App\Repository\UserRepository;
 
@@ -22,9 +23,9 @@ class UserBusiness extends Business
     protected $repositoryClass = UserRepository::class;
 
     /**
+     * @return mixed
      * @throws \Exception
      *
-     * @return mixed
      */
     public function getUserByUserCredentials()
     {

@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\OAuth;
 
-use App\Model\OAuthAccessTokenModel;
+
+use App\Model\OAuth\OAuthAccessTokenModel;
+use App\Repository\Repository;
 use Illuminate\Database\Eloquent\Builder;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
@@ -10,9 +12,16 @@ use League\OAuth2\Server\Entities\ScopeEntityInterface;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
 
 /**
- * Class OAuthAccessTokenRepository.
+ * Class OAuthAccessTokenRepository
  *
- * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ * @package App\Repository\OAuth
+ *
+ * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
+ * @since   1.0.0
+ *
+ * @version 1.0.0
+ *
  */
 class OAuthAccessTokenRepository extends Repository implements AccessTokenRepositoryInterface
 {
@@ -21,9 +30,9 @@ class OAuthAccessTokenRepository extends Repository implements AccessTokenReposi
     /**
      * Create a new access token.
      *
-     * @param ClientEntityInterface $clientEntity
+     * @param ClientEntityInterface  $clientEntity
      * @param ScopeEntityInterface[] $scopes
-     * @param mixed $userIdentifier
+     * @param mixed                  $userIdentifier
      *
      * @return OAuthAccessTokenModel
      */
@@ -35,7 +44,9 @@ class OAuthAccessTokenRepository extends Repository implements AccessTokenReposi
             $accessToken->addScope($scope);
         }
 
-        $accessToken->setUserIdentifier($userIdentifier->id);
+        if ($userIdentifier) {
+            $accessToken->setUserIdentifier($userIdentifier->id);
+        }
 
         return $accessToken;
     }
@@ -51,8 +62,12 @@ class OAuthAccessTokenRepository extends Repository implements AccessTokenReposi
         $token = new OAuthAccessTokenModel();
         $token->access_token = $accessTokenEntity->getIdentifier();
         $token->expiry_date_time = $accessTokenEntity->getExpiryDateTime();
-        $token->user_id = $accessTokenEntity->getUserIdentifier();
-        $token->oauth_client_id = $accessTokenEntity->getClient()->getIdentifier();
+
+        if ($accessTokenEntity->getUserIdentifier()) {
+            $token->user_id = $accessTokenEntity->getUserIdentifier();
+        }
+
+        $token->client_id = $accessTokenEntity->getClient()->getIdentifier();
         $token->save();
     }
 
@@ -61,9 +76,9 @@ class OAuthAccessTokenRepository extends Repository implements AccessTokenReposi
      *
      * @param string $tokenId
      *
+     * @return bool Return true if this token has been revoked
      * @throws \Exception
      *
-     * @return bool Return true if this token has been revoked
      */
     public function isAccessTokenRevoked($tokenId)
     {

@@ -2,14 +2,15 @@
 
 namespace App\ServiceProviders;
 
-use App\Repository\OAuthAccessTokenRepository;
-use App\Repository\OAuthClientRepository;
-use App\Repository\OAuthRefreshTokenRepository;
-use App\Repository\OAuthScopeRepository;
-use App\Repository\UserRepository;
+
+use App\Repository\OAuth\OAuthAccessTokenRepository;
+use App\Repository\OAuth\OAuthClientRepository;
+use App\Repository\OAuth\OAuthRefreshTokenRepository;
+use App\Repository\OAuth\OAuthScopeRepository;
+use App\Repository\OAuth\UserRepository;
 use DateInterval;
-use Defuse\Crypto\Key;
 use League\OAuth2\Server\AuthorizationServer;
+use League\OAuth2\Server\Grant\ClientCredentialsGrant;
 use League\OAuth2\Server\Grant\PasswordGrant;
 
 /***
@@ -33,11 +34,6 @@ class OAuthServer implements ProviderInterface
             $userRepository = new UserRepository();
             $refreshTokenRepository = new OAuthRefreshTokenRepository();
 
-            // todo put it in Readme.md
-            /*
-               Remember generate your encryption key,you can use that:
-               php -r 'echo base64_encode(random_bytes(32)), PHP_EOL;'
-             */
             $server = new AuthorizationServer(
                 $clienteRepository,
                 $tokenRepository,
@@ -56,6 +52,13 @@ class OAuthServer implements ProviderInterface
             // Enable the password grant on the server
             $server->enableGrantType(
                 $grant,
+                new DateInterval('PT1H') // access tokens will expire after 1 hour
+            );
+
+            $clientCredentialsGrant = new ClientCredentialsGrant();
+            $clientCredentialsGrant->setRefreshTokenTTL(new DateInterval('P1M'));
+            $server->enableGrantType(
+                $clientCredentialsGrant,
                 new DateInterval('PT1H') // access tokens will expire after 1 hour
             );
 

@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Business;
+namespace App\Business\Authentication;
 
+use App\Business\Business;
+use App\Business\User\UserBusiness;
 use App\Helpers\OAuth;
 use App\Model\UserModel;
 use DI\NotFoundException;
@@ -13,9 +15,9 @@ use function trim;
 /**
  * Class AuthenticationBusiness.
  *
- * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  *
- * @since 1.0.0
+ * @since   1.0.0
  *
  * @version 1.1.0
  */
@@ -83,6 +85,7 @@ class AuthenticationBusiness extends Business
             $token = trim((string)preg_replace('/^(?:\s+)?Bearer\s/', '', $header[0]));
             /**
              * Record your token for validation during the session at the place you think best
+             *
              * @see \App\Middleware\OAuth
              */
             Session::set(

@@ -4,6 +4,7 @@ namespace App\Handlers;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpInternalServerErrorException;
+use Slim\Exception\HttpSpecializedException;
 use Slim\ResponseEmitter;
 
 /**

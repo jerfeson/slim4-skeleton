@@ -1,31 +1,36 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\OAuth;
 
-use App\Model\OAuthClientModel;
+use App\Model\OAuth\OAuthScopeModel;
+use App\Repository\Repository;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
 use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
 
 /**
- * Class OAuthScopeRepository.
+ * Class OAuthScopeRepository
  *
- * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com
+ * @package App\Repository\OAuth
  *
- * @since   1.0.0
+ * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ *
+ * @since 1.0.0
  *
  * @version 1.0.0
+ *
  */
 class OAuthScopeRepository extends Repository implements ScopeRepositoryInterface
 {
-    protected $modelClass = OAuthClientModel::class;
+    //todo #TOSKELETON
+    protected $modelClass = OAuthScopeModel::class;
 
     /**
      * Return information about a scope.
      *
      * @param string $identifier The scope identifier
      *
-     * @return ScopeEntityInterface
+     * @return void
      */
     public function getScopeEntityByIdentifier($identifier)
     {

@@ -76,12 +76,10 @@ class Payload implements JsonSerializable
 
     public function jsonSerialize()
     {
-        $payload = [
-            'statusCode' => $this->statusCode,
-        ];
+        $payload = [];
 
         if ($this->data !== null) {
-            $payload['data'] = $this->data;
+            $payload = $this->data;
         } elseif ($this->error !== null) {
             $payload['error'] = $this->error;
         }

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Console;
+namespace App\Console\Migration;
 
+use App\Helpers\Crypto;
 use App\Helpers\Password;
 use App\Model\Model;
 use DateTime;
@@ -22,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @version 1.0.0
  */
-class MigrationsCommand extends Command
+class DefaultCommand extends Command
 {
     /**
      * @var ContainerInterface
@@ -93,9 +94,13 @@ class MigrationsCommand extends Command
         return 0;
     }
 
+    /**
+     * @param Builder $schema
+     */
     private function down($schema)
     {
         //oauth_scope
+        $schema->dropIfExists('migration');
         $schema->dropIfExists('oauth_scope');
         $schema->dropIfExists('oauth_refresh_token');
         $schema->dropIfExists('oauth_access_token');
@@ -112,12 +117,24 @@ class MigrationsCommand extends Command
      */
     private function up($schema)
     {
+        if (!$schema->hasTable('migration')) {
+            $schema->create('migration', function ($table) {
+                $table->increments('id')->unsigned();
+                $table->string('path', 255)->unique();
+                $table->dateTime('created_at');
+                $table->dateTime('updated_at');
+                $table->softDeletes('deleted_at', 0);
+            });
+        }
+
+
         if (!$schema->hasTable('oauth_scope')) {
             $schema->create('oauth_scope', function ($table) {
                 $table->increments('id')->unsigned();
                 $table->string('description', 255);
                 $table->dateTime('created_at');
                 $table->dateTime('updated_at');
+                $table->softDeletes('deleted_at', 0);
             });
         }
 
@@ -125,9 +142,11 @@ class MigrationsCommand extends Command
             //oauth_client
             $schema->create('oauth_client', function ($table) {
                 $table->increments('id')->unsigned();
+                $table->string('identifier', 255);
                 $table->string('secret', 255);
                 $table->dateTime('created_at');
                 $table->dateTime('updated_at');
+                $table->softDeletes('deleted_at', 0);
             });
         }
 
@@ -141,6 +160,7 @@ class MigrationsCommand extends Command
                 $table->string('owner_id', 255);
                 $table->dateTime('created_at');
                 $table->dateTime('updated_at');
+                $table->softDeletes('deleted_at', 0);
             });
         }
 
@@ -154,6 +174,7 @@ class MigrationsCommand extends Command
                 $table->string('client_redirect_id', 255);
                 $table->dateTime('created_at');
                 $table->dateTime('updated_at');
+                $table->softDeletes('deleted_at', 0);
             });
         }
 
@@ -164,6 +185,7 @@ class MigrationsCommand extends Command
                 $table->string('name', 45);
                 $table->dateTime('created_at');
                 $table->dateTime('updated_at');
+                $table->softDeletes('deleted_at', 0);
             });
         }
 
@@ -179,6 +201,7 @@ class MigrationsCommand extends Command
                 $table->tinyInteger('status');
                 $table->dateTime('created_at');
                 $table->dateTime('updated_at');
+                $table->softDeletes('deleted_at', 0);
             });
         }
 
@@ -198,6 +221,7 @@ class MigrationsCommand extends Command
                 $table->tinyInteger('status');
                 $table->dateTime('created_at');
                 $table->dateTime('updated_at');
+                $table->softDeletes('deleted_at', 0);
             });
         }
 
@@ -215,6 +239,7 @@ class MigrationsCommand extends Command
                 $table->dateTime('expiry_date_time');
                 $table->dateTime('created_at');
                 $table->dateTime('updated_at');
+                $table->softDeletes('deleted_at', 0);
             });
         }
 
@@ -231,8 +256,11 @@ class MigrationsCommand extends Command
                 $table->string('refresh_token', 255);
                 $table->dateTime('created_at');
                 $table->dateTime('updated_at');
+                $table->softDeletes('deleted_at', 0);
             });
         }
+
+
     }
 
     private function data($connection)
@@ -247,7 +275,8 @@ class MigrationsCommand extends Command
 
         $connection->table('oauth_client')->insert([
             //  Define your secret pattern
-            'secret' => Password::hash(12345),
+            'identifier' => Crypto::getToken(40),
+            'secret' => Crypto::getToken(60),
             'created_at' => $date,
             'updated_at' => $date,
         ]);

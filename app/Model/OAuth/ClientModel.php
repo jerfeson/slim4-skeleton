@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Model;
+namespace App\Model\OAuth;
 
+use App\Model\Model;
+use App\Model\OAuth\OAuthClientModel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * Class ClientModel.
  *
- * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  *
  * @since   1.1.0
  *
@@ -17,8 +19,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class ClientModel extends Model
 {
-    protected $table = 'client';
-    protected $fillable = ['name', 'status'];
+    protected $table    = 'client';
+    protected $fillable = [
+        'name',
+        'status'
+    ];
 
     /**
      * @return HasOne
@@ -36,4 +41,5 @@ class ClientModel extends Model
     {
         return $this->hasMany(UserModel::class, 'client_id', 'id');
     }
+
 }

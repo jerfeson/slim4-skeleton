@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\OAuth;
 
 use App\Helpers\Password;
 use App\Message\Message;
 use App\Model\UserModel;
+use App\Repository\Repository;
 use Exception;
 use Illuminate\Database\Query\Builder;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
@@ -60,7 +61,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
     {
         /** @var Builder $query */
         $query = $this->newQuery();
-        $query->where('username', '=', $username);
+        $query->where('email', '=', $username);
 
         $user = $this->doQuery($query, false, false)->first();
         if (!Password::verify($password, $user->password)) {

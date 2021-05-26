@@ -2,14 +2,10 @@
 
 namespace App\Http\Api\V1\Authentication;
 
-use App\Business\AuthenticationBusiness;
-use App\Business\UserBusiness;
-use App\Enum\HttpStatusCode;
+use App\Business\Authentication\AuthenticationBusiness;
 use App\Http\Controller;
-use App\Message\Message;
 use Exception;
 use Lib\Utils\Session;
-use Psr\Http\Message\ResponseInterface;
 use Respect\Validation\Validator;
 
 /**
@@ -32,38 +28,9 @@ class Authentication extends Controller
     protected $businessClass = AuthenticationBusiness::class;
 
     /**
-     * @var AuthenticationBusiness
-     */
-    private $authenticationBusiness;
-    /**
-     * @var UserBusiness
-     */
-    private $userBusiness;
-
-    /**
-     * @return ResponseInterface
-     */
-    public function tokenAction()
-    {
-        try {
-            $this->validate();
-            $this->setRequest($this->getBusiness()->prepareTokenRequest());
-            return $this->getOAuthServer()->respondToAccessTokenRequest($this->getRequest(), $this->getResponse());
-        } catch (Exception $e) {
-            $payload = [
-                'result' => $e->getCode(),
-                'message' => $e->getMessage(),
-            ];
-
-            return $this->respondWithData($payload, HttpStatusCode::UNAUTHORIZED);
-        }
-    }
-
-
-    /**
      * @throws Exception
      */
-    private function validate()
+    protected function validate()
     {
         $this->getValidator()->validate($this->getRequest(), [
             'username' => Validator::notBlank()->NoWhitespace(),
@@ -72,31 +39,6 @@ class Authentication extends Controller
 
         if ($this->getValidator()->failed()) {
             throw new Exception($this->getValidator()->getErros(true));
-        }
-    }
-
-    /**
-     * @return mixed
-     */
-    public function loginAction()
-    {
-        try {
-            $this->getAuthenticationBusiness()->login();
-            $payload = [
-                'result' => Message::STATUS_SUCCESS,
-                'message' => Message::LOGIN_SUCCESSFUL,
-                'redirect' => '#',
-            ];
-
-            return $this->respondWithData($payload);
-
-        } catch (Exception $e) {
-            $payload = [
-                'result' => $e->getCode(),
-                'message' => $e->getMessage(),
-            ];
-
-            return $this->respondWithData($payload, HttpStatusCode::UNAUTHORIZED);
         }
     }
 
@@ -112,35 +54,4 @@ class Authentication extends Controller
             '/'
         )->withStatus(302);
     }
-
-    /**
-     * @return AuthenticationBusiness
-     */
-    private function getAuthenticationBusiness()
-    {
-        if (!$this->authenticationBusiness) {
-            $this->authenticationBusiness = new AuthenticationBusiness(
-                $this->getRequest(),
-                $this->getResponse()
-            );
-        }
-
-        return $this->authenticationBusiness;
-    }
-
-    /**
-     * @return UserBusiness
-     */
-    protected function getUserBusiness()
-    {
-        if (!$this->userBusiness) {
-            $this->userBusiness = new UserBusiness(
-                $this->getRequest(),
-                $this->getResponse()
-            );
-        }
-
-        return $this->userBusiness;
-    }
-
 }
