@@ -50,7 +50,6 @@ class OAuth
         $route = $routeContext->getRoute();
 
         if ($route && count($route->getArguments())) {
-            //todo #TOSKELETON
             $routeAccessed = $this->buildRouteAccessed($request, $route);
             $session = Session::get('user');
             $token = isset($session['token']) ? $session['token']  : $request->getHeader('Authorization');

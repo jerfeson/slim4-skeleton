@@ -22,7 +22,6 @@ use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
  */
 class OAuthScopeRepository extends Repository implements ScopeRepositoryInterface
 {
-    //todo #TOSKELETON
     protected $modelClass = OAuthScopeModel::class;
 
     /**

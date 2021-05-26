@@ -133,7 +133,6 @@ class OAuthAccessTokenModel extends Model implements AccessTokenEntityInterface
      */
     public function __toString()
     {
-        //todo #TOSKELETON
         $imutable = new DateTimeImmutable();
         $barrer = (new Builder())
             ->permittedFor($this->getClient()->getIdentifier())

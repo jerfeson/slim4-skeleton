@@ -38,7 +38,6 @@ class OAuthClientRepository extends Repository implements ClientRepositoryInterf
     public function validateClient($clientIdentifier, $clientSecret, $grantType)
     {
 
-        //todo #TOSKELETON
         /** @var Builder $qb */
         $client = $this->findBy([
             'identifier' => $clientIdentifier
@@ -61,7 +60,6 @@ class OAuthClientRepository extends Repository implements ClientRepositoryInterf
     public function getClientEntity($clientIdentifier)
     {
 
-        //todo #TOSKELETON
         /** @var Builder $qb */
         $client = $this->findBy(
             [
