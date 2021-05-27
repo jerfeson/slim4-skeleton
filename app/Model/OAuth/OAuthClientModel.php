@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Model;
-
+namespace App\Model\OAuth;
+use App\Model\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 
 /**
@@ -12,7 +13,16 @@ use League\OAuth2\Server\Entities\ClientEntityInterface;
 class OAuthClientModel extends Model implements ClientEntityInterface
 {
     protected $table = 'oauth_client';
-    protected $fillable = ['secret'];
+    protected $fillable = ['identifier', 'secret'];
+
+
+    /**
+     * @return HasOne
+     */
+    public function client()
+    {
+        return $this->hasOne(ClientModel::class, 'oauth_client_id', 'id');
+    }
 
     /**
      * Get the client's name.
@@ -26,11 +36,11 @@ class OAuthClientModel extends Model implements ClientEntityInterface
 
     public function getRedirectUri()
     {
-        // TODO: Implement getRedirectUri() method.
+       return "/";
     }
 
     public function isConfidential()
     {
-        // TODO: Implement isConfidential() method.
+        return true;
     }
 }

@@ -49,11 +49,11 @@ Replace `[my-app-name]` with the desired directory name for your new application
 
     sudo chown -R www-data storage/
     sudo chmod -R ug+w storage/
-    
+
     sudo chmod -R 760 storage/
-    
+
     chmod +x bin/console.php
-    
+
 ## Database setup
 Create a new database for development
 
@@ -62,7 +62,7 @@ Create a new database for development
 Copy the file: config/env.example.php to config/development.php
 
     cp config/env.exemplo.php config/development.php
-    
+
 Change the connection configuration in config/development.php:
 
     'settings' => [
@@ -77,9 +77,9 @@ Change the connection configuration in config/development.php:
 
 ## Migrations
 
-Use the command for create initial tables, used in oAuth2 
+Use the command for create initial tables, used in oAuth2
 
-    php bin/console.php migrations
+    php bin/console.php migrations or composer console:migration
 
 Go to the `data/keys/oauth` folder and create your project's public and private keys
 
@@ -92,7 +92,7 @@ The public/private key pair is used to sign and verify JWTs transmitted. The Aut
 If you want to provide a passphrase for your private key run this command instead:
 
      openssl genrsa -passout pass:_passphrase_ -out private.key 2048
-     
+
 then extract the public key from the private key:
 
     openssl rsa -in private.key -pubout -out public.key
@@ -107,7 +107,7 @@ If a passphrase has been used to generate private key it must be provided to the
 
 The public key should be distributed to any services (for example resource servers) that validate access tokens.
 
-#### Generating encryption keys 
+#### Generating encryption keys
 
 Encryption keys are used to encrypt authorization and refresh codes. The AuthorizationServer accepts two kinds of encryption keys, a string password or a \Defuse\Crypto\Key object from the [Secure PHP Encryption Library].
 
@@ -119,7 +119,7 @@ To generate a `string` password for the `AuthorizationServer`, you can run the f
 
     php -r 'echo base64_encode(random_bytes(32)), PHP_EOL;'
 
-Replace the value of OAuthServer::ENCRYPTION_KEY  
+Replace the value of OAuthServer::ENCRYPTION_KEY
 
 ##### Key object
 
@@ -128,7 +128,7 @@ A `\Defuse\Crypto\Key` is a strong encryption key. This removes the need to use 
 A `Key` can be generated with the `generate-defuse-key` script. To generate a `Key` for the `AuthorizationServer` run the following command in the terminal:
 
     vendor/bin/generate-defuse-key
-    
+
 Replace the value of OAuthServer::ENCRYPTION_KEY
 
 The string can be loaded as a Key with Key::loadFromAsciiSafeString(self::ENCRYPTION_KEY).
@@ -153,7 +153,7 @@ The string can be loaded as a Key with Key::loadFromAsciiSafeString(self::ENCRYP
 ### Console usage
 
 * Usage: php bin/console.php [command-name]
-* List: php bin/console.php For list all commands 
+* List: php bin/console.php For list all commands
 How to create a new command:
  1. Create a class under directory app\Console in namespace App\Console
  2. Your class should extend Symfony\Component\Console\Command\Command
@@ -235,7 +235,7 @@ $app = app();
 
 ### Codeception test examples
 
-Have the version 79 of chrome installed. otherwise, [download] your version driver 
+Have the version 79 of chrome installed. otherwise, [download] your version driver
 
 go to the test folder and run the following command. (Windows)
 ```
@@ -248,26 +248,26 @@ go to the test folder and run the following command. (linux)
 go to project folder and run the following command.
 
 ```
-./vendor/bin/codecept run --steps 
+./vendor/bin/codecept run --steps
 ```
-or 
-``` 
+or
+```
 php vendor/bin/codecept run --steps
-``` 
+```
 
 ## Roadmap
 
  - [ ] more service providers
  - [ ] more code examples
- 
+
 ## Contributing
 
  - welcome to discuss a bugs, features and ideas.
- 
+
 ## License
 
 jerfeson/slim4-skeleton  is release under the MIT license.
- 
+
 ## Thanks
 
 This project is based on the project in [jupitern/slim3-skeleton] feel free to contribute to this and the other project.
