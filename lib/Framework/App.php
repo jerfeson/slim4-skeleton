@@ -3,9 +3,9 @@
 namespace Lib\Framework;
 
 use App\Handlers\HttpErrorHandler;
+use App\Http\Controller;
 use App\ServiceProviders\ProviderInterface;
 use DI\Container;
-use DI\ContainerBuilder;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
@@ -235,9 +235,21 @@ class App
 
         $constructorArgs = $this->resolveMethodDependencies($class->getConstructor());
         $controller = $class->newInstanceArgs($constructorArgs);
-
         $method = $class->getMethod($methodName);
         $args = $this->resolveMethodDependencies($method, $requestParams);
+
+
+        /**
+         * todo make it better
+         * @see Controller::setId()
+         */
+        if (isset($requestParams['idOrClass'])) {
+            $controller->setId(intval($requestParams['idOrClass']));
+        }
+
+        if (isset($requestParams['method']) && $id = intval($requestParams['method'])) {
+            $controller->setId($id);
+        }
 
         $ret = $method->invokeArgs($controller, $args);
 
@@ -282,11 +294,11 @@ class App
                 return $param->getDefaultValue();
             }
 
-            if (!$param->getClass()) {
+            if (!$param->getType()->getName()) {
                 throw new ReflectionException("Unable to resolve method param {$param->name}");
             }
 
-            $resolve = $this->resolve($param->getClass()->name);
+            $resolve = $this->resolve($param->getType()->getName());
         } catch (DependencyException $e) {
         } catch (NotFoundException $e) {
         } catch (ReflectionException $e) {
@@ -347,6 +359,17 @@ class App
         } elseif (is_array($resp) || is_object($resp)) {
             $response = $this->resolve(Response::class);
             $response = $response->getBody()->write(json_encode($resp));
+        } elseif (!$resp) {
+            $response = $this->resolve(Response::class);
+
+            $response = $response->getBody()->write(
+                json_encode(
+                    [
+                        'Method not implemented'
+                    ]
+                )
+            );
+
         } else {
             $response = $this->resolve(Response::class);
             $response = $response->getBody()->write($resp);

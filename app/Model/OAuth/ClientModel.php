@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Model;
+namespace App\Model\OAuth;
 
+use App\Model\Casts\Json;
+use App\Model\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- * Class ClientModel.
+ * Class CustomerModel.
  *
  * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  *
@@ -19,6 +21,16 @@ class ClientModel extends Model
 {
     protected $table = 'client';
     protected $fillable = ['name', 'status'];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'settings' => Json::class,
+    ];
+
 
     /**
      * @return HasOne
@@ -35,5 +47,13 @@ class ClientModel extends Model
     public function user()
     {
         return $this->hasMany(UserModel::class, 'client_id', 'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function accessToken()
+    {
+        return $this->hasMany(OAuthAccessTokenModel::class, 'client_id', 'id');
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\OAuth;
 
-use App\Helpers\Password;
-use App\Model\OAuthClientModel;
+use App\Model\OAuth\OAuthClientModel;
+use App\Repository\Repository;
 use DI\NotFoundException;
 use Exception;
 use Illuminate\Database\Query\Builder;
@@ -11,13 +11,16 @@ use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 
 /**
- * Class OAuthClientRepository.
+ * Class OAuthClientRepository
+ *
+ * @package App\Repository\Client
  *
  * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  *
- * @since   1.0.0
+ * @since 1.0.0
  *
  * @version 1.0.0
+ *
  */
 class OAuthClientRepository extends Repository implements ClientRepositoryInterface
 {
@@ -34,9 +37,13 @@ class OAuthClientRepository extends Repository implements ClientRepositoryInterf
      */
     public function validateClient($clientIdentifier, $clientSecret, $grantType)
     {
+
         /** @var Builder $qb */
-        $client = $this->findById($clientIdentifier);
-        if (Password::verify($clientSecret, $client->secret) === false) {
+        $client = $this->findBy([
+            'identifier' => $clientIdentifier
+        ])->first();
+
+        if ($clientSecret !== $client->secret) {
             return false;
         }
 
@@ -52,9 +59,15 @@ class OAuthClientRepository extends Repository implements ClientRepositoryInterf
      */
     public function getClientEntity($clientIdentifier)
     {
+
         /** @var Builder $qb */
-        $client = $this->findById($clientIdentifier);
-        $client->setIdentifier($clientIdentifier);
+        $client = $this->findBy(
+            [
+                'identifier' => $clientIdentifier
+            ]
+        )->first();
+
+        $client->setIdentifier($client->id);
         //Define scope by client
         //$client->setScope($client['scope']);
         return $client;

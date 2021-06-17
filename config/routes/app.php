@@ -22,10 +22,33 @@ $app->any('/{class}/{method}', function (Request $request, Response $response, $
 });
 
 /*API ROUTE*/
+/*[/{id or method}]*/
 $app->any('/api/v1/{module}/{class}/{method}', function (Request $request, Response $response, $args) use ($app) {
     $nameSpace = "\App\Http\Api\V1\\" . ucfirst($args['module']);
-    $method = $args['method'] . 'Action';
-    $class = ucfirst($args['class']);
 
+    $method = $args['method'] . 'Action';
+
+    if (intval($args['method'])) {
+        $method = strtolower($request->getMethod()) . "Action";
+    }
+
+    $class = ucfirst($args['class']);
+    return $app->resolveRoute($class, $method, $args, $nameSpace);
+});
+
+/*API ROUTE*/
+/*[/{id or class}]*/
+$app->any('/api/v1/{module}[/{idOrClass}]', function (Request $request, Response $response, $args) use ($app) {
+    $nameSpace = "\App\Http\Api\V1\\" . ucfirst($args['module']);
+
+    $idOrClass = isset($args['idOrClass']);
+    $class = null;
+    if ($idOrClass && !intval($args['idOrClass'])) {
+        $class = $args['idOrClass'];
+    }
+
+    $class = $class ? ucfirst($class) : ucfirst($args['module']);
+
+    $method = strtolower($request->getMethod()) . "Action";
     return $app->resolveRoute($class, $method, $args, $nameSpace);
 });

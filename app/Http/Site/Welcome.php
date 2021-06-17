@@ -2,7 +2,6 @@
 
 namespace App\Http\Site;
 
-use App\Business\UserBusiness;
 use App\Http\Controller;
 use App\Message\Message;
 use Twig\Error\LoaderError;
@@ -20,7 +19,6 @@ use Twig\Error\SyntaxError;
  */
 class Welcome extends Controller
 {
-    protected $businessClass = UserBusiness::class;
 
     /**
      * @throws LoaderError

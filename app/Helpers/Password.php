@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 /**
  * README
- * Hash a password:.
+ * twigHash a password:.
  *
  *  $hash = password_hash('Correct Horse Battery Clip', PASSWORD_DEFAULT, ['cost' => 14]);
  *  Verify against an entered password (This example will not be verified)

@@ -2,11 +2,14 @@
 
 namespace App\Http;
 
+use App\Enum\HttpStatusCode;
 use App\Helpers\Payload\Payload;
 use App\Message\Message;
 use App\Validation\Validator;
+use App\Validation\ValidatorException;
 use Exception;
 use League\OAuth2\Server\AuthorizationServer;
+use Lib\Framework\App;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
@@ -70,9 +73,16 @@ abstract class Controller
 
 
     /**
+     * todo make it better
+     * @see App::resolveRoute()
+     * The current id for api request
+     * @var int
+     */
+    private $id;
+
+
+    /**
      * Controller constructor.
-     * @param Request $request
-     * @param Response $response
      * @param Twig $view
      * @param LoggerInterface $logger
      * @param Messages $flash
@@ -81,7 +91,6 @@ abstract class Controller
      * @param Guard $csrf
      */
     public function __construct(
-        Request $request, Response $response,
         Twig $view,
         LoggerInterface $logger,
         Messages $flash,
@@ -90,8 +99,8 @@ abstract class Controller
         Guard $csrf
     )
     {
-        $this->setRequest($request);
-        $this->setResponse($response);
+        $this->setRequest(app()->getContainer()->get(Request::class));
+        $this->setResponse(app()->getContainer()->get(Response::class));
         $this->setView($view);
         $this->setLogger($logger);
         $this->setFlash($flash);
@@ -218,7 +227,7 @@ abstract class Controller
         }
 
         if (!$this->business) {
-            $this->business = new $this->businessClass($this->getRequest(), $this->getResponse());
+            $this->business = new $this->businessClass();
         }
 
         return $this->business;
@@ -271,5 +280,63 @@ abstract class Controller
         return $this->response
             ->withHeader('Content-Type', 'application/json')
             ->withStatus($payload->getStatusCode());
+    }
+
+    /**
+     * @throws \Exception
+     */
+    protected function validate()
+    {
+        $method = ucfirst(strtolower($this->getRequest()->getMethod()));
+        $validate = "validate{$method}";
+        $this->$validate();
+
+        if ($this->getValidator()->failed()) {
+            throw new ValidatorException($this->getValidator()->getErros(true), HttpStatusCode::NOT_ACCEPTABLE);
+        }
+    }
+
+    /**
+     * @see App::resolveRoute()
+     * @param int $id
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @see ApiController::getAction()
+     * @return int
+     */
+    protected function getId() {
+        return $this->id;
+    }
+
+
+    /**
+     * @param bool $cast
+     * @return object|array
+     */
+    public function getParams($cast = true, $method = "POST")
+    {
+        if ($method === "POST") {
+            $form = $this->getRequest()->getParsedBody();
+        } else {
+            $form = $this->getRequest()->getQueryParams();
+        }
+
+        return $cast ? (object) $form : $form;
+    }
+
+
+    /**
+     * @param $param
+     * @return object|array
+     */
+    public function getParam($param)
+    {
+        $form = $this->getRequest()->getParsedBody();
+        return isset($form[$param]) ? $form[$param] : null;
     }
 }

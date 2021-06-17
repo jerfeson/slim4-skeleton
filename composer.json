@@ -12,24 +12,24 @@
     ],
     "require": {
         "php": "^7.2",
-        "slim/slim": "4.5.*",
-        "slim/psr7": "1.0.*",
-        "slim/twig-view": "3.1.*",
-        "slim/flash": "0.4.*",
-        "slim/csrf": "1.0.0",
-        "php-di/slim-bridge": "3.0.*",
-        "monolog/monolog": "2.0.*",
-        "slashtrace/slashtrace": "1.1.*",
-        "illuminate/database": "7.9.*",
+        "ext-json": "*",
         "illuminate/contracts": "7.9.*",
-        "illuminate/support": "7.9.*",
+        "illuminate/database": "7.9.*",
         "illuminate/pagination": "7.9.*",
-        "league/flysystem": "1.0.*",
-        "league/oauth2-server": "8.1.*",
-        "phpmailer/phpmailer": "6.1.*",
-        "naroga/redis-cache": "1.0.*",
+        "illuminate/support": "7.9.*",
         "jerfeson/slim-validation": "^1.0",
-        "ext-json": "*"
+        "league/flysystem": "1.0.*",
+        "league/oauth2-server": "8.2.*",
+        "monolog/monolog": "2.0.*",
+        "naroga/redis-cache": "1.0.*",
+        "php-di/slim-bridge": "3.0.*",
+        "phpmailer/phpmailer": "6.1.*",
+        "slashtrace/slashtrace": "1.1.*",
+        "slim/csrf": "1.0.0",
+        "slim/flash": "0.4.*",
+        "slim/psr7": "1.0.*",
+        "slim/slim": "4.5.*",
+        "slim/twig-view": "3.1.*"
     },
     "license": "MIT",
     "authors": [
@@ -85,6 +85,8 @@
         "test:coverage": "php vendor/bin/codecept run --coverage --coverage-xml --coverage-html",
         "schema:dump": "php bin/console.php schema-dump",
         "test": "php vendor/bin/codecept run --steps",
-        "console:migrate": "php bin/console.php migrations down"
+        "console:migrate": "php bin/console.php migrations down",
+        "console:seeder": "php bin/console.php seeder",
+        "console:ms": "php bin/console.php migrations down && php bin/console.php seeder"
     }
 }

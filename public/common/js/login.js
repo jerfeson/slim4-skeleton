@@ -29,13 +29,13 @@ let login = function () {
             let $button = $(this).find('.submit')
             $csrfName = $form.find('input[name=csrf_name]').val()
             $csrfValue = $form.find('input[name=csrf_value]').val()
-            $button.attr('disabled', true);
+            // $button.attr('disabled', true);
             // if is form, remove class
             $('.is-invalid').removeClass('is-invalid');
             $('.invalid-feedback').remove();
 
             let $ajax = $.ajax({
-                url: '/api/v1/authentication/authentication/token',
+                url: '/api/v1/authentication/token',
                 type: 'post',
                 data: $form.serialize(),
                 enctype: 'multipart/form-data',
@@ -65,7 +65,7 @@ let login = function () {
         $.ajax(
             {
                 type: "POST",
-                url: '/api/v1/authentication/authentication/login',
+                url: '/api/v1/authentication/authorize',
                 data: {
                     code: xhrLogin ? xhrLogin.status : 200,
                     cf_csrf_name: $csrfName,
@@ -75,6 +75,9 @@ let login = function () {
                     xhr.setRequestHeader("Authorization", "Bearer " + token)
                 },
                 success: function (data) {
+                    gHandler.handlerSuccess(data)
+                },
+                error: function (data) {
                     gHandler.handlerSuccess(data)
                 }
 
