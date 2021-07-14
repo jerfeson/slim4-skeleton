@@ -109,11 +109,7 @@ class App
      */
     public function isProduction($settings)
     {
-        if ($this->getConfig('default.env') == self::PRODUCTION) {
-            return true;
-        }
-
-        return false;
+        return $this->getConfig('default.env') == self::PRODUCTION;
     }
 
     /**
