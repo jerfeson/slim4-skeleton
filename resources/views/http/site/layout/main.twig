@@ -1,25 +1,21 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="/assets/bootstrap4/css/bootstrap.min.css">
-
-  <title>Hello, world!</title>
-
-  {% block page_styles %}{% endblock %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Hello world | Welcome to Slim 4</title>
+    <link rel="stylesheet" href="/assets/tailwind/build/tailwind.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+</head>
+    {% block page_styles %}{% endblock %}
 </head>
 <body>
-{% include "@site/layout/menu.twig" %}
 {% include "@site/layout/head.twig" %}
 {% block content %}
 {% endblock %}
-<script src="/assets/jQuery/jquery-3.5.1.min.js"></script>
-<script src="/assets/bootstrap4/js/bootstrap.bundle.min.js"></script>
-<script src="/common/js/handler.js?v={{ app_version }}"></script>
+<script type="text/javascript" src="assets/jquery/jquery-3.6.0.min.js"></script>
 {% block page_scripts %}{% endblock %}
 </body>
 </html>

@@ -2,6 +2,7 @@
 
 namespace App\Middleware;
 
+use App\App;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
@@ -12,14 +13,14 @@ use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
  *
  * @since   1.0.0
  *
- * @version 1.0.0
+ * @version 3.0.0
  */
 class Session
 {
     public function __invoke(Request $request, RequestHandler $handler)
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
-            $settings = app()->getConfig('session');
+            $settings = App::getConfig()->get('session');
 
             if (!is_dir($settings['filesPath'])) {
                 mkdir($settings['filesPath'], 0777, true);

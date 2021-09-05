@@ -23,7 +23,7 @@ class WelcomeCest
     public function frontpageWorks(AcceptanceTester $I)
     {
         $I->amOnPage('/');
-        $I->see('Welcome to SLIM4!');
+        $I->see('Welcome to Slim 4');
 
         return true;
     }

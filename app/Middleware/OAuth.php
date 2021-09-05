@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Middleware;
 
 use App\Enum\HttpStatusCode;
@@ -14,15 +13,15 @@ use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Routing\RouteContext;
 
 /**
- * Class OAuth
+ * Class OAuth.
  *
- * @package App\Middleware
+ * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  *
- * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ * @since   1.0.0
  *
- * @since 1.1.0
+ * @version 3.0.0
  *
- * @version 1.1.0
+ * @deprecated
  */
 class OAuth
 {
@@ -34,7 +33,7 @@ class OAuth
         'authentication/authentication/token',
         'authentication/authentication/login',
         'authentication/authentication/logout',
-        'payment/payment/return'
+        'payment/payment/return',
     ];
 
     /**
@@ -45,23 +44,23 @@ class OAuth
      */
     public function __invoke(Request $request, RequestHandler $handler)
     {
-
         $routeContext = RouteContext::fromRequest($request);
         $route = $routeContext->getRoute();
 
         if ($route && count($route->getArguments())) {
             $routeAccessed = $this->buildRouteAccessed($request, $route);
             $session = Session::get('user');
-            $token = isset($session['token']) ? $session['token']  : $request->getHeader('Authorization');
+            $token = isset($session['token']) ? $session['token'] : $request->getHeader('Authorization');
 
             //Verify if route can be accessed without token
-            if (in_array($routeAccessed, $this->noOAuthRoutes) ||
-                !isset($route->getArguments()['module'])) {
+            if (
+                in_array($routeAccessed, $this->noOAuthRoutes) ||
+                !isset($route->getArguments()['module'])
+            ) {
                 return $handler->handle($request);
             }
 
             try {
-
                 if (!$token) {
                     Session::destroy();
                 }
@@ -76,6 +75,7 @@ class OAuth
                 }
 
                 $request = \App\Helpers\OAuth::validateBearer($request);
+
                 return $handler->handle($request);
             } catch (OAuthServerException $exception) {
                 $payload = new Payload(
@@ -84,8 +84,8 @@ class OAuth
                         'message' => $exception->getHint(),
                     ]
                 );
-                return $this->exceptionResponse($route, $payload);
 
+                return $this->exceptionResponse($route, $payload);
             } catch (\Exception $exception) {
                 $payload = new Payload(
                     HttpStatusCode::BAD_REQUEST,
@@ -93,7 +93,8 @@ class OAuth
                         'message' => $exception->getMessage(),
                     ]
                 );
-                return  $this->exceptionResponse($route, $payload);
+
+                return $this->exceptionResponse($route, $payload);
             }
         }
 
@@ -103,6 +104,7 @@ class OAuth
     /**
      * @param $request
      * @param $route
+     *
      * @return string
      */
     private function buildRouteAccessed($request, $route)
@@ -113,9 +115,9 @@ class OAuth
         $id = isset($route->getArguments()['id']);
         if ($this->isApi($route)) {
             if ($class) {
-                $class = $route->getArguments()['class'] . "/";
+                $class = $route->getArguments()['class'] . '/';
             } else {
-                $class = $route->getArguments()['module'] . "/";
+                $class = $route->getArguments()['module'] . '/';
             }
 
             if ($idOrClass) {
@@ -123,28 +125,29 @@ class OAuth
             } elseif ($method) {
                 $method = $route->getArguments()['method'];
             } else {
-                $method = strtolower($request->getMethod()) . "Action";
+                $method = strtolower($request->getMethod()) . 'Action';
             }
-
         }
 
         $module = isset($route->getArguments()['module']) ? $route->getArguments()['module'] . '/' : '';
 
-        return $module . $class . $method ;
+        return $module . $class . $method;
     }
 
     /**
      * @param $route
+     *
      * @return bool
      */
     private function isApi($route)
     {
-        return explode("/", $route->getPattern())[1] === 'api';
+        return explode('/', $route->getPattern())[1] === 'api';
     }
 
     /**
      * @param $route
      * @param $payload
+     *
      * @return mixed
      */
     private function exceptionResponse($route, $payload)
@@ -154,6 +157,7 @@ class OAuth
         if ($this->isApi($route)) {
             $data = json_encode($payload, JSON_PRETTY_PRINT);
             $response->getBody()->write($data);
+
             return $response->withHeader('Content-Type', 'application/json')
                             ->withStatus($payload->getStatusCode());
         }

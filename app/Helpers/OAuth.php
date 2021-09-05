@@ -12,19 +12,22 @@ use Lib\Utils\Session;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
+ * Class OAuth.
  *
- * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  *
- * @since 1.1.0
+ * @since   1.0.0
  *
- * @version 1.1.0
+ * @version 3.0.0
  */
 class OAuth
 {
     /**
      * @param $request
-     * @return ServerRequestInterface
+     *
      * @throws OAuthServerException
+     *
+     * @return ServerRequestInterface
      */
     public static function validateBearer($request)
     {
@@ -59,7 +62,6 @@ class OAuth
         } catch (\Exception $exception) {
             throw OAuthServerException::accessDenied('Access token could not be verified');
         }
-
     }
 
     /**

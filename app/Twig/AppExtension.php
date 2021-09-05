@@ -2,9 +2,6 @@
 
 namespace App\Twig;
 
-use App\Model\AddressModel;
-use App\Model\ParameterModel;
-use App\Model\ProductModel;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -13,9 +10,9 @@ use Twig\TwigFilter;
  *
  * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  *
- * @since   1.1.0
+ * @since   1.0.0
  *
- * @version 1.1.0
+ * @version 3.0.0
  */
 class AppExtension extends AbstractExtension
 {
@@ -25,7 +22,7 @@ class AppExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            new TwigFilter('price', [$this, 'formatPrice',]),
+            new TwigFilter('price', [$this, 'formatPrice']),
         ];
     }
 
@@ -34,6 +31,7 @@ class AppExtension extends AbstractExtension
      * @param int $decimals
      * @param string $decPoint
      * @param string $thousandsSep
+     *
      * @return string
      */
     public function formatPrice($number, $decimals = 2, $decPoint = ',', $thousandsSep = '.')

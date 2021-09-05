@@ -1,0 +1,28 @@
+{
+  "name": "slim4-skeleton",
+  "version": "3.0.0",
+  "description": "[![Latest Version on Packagist](https://img.shields.io/github/release/jerfeson/slim4-skeleton.svg)](https://img.shields.io/github/v/release/jerfeson/slim4-skeleton) [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.md) [![Build Status](https://github.com/jerfeson/slim4-skeleton/workflows/build/badge.svg)](https://github.com/jerfeson/slim4-skeleton/actions) [![Total Downloads](https://img.shields.io/packagist/dt/jerfeson/slim4-skeleton.svg)](https://img.shields.io/github/downloads/jerfeson/slim4-skeleton/total)",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "build": "postcss public/assets/tailwind/tailwind.css -o public/assets/tailwind/build/tailwind.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jerfeson/slim4-skeleton.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jerfeson/slim4-skeleton/issues"
+  },
+  "homepage": "https://github.com/jerfeson/slim4-skeleton#readme",
+  "dependencies": {
+    "autoprefixer": "^10.3.1",
+    "postcss-cli": "^8.3.1",
+    "tailwindcss": "^2.2.7"
+  }
+}

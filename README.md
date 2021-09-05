@@ -17,9 +17,10 @@ Available service providers:
 - [Monolog]
 - [Eloquent]
 - [Twig]
+- [Flash Message]
+- [Symfony Console]
 - [FlySystem]
 - [Redis Cache]
-- [Flash Message]
 - [Codeception]
 - [oAuth2]
 - [Validation]
@@ -45,12 +46,10 @@ Replace `[my-app-name]` with the desired directory name for your new application
 * Ensure `storage/` is web writable.
 * make the necessary changes in config file config/app.php
 
-## Set permissions (Linux only)
+## Set permissions
 
-    sudo chown -R www-data storage/
+    sudo chown -R yourusername:www-data storage/
     sudo chmod -R ug+w storage/
-
-    sudo chmod -R 760 storage/
 
     chmod +x bin/console.php
 
@@ -152,10 +151,10 @@ The string can be loaded as a Key with Key::loadFromAsciiSafeString(self::ENCRYP
 
 ### Console usage
 
-* Usage: php bin/console.php [command-name]
-* List: php bin/console.php For list all commands
+* Usage: php public/index.php [command-name]
+* List: php public/index.php list For list all commands
 How to create a new command:
- 1. Create a class under directory app\Console in namespace App\Console
+ 1. Create a class under directory console\ in namespace Console\
  2. Your class should extend Symfony\Component\Console\Command\Command
  4. DONE!
 
@@ -163,65 +162,41 @@ Example:
 
 Command class:
 ```php
-namespace App\Console;
+<?php
 
-use Psr\Container\ContainerInterface;
+namespace Console;
+
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ExampleCommand extends Command
+/**
+ * Class DatabaseCommand
+ *
+ * @package Console\Migration
+ */
+class SampleCommand extends Console
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
 
-    /**
-     * Constructor.
-     *
-     * @param ContainerInterface $container The container
-     * @param string|null $name The name
-     */
-    public function __construct(ContainerInterface $container, ?string $name = null)
+    protected function configure()
     {
-        parent::__construct($name);
-        $this->container = $container;
+        $this->setName("app:sample");
+        $this->setDescription("Sample command console");
     }
 
-    /**
-     * Configure.
-     *
-     * @return void
-     */
-    protected function configure(): void
-    {
-        parent::configure();
-
-        $this->setName('example');
-        $this->setDescription('A sample command');
-    }
-
-    /**
-     * Execute command.
-     *
-     * @param InputInterface $input The input
-     * @param OutputInterface $output The output
-     *
-     * @return int The error code, 0 on success
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln(sprintf('<info>Hello, console</info>'));
-        return 0;
+        $message = "<info>Hello, I'm console</info>";
+        $output->writeln($message);
+        return Command::SUCCESS;
     }
 }
 ```
 
 Execute the class:method from command line:
 
-```php
-php bin/console.php example
+```shell
+php public/index.php app:sample
 ```
 
 ### Code examples
@@ -277,6 +252,7 @@ This project is based on the project in [jupitern/slim3-skeleton] feel free to c
 [jupitern]: https://github.com/jupitern
 [jupitern/slim3-skeleton]: https://github.com/jupitern/slim3-skeleton
 
+[Symfony Console]:https://symfony.com/doc/current/index.html
 [SlashTrace]:https://github.com/slashtrace/slashtrace
 [Monolog]:https://github.com/Seldaek/monolog
 [Eloquent]:https://github.com/illuminate/database

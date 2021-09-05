@@ -7,16 +7,13 @@ use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 
 /**
- * Class CsrfExtension
+ * Class CsrfExtension.
  *
- * @package App\Twig
+ * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  *
- * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ * @since   1.0.0
  *
- * @since 1.1.0
- *
- * @version 1.1.0
- *
+ * @version 3.0.0
  */
 class CsrfExtension extends AbstractExtension implements GlobalsInterface
 {

@@ -12,34 +12,20 @@ use Slim\Flash\Messages;
  *
  * @since   1.0.0
  *
- * @version 1.0.0
- *
- * @method Message CANNOT_DELETE
+ * @version 3.0.0
  */
 class Message
 {
     public const STATUS_SUCCESS = 'success';
     public const STATUS_ERROR = 'error';
 
-    /*COMMON MESSAGES*/
-    public const SUCCESSFUL_OPERATION = 'Operation performed successfully';
-    public const REGISTER_NOT_FOUND = 'Register not found';
-    public const MODEL_CLASS_NOT_DEFINED = 'Model class not defined';
-    public const REPOSITORY_CLASS_NOT_DEFINED = 'Repository class not defined';
-    public const BUSINESS_CLASS_NOT_DEFINED = 'Business class not defined';
-    public const PUBLIC_KEYS_NOT_DEFINED = 'Public oAuth2  key have not been defined';
-    public const DUPLICATE = 'The data has already been entered into our database';
-    public const NO_RESULTS = 'No results found';
-    public const ID_NOT_INFORMED = 'Id was not informed';
-
-    /*Authentication messages*/
-    public const ACCESS_DENIED = 'Access denied';
-    public const LOGIN_SUCCESSFUL = 'Login Successful';
-
-    /*Default messages*/
-    public const UNKNOWN_ERROR = 'An unknown error has occurred, contact your system administrator';
-    public const CANNOT_DELETE = "You cannot delete this record, you need to first remove the %s";
-
+    const RESOURCE_NOT_FOUND = 'Resource not found';
+    const METHOD_NOT_ALLOWED = 'Action not allowed';
+    const UNAUTHORIZED = 'Unauthorized User';
+    const FORBIDDEN = 'User without access permission';
+    const BAD_REQUEST = 'Invalid request';
+    const INTERNAL_ERROR = 'An internal error occurred while processing your request.';
+    const VALIDATION_FAILED = 'Validation failed';
 
     /**
      * @param Messages $messages
@@ -70,11 +56,13 @@ class Message
     /**
      * @param $name
      * @param $arguments
-     * @return int
+     *
+     * @return string
      */
-    public static function __callStatic($name, $arguments)
+    public static function __callStatic($name, $arguments): string
     {
         $message = constant("self::$name");
+
         return vsprintf($message, $arguments);
     }
 }

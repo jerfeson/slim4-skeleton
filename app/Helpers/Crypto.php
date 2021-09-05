@@ -3,28 +3,26 @@
 namespace App\Helpers;
 
 /**
- * Class Crypto
+ * Class Crypto.
  *
- * @package App\Helpers
+ * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  *
- * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ * @since   1.0.0
  *
- * @since 1.0.0
- *
- * @version 1.0.0
- *
+ * @version 3.0.0
  */
 class Crypto
 {
     /**
-     *
      * crypto_rand_secure($min, $max) works as a drop in replacement for rand() or mt_rand.
      * It uses openssl_random_pseudo_bytes to help create a random number between $min and $max.
+     *
      * @param $min
      * @param $max
+     *
      * @return int
      */
-    public  static function randSecure($min, $max)
+    public static function randSecure($min, $max)
     {
         $range = $max - $min;
         if ($range < 1) {
@@ -38,21 +36,23 @@ class Crypto
             $rnd = hexdec(bin2hex(openssl_random_pseudo_bytes($bytes)));
             $rnd = $rnd & $filter; // discard irrelevant bits
         } while ($rnd > $range);
+
         return $min + $rnd;
     }
 
     /**
-     *
      * Creates an alphabet to use within the token and then creates a string of length $length.
+     *
      * @param $length
+     *
      * @return string
      */
-    public  static function getToken($length)
+    public static function getToken($length)
     {
-        $token = "";
-        $codeAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        $codeAlphabet .= "abcdefghijklmnopqrstuvwxyz";
-        $codeAlphabet .= "0123456789";
+        $token = '';
+        $codeAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $codeAlphabet .= 'abcdefghijklmnopqrstuvwxyz';
+        $codeAlphabet .= '0123456789';
         $max = strlen($codeAlphabet); // edited
 
         for ($i = 0; $i < $length; $i++) {
@@ -61,5 +61,4 @@ class Crypto
 
         return $token;
     }
-
 }

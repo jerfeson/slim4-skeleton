@@ -12,35 +12,37 @@ use Slim\Csrf\Guard;
 /**
  * Class Csrf.
  *
- * @author Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
+ * @author  Jerfeson Guerreiro <jerfeson_guerreiro@hotmail.com>
  *
- * @since 1.1.0
+ * @since   1.0.0
  *
- * @version 1.1.0
+ * @version 3.0.0
  */
 class Csrf
 {
-
     /**
      * @param Request $request
      * @param RequestHandler $handler
+     *
      * @return Response
      */
     public function __invoke(Request $request, RequestHandler $handler)
     {
         //todo make it better
         // Validate POST, PUT, DELETE, PATCH requests
-        if (in_array($request->getMethod(), [
-            'POST',
-            'PUT',
-            'DELETE',
-            'PATCH',
-        ])) {
+        if (
+            in_array($request->getMethod(), [
+                'POST',
+                'PUT',
+                'DELETE',
+                'PATCH',
+            ])
+        ) {
             $form = $request->getParsedBody();
             /** @var Guard $guard */
             $guard = app()->getContainer()->get(Guard::class);
-            $name = \App\ServiceProviders\Csrf::PREFIX . 'name';
-            $token = \App\ServiceProviders\Csrf::PREFIX . 'value';
+            $name = \App\Factory\Csrf::PREFIX . 'name';
+            $token = \App\Factory\Csrf::PREFIX . 'value';
             $csrfName = isset($form[$name]) ? $form[$name] : null;
             $csrfToken = isset($form[$token]) ? $form[$token] : null;
 
