@@ -21,7 +21,7 @@ use function DI\factory;
 return [
     /**
      * Injection of common project dependencies.
-     **/
+     */
     //Middlewares
     App\Middleware\ApiAuthentication::class => autowire(),
 
@@ -37,7 +37,7 @@ return [
 
     /**
      * Application Module Dependency Injection.
-     **/
+     */
     // Services|Business
 
     AccessTokenService::class => autowire(),
@@ -46,36 +46,36 @@ return [
 
     /**
      * Provider dependency injection.
-     **/
+     */
 
-    /*Flash Message*/
+    // Flash Message
     Messages::class => autowire(),
-    /*Mono Log*/
+    // Mono Log
     LoggerInterface::class => factory([
         MonologFactory::class,
         'create',
     ]),
-    /*OAuth*/
+    // OAuth
     AuthorizationServer::class => factory([
         AuthorizationServerFactory::class,
         'create',
     ]),
-    /*Slash Trace*/
+    // Slash Trace
     ST::class => factory([
         SlashTraceFactory::class,
         'create',
     ]),
-    /*Symfony Translator*/
+    // Symfony Translator
     Symfony\Component\Translation\Translator::class => factory([
         TranslatorFactory::class,
         'create',
     ]),
-    /*Symfony Twig*/
+    // Symfony Twig
     Slim\Views\Twig::class => factory([
         TwigFactory::class,
         'create',
     ]),
-    /*Laravel Eloquent */
+    // Laravel Eloquent
     Illuminate\Database\ConnectionInterface::class => factory([
         DbConnectionFactory::class,
         'create',

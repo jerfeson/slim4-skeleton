@@ -46,9 +46,18 @@ class AccessTokenService extends Service
         switch ($grant_type) {
             case 'client_credentials':
                 return $this->getTokenByClientCredentials($data);
+
             case 'password':
                 return $this->getTokenByUserPassword($data);
         }
+    }
+
+    /**
+     * @return string
+     */
+    protected function getRepositoryClass(): string
+    {
+        return AccessTokenRepository::class;
     }
 
     /**
@@ -80,13 +89,5 @@ class AccessTokenService extends Service
         $user = $this->userService->getRepository()->getUserEntityByCredentials($data);
 
         return $user->client()->first();
-    }
-
-    /**
-     * @return string
-     */
-    protected function getRepositoryClass(): string
-    {
-        return AccessTokenRepository::class;
     }
 }

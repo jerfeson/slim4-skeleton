@@ -21,7 +21,7 @@ namespace App\Helpers;
  */
 class DotNotation
 {
-    const SEPARATOR = '/[:\.]/';
+    public const SEPARATOR = '/[:\.]/';
 
     /**
      * @var array
@@ -63,7 +63,7 @@ class DotNotation
 
     /**
      * @param string $path
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function set($path, $value)
     {
@@ -75,7 +75,7 @@ class DotNotation
                     if (is_array($at)) {
                         $at[array_shift($keys)] = $value;
                     } else {
-                        throw new \RuntimeException("Can not set value at this path ($path) because is not array.");
+                        throw new \RuntimeException("Can not set value at this path ({$path}) because is not array.");
                     }
                 } else {
                     $key = array_shift($keys);
@@ -96,7 +96,7 @@ class DotNotation
      */
     public function add($path, array $values)
     {
-        $get = (array)$this->get($path);
+        $get = (array) $this->get($path);
         $this->set($path, $this->arrayMergeRecursiveDistinct($get, $values));
     }
 

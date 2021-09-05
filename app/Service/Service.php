@@ -35,7 +35,7 @@ abstract class Service
     /**
      * @throws ReflectionException
      *
-     * @return Repository|object|string
+     * @return object|Repository|string
      */
     public function getRepository()
     {

@@ -17,7 +17,7 @@ use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
  *
  * @version 3.0.0
  *
- * @method AccessTokenEntity|null findOneBy(array $params, array $with = [])
+ * @method null|AccessTokenEntity findOneBy(array $params, array $with = [])
  */
 class AccessTokenRepository extends Repository implements AccessTokenRepositoryInterface
 {

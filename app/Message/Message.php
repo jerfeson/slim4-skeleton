@@ -19,13 +19,26 @@ class Message
     public const STATUS_SUCCESS = 'success';
     public const STATUS_ERROR = 'error';
 
-    const RESOURCE_NOT_FOUND = 'Resource not found';
-    const METHOD_NOT_ALLOWED = 'Action not allowed';
-    const UNAUTHORIZED = 'Unauthorized User';
-    const FORBIDDEN = 'User without access permission';
-    const BAD_REQUEST = 'Invalid request';
-    const INTERNAL_ERROR = 'An internal error occurred while processing your request.';
-    const VALIDATION_FAILED = 'Validation failed';
+    public const RESOURCE_NOT_FOUND = 'Resource not found';
+    public const METHOD_NOT_ALLOWED = 'Action not allowed';
+    public const UNAUTHORIZED = 'Unauthorized User';
+    public const FORBIDDEN = 'User without access permission';
+    public const BAD_REQUEST = 'Invalid request';
+    public const INTERNAL_ERROR = 'An internal error occurred while processing your request.';
+    public const VALIDATION_FAILED = 'Validation failed';
+
+    /**
+     * @param $name
+     * @param $arguments
+     *
+     * @return string
+     */
+    public static function __callStatic($name, $arguments): string
+    {
+        $message = constant("self::{$name}");
+
+        return vsprintf($message, $arguments);
+    }
 
     /**
      * @param Messages $messages
@@ -51,18 +64,5 @@ class Message
         }
 
         return $message;
-    }
-
-    /**
-     * @param $name
-     * @param $arguments
-     *
-     * @return string
-     */
-    public static function __callStatic($name, $arguments): string
-    {
-        $message = constant("self::$name");
-
-        return vsprintf($message, $arguments);
     }
 }

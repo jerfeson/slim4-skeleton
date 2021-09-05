@@ -29,7 +29,7 @@ class CollectionPayload implements PayloadInterface
 
     /**
      * @param \Illuminate\Database\Eloquent\Collection $objectList
-     * @param string $payloadClass
+     * @param string                                   $payloadClass
      *
      * @throws \ReflectionException
      */

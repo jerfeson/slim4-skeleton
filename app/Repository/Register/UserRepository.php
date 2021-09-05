@@ -34,7 +34,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
      * @param string                $grantType
      * @param ClientEntityInterface $clientEntity
      *
-     * @return false|UserEntityInterface|mixed|null
+     * @return null|false|mixed|UserEntityInterface
      */
     public function getUserEntityByUserCredentials($username, $password, $grantType, ClientEntityInterface $clientEntity)
     {
@@ -57,7 +57,7 @@ class UserRepository extends Repository implements UserRepositoryInterface
     /**
      * @param array $data
      *
-     * @return false|UserEntityInterface|mixed|null
+     * @return null|false|mixed|UserEntityInterface
      */
     public function getUserEntityByCredentials(array $data)
     {

@@ -38,7 +38,7 @@ class OAuth
 
     /**
      * @param ServerRequestInterface $request
-     * @param RequestHandler $handler
+     * @param RequestHandler         $handler
      *
      * @return mixed
      */
@@ -54,8 +54,8 @@ class OAuth
 
             //Verify if route can be accessed without token
             if (
-                in_array($routeAccessed, $this->noOAuthRoutes) ||
-                !isset($route->getArguments()['module'])
+                in_array($routeAccessed, $this->noOAuthRoutes)
+                || !isset($route->getArguments()['module'])
             ) {
                 return $handler->handle($request);
             }
@@ -159,7 +159,8 @@ class OAuth
             $response->getBody()->write($data);
 
             return $response->withHeader('Content-Type', 'application/json')
-                            ->withStatus($payload->getStatusCode());
+                ->withStatus($payload->getStatusCode())
+            ;
         }
     }
 }

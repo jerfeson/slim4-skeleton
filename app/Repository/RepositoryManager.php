@@ -54,7 +54,7 @@ class RepositoryManager
      *
      * @throws ReflectionException
      *
-     * @return Repository|object
+     * @return object|Repository
      */
     public function get(string $repositoryClass): Repository
     {

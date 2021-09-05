@@ -32,10 +32,10 @@ use Slim\Exception\HttpUnauthorizedException;
  */
 class ApiAuthentication implements MiddlewareInterface
 {
-    private IdentityStorage   $storage;
+    private IdentityStorage $storage;
     private RepositoryManager $repositoryManager;
-    private ApiRouteResolver  $apiResolver;
-    private RouteFinder       $routeFinder;
+    private ApiRouteResolver $apiResolver;
+    private RouteFinder $routeFinder;
 
     private string $accessToken;
 
@@ -72,9 +72,9 @@ class ApiAuthentication implements MiddlewareInterface
         $route = $this->routeFinder->getRouteFromRequest($request);
 
         if (
-            !$route ||
-            $route->getCallable() !== ApiRouteResolver::class ||
-            !$this->apiResolver->isRouteValid($route->getArguments())
+            !$route
+            || $route->getCallable() !== ApiRouteResolver::class
+            || !$this->apiResolver->isRouteValid($route->getArguments())
         ) {
             return $handler->handle($request);
         }
@@ -84,7 +84,7 @@ class ApiAuthentication implements MiddlewareInterface
         }
 
         $header = $request->getHeader('authorization');
-        $this->accessToken = trim((string)preg_replace('/^(?:\s+)?Bearer\s/', '', $header[0]));
+        $this->accessToken = trim((string) preg_replace('/^(?:\s+)?Bearer\s/', '', $header[0]));
 
         if (strlen($this->accessToken) < 100) {
             $request = $this->authenticateWithPureToken($request);
@@ -107,7 +107,7 @@ class ApiAuthentication implements MiddlewareInterface
     {
         $accessTokenRepo = $this->repositoryManager->get(AccessTokenRepository::class);
 
-        /** @var AccessTokenEntity|null $accessToken */
+        /** @var null|AccessTokenEntity $accessToken */
         $accessToken = $accessTokenRepo->findOneBy([
             'access_token' => $this->accessToken,
         ]);
@@ -120,7 +120,8 @@ class ApiAuthentication implements MiddlewareInterface
             ->withAttribute('oauth_access_token_id', $accessToken->accessToken)
             ->withAttribute('oauth_client_id', $accessToken->oauth2_client_id)
             ->withAttribute('oauth_user_id', $accessToken->user_id)
-            ->withAttribute('oauth_scopes', ['all']);
+            ->withAttribute('oauth_scopes', ['all'])
+        ;
 
         $this->setUpStorage($request);
 

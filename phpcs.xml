@@ -7,7 +7,6 @@
     <config name="ignore_warnings_on_exit" value="1"/>
 
     <file>./app</file>
-    <file>./bin</file>
     <file>./config</file>
     <file>./public</file>
     <file>./resources</file>
@@ -15,6 +14,7 @@
     <exclude-pattern>./tests/_data/*</exclude-pattern>
     <exclude-pattern>./tests/_output/*</exclude-pattern>
     <exclude-pattern>./tests/_support/*</exclude-pattern>
+    <exclude-pattern>./vendor</exclude-pattern>
 
      <rule ref="PSR12"></rule>
 

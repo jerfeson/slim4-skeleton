@@ -28,19 +28,23 @@ class FileSystem implements FactoryInterface
             $configs = array_merge($defaultConfigs, $configsOverride);
 
             $filesystem = null;
+
             switch ($configs['driver']) {
                 case 'local':
                     $adapter = new Local($configs['root']);
                     $filesystem = new FlySystem($adapter);
+
                     break;
 
                 case 'ftp':
                     $adapter = new FtpAdapter($configs);
                     $filesystem = new FlySystem($adapter);
+
                     break;
 
                 default:
                     throw new \Exception('filesystem driver not found');
+
                     break;
             }
 

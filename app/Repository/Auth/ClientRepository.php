@@ -15,7 +15,7 @@ use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
  *
  * @version 3.0.0
  *
- * @method ClientEntity|null findOneBy(array $params, array $with = [])
+ * @method null|ClientEntity findOneBy(array $params, array $with = [])
  */
 class ClientRepository extends Repository implements ClientRepositoryInterface
 {
@@ -45,8 +45,8 @@ class ClientRepository extends Repository implements ClientRepositoryInterface
 
     /**
      * @param string      $clientIdentifier
-     * @param string|null $clientSecret
-     * @param string|null $grantType
+     * @param null|string $clientSecret
+     * @param null|string $grantType
      *
      * @return bool|void
      */

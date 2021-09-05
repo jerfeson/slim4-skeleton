@@ -28,7 +28,7 @@ class RouteFinder
     private RouteCollectorInterface $routeCollector;
 
     /**
-     * @param \Slim\Interfaces\RouteResolverInterface $routeResolver
+     * @param \Slim\Interfaces\RouteResolverInterface  $routeResolver
      * @param \Slim\Interfaces\RouteCollectorInterface $routeCollector
      */
     public function __construct(RouteResolverInterface $routeResolver, RouteCollectorInterface $routeCollector)
@@ -40,7 +40,7 @@ class RouteFinder
     /**
      * @param \Psr\Http\Message\ServerRequestInterface $request
      *
-     * @return \Slim\Interfaces\RouteInterface|null
+     * @return null|\Slim\Interfaces\RouteInterface
      */
     public function getRouteFromRequest(ServerRequestInterface $request): ?RouteInterface
     {

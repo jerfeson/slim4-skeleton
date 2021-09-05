@@ -16,7 +16,7 @@ use App\Entity\Register\UserEntity;
 class IdentityStorage
 {
     /**
-     * @var UserEntity|null
+     * @var null|UserEntity
      */
     private ?UserEntity $User;
 
@@ -34,7 +34,7 @@ class IdentityStorage
     }
 
     /**
-     * @return UserEntity|null
+     * @return null|UserEntity
      */
     public function getUser(): ?UserEntity
     {
@@ -42,7 +42,7 @@ class IdentityStorage
     }
 
     /**
-     * @param UserEntity|null $User
+     * @param null|UserEntity $User
      */
     public function setUser(?UserEntity $User): void
     {

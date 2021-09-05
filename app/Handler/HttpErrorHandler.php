@@ -28,7 +28,7 @@ use Slim\Handlers\ErrorHandler;
  */
 class HttpErrorHandler extends ErrorHandler
 {
-    const EXPECTED_EXCEPTIONS = [
+    public const EXPECTED_EXCEPTIONS = [
         HttpException::class,
         ValidationException::class,
     ];
@@ -62,6 +62,7 @@ class HttpErrorHandler extends ErrorHandler
         if (App::getContainer()->has(SlashTrace::class) && (App::isConsole() || $this->displayErrorDetails)) {
             $st = App::getContainer()->get(SlashTrace::class);
             $st->register();
+
             throw $exception;
         }
 

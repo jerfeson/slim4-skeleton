@@ -26,9 +26,9 @@ class AccessTokenEntity extends Entity implements AccessTokenEntityInterface
     use EntityTrait;
     use TokenEntityTrait;
 
-    const TYPE_JWT = 0;
+    public const TYPE_JWT = 0;
 
-    const TYPE_PERMANENT_KEY = 1;
+    public const TYPE_PERMANENT_KEY = 1;
 
     /**
      * @var string

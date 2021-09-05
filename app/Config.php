@@ -34,10 +34,10 @@ final class Config
     /**
      * Gets the configuration with the specified name.
      *
-     * @param string $param nome da configuração
-     * @param null $defaultValue
+     * @param string $param        nome da configuração
+     * @param null   $defaultValue
      *
-     * @return array|mixed|string|null
+     * @return null|array|mixed|string
      */
     public function get(string $param, $defaultValue = null)
     {

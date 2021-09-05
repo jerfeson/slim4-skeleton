@@ -33,11 +33,10 @@ use Symfony\Component\Console\Application as ConsoleApp;
  */
 final class App
 {
-    private const VERSION = '3.0.0';
-
     public const DEVELOPMENT = 'development';
 
     public const PRODUCTION = 'production';
+    private const VERSION = '3.0.0';
 
     /**
      * @var bool
@@ -148,6 +147,42 @@ final class App
     }
 
     /**
+     * @return bool
+     */
+    public static function isProduction(): bool
+    {
+        return self::getAppEnv() == self::PRODUCTION;
+    }
+
+    /**
+     * @return \DI\Container
+     */
+    public static function getContainer(): Container
+    {
+        return self::$container;
+    }
+
+    /**
+     * @return Config
+     */
+    public static function getConfig(): Config
+    {
+        return self::$config;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getVersion(): string
+    {
+        if (self::isDevelopment()) {
+            return (string) time();
+        }
+
+        return self::VERSION;
+    }
+
+    /**
      * Inits the server request.
      */
     private static function initServerRequest()
@@ -221,7 +256,7 @@ final class App
     /**
      * @param string $path
      *
-     * @return mixed|array|callable
+     * @return array|callable|mixed
      */
     private static function loadFile(string $path)
     {
@@ -249,14 +284,6 @@ final class App
     }
 
     /**
-     * @return bool
-     */
-    public static function isProduction(): bool
-    {
-        return self::getAppEnv() == self::PRODUCTION;
-    }
-
-    /**
      * Load any initializers configured.
      */
     private static function loadInitializers()
@@ -268,14 +295,6 @@ final class App
 
             $class::initialize(self::getContainer());
         }
-    }
-
-    /**
-     * @return \DI\Container
-     */
-    public static function getContainer(): Container
-    {
-        return self::$container;
     }
 
     /**
@@ -327,25 +346,5 @@ final class App
         $errorMiddleware->setDefaultErrorHandler($errorHandler);
         self::$container->set(RouteResolverInterface::class, $app->getRouteResolver());
         self::$container->set(RouteCollectorInterface::class, $app->getRouteCollector());
-    }
-
-    /**
-     * @return Config
-     */
-    public static function getConfig(): Config
-    {
-        return self::$config;
-    }
-
-    /**
-     * @return string
-     */
-    public static function getVersion(): string
-    {
-        if (self::isDevelopment()) {
-            return (string)time();
-        }
-
-        return self::VERSION;
     }
 }

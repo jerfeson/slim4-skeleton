@@ -17,17 +17,6 @@ use stdClass;
 class Dynamic extends stdClass
 {
     /**
-     * @param $class
-     * @param $param
-     *
-     * @return bool
-     */
-    public static function getIfExist($class, $param)
-    {
-        return $class && property_exists($class, $param) && $class->$param ? $class->$param : null;
-    }
-
-    /**
      * @param $key
      * @param $params
      *
@@ -43,5 +32,16 @@ class Dynamic extends stdClass
 
         $subject = $this->{$key};
         call_user_func_array($subject, $params);
+    }
+
+    /**
+     * @param $class
+     * @param $param
+     *
+     * @return bool
+     */
+    public static function getIfExist($class, $param)
+    {
+        return $class && property_exists($class, $param) && $class->{$param} ? $class->{$param} : null;
     }
 }

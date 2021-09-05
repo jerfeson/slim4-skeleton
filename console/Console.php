@@ -16,7 +16,7 @@ abstract class Console extends Command
      * ExampleCommand constructor.
      *
      * @param ContainerInterface $container
-     * @param string|null        $name
+     * @param null|string        $name
      */
     public function __construct(ContainerInterface $container, ?string $name = null)
     {

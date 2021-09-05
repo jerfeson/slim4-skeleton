@@ -55,17 +55,7 @@ abstract class Controller
 
         $this->id = $args['id'] ?? '';
 
-        return $this->$action();
-    }
-
-    /**
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     *
-     * @return \Slim\Exception\HttpException
-     */
-    protected function actionNotFound(Request $request)
-    {
-        return new HttpNotFoundException($request);
+        return $this->{$action}();
     }
 
     public function getResponse(): Response
@@ -86,11 +76,21 @@ abstract class Controller
     /**
      * Retorna o id do recurso ou entidade que o controller irá manipular.
      *
-     * @return string|null
+     * @return null|string
      */
     public function getId(): ?string
     {
         return $this->id;
+    }
+
+    /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
+     * @return \Slim\Exception\HttpException
+     */
+    protected function actionNotFound(Request $request)
+    {
+        return new HttpNotFoundException($request);
     }
 
     /**
@@ -118,7 +118,8 @@ abstract class Controller
 
         return $this->getResponse()
             ->withHeader('Content-Type', 'application/json')
-            ->withStatus($statusCode);
+            ->withStatus($statusCode)
+        ;
     }
 
     protected function respondWithPayload(PayloadInterface $payload, int $statusCode = 200): Response

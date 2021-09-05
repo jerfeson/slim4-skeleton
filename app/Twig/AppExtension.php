@@ -28,7 +28,7 @@ class AppExtension extends AbstractExtension
 
     /**
      * @param $number
-     * @param int $decimals
+     * @param int    $decimals
      * @param string $decPoint
      * @param string $thousandsSep
      *

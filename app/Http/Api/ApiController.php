@@ -28,17 +28,7 @@ class ApiController extends Controller
     public IdentityStorage $identityStorage;
 
     /**
-     * @param Request $request
-     *
-     * @return HttpMethodNotAllowedException
-     */
-    protected function actionNotFound(Request $request): HttpMethodNotAllowedException
-    {
-        return new HttpMethodNotAllowedException($request);
-    }
-
-    /**
-     * @return UserEntity|null
+     * @return null|UserEntity
      */
     public function getUser(): ?UserEntity
     {
@@ -51,5 +41,15 @@ class ApiController extends Controller
     public function getClientId(): string
     {
         return $this->identityStorage->getClientId();
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return HttpMethodNotAllowedException
+     */
+    protected function actionNotFound(Request $request): HttpMethodNotAllowedException
+    {
+        return new HttpMethodNotAllowedException($request);
     }
 }

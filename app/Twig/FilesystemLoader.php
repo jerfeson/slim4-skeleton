@@ -18,7 +18,7 @@ use Twig\Source;
 class FilesystemLoader implements LoaderInterface
 {
     /** Identifier of the main namespace. */
-    const MAIN_NAMESPACE = '__main__';
+    public const MAIN_NAMESPACE = '__main__';
 
     /**
      * @var array
@@ -39,8 +39,8 @@ class FilesystemLoader implements LoaderInterface
     private $rootPath;
 
     /**
-     * @param string|array $paths A path or an array of paths where to look for templates
-     * @param string|null $rootPath The root path common to all relative paths (null for getcwd())
+     * @param array|string $paths    A path or an array of paths where to look for templates
+     * @param null|string  $rootPath The root path common to all relative paths (null for getcwd())
      */
     public function __construct($paths = [], string $rootPath = null)
     {
@@ -65,8 +65,8 @@ class FilesystemLoader implements LoaderInterface
     }
 
     /**
-     * @param string|array $paths A path or an array of paths where to look for templates
-     * @param string $namespace
+     * @param array|string $paths     A path or an array of paths where to look for templates
+     * @param string       $namespace
      *
      * @throws LoaderError
      */
@@ -108,22 +108,6 @@ class FilesystemLoader implements LoaderInterface
         }
 
         $this->paths[$namespace][] = rtrim($path, '/\\');
-    }
-
-    /**
-     * @param string $file
-     *
-     * @return bool
-     */
-    private function isAbsolutePath(string $file): bool
-    {
-        return strspn($file, '/\\', 0, 1)
-            || (
-                \strlen($file) > 3 && ctype_alpha($file[0])
-                && ':' === $file[1]
-                && strspn($file, '/\\', 2, 1)
-            )
-            || null !== parse_url($file, PHP_URL_SCHEME);
     }
 
     /**
@@ -169,9 +153,63 @@ class FilesystemLoader implements LoaderInterface
 
     /**
      * @param string $name
-     * @param bool $throw
      *
-     * @return string|null
+     * @throws LoaderError
+     *
+     * @return string
+     */
+    public function getCacheKey(string $name): string
+    {
+        if (null === $path = $this->findTemplate($name)) {
+            return '';
+        }
+        $len = \strlen($this->rootPath);
+        if (0 === strncmp($this->rootPath, $path, $len)) {
+            return substr($path, $len);
+        }
+
+        return $path;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function exists(string $name)
+    {
+        $name = $this->normalizeName($name);
+
+        if (isset($this->cache[$name])) {
+            return true;
+        }
+
+        return null !== $this->findTemplate($name, false);
+    }
+
+    /**
+     * @param string $name
+     * @param int    $time
+     *
+     * @throws LoaderError
+     *
+     * @return bool
+     */
+    public function isFresh(string $name, int $time): bool
+    {
+        // false support to be removed in 3.0
+        if (null === $path = $this->findTemplate($name)) {
+            return false;
+        }
+
+        return filemtime($path) < $time;
+    }
+
+    /**
+     * @param string $name
+     * @param bool   $throw
+     *
+     * @return null|string
      */
     protected function findTemplate(string $name, bool $throw = true)
     {
@@ -235,6 +273,22 @@ class FilesystemLoader implements LoaderInterface
         }
 
         throw new LoaderError($this->errorCache[$name]);
+    }
+
+    /**
+     * @param string $file
+     *
+     * @return bool
+     */
+    private function isAbsolutePath(string $file): bool
+    {
+        return strspn($file, '/\\', 0, 1)
+            || (
+                \strlen($file) > 3 && ctype_alpha($file[0])
+                && ':' === $file[1]
+                && strspn($file, '/\\', 2, 1)
+            )
+            || null !== parse_url($file, PHP_URL_SCHEME);
     }
 
     /**
@@ -302,59 +356,5 @@ class FilesystemLoader implements LoaderInterface
             $default,
             $name,
         ];
-    }
-
-    /**
-     * @param string $name
-     *
-     * @throws LoaderError
-     *
-     * @return string
-     */
-    public function getCacheKey(string $name): string
-    {
-        if (null === $path = $this->findTemplate($name)) {
-            return '';
-        }
-        $len = \strlen($this->rootPath);
-        if (0 === strncmp($this->rootPath, $path, $len)) {
-            return substr($path, $len);
-        }
-
-        return $path;
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
-    public function exists(string $name)
-    {
-        $name = $this->normalizeName($name);
-
-        if (isset($this->cache[$name])) {
-            return true;
-        }
-
-        return null !== $this->findTemplate($name, false);
-    }
-
-    /**
-     * @param string $name
-     * @param int    $time
-     *
-     * @throws LoaderError
-     *
-     * @return bool
-     */
-    public function isFresh(string $name, int $time): bool
-    {
-        // false support to be removed in 3.0
-        if (null === $path = $this->findTemplate($name)) {
-            return false;
-        }
-
-        return filemtime($path) < $time;
     }
 }

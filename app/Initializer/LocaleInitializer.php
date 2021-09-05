@@ -8,7 +8,7 @@ use Psr\Container\ContainerInterface;
 use Respect\Validation\Factory;
 use Symfony\Component\Translation\Translator;
 
-/***
+/*
  * Class LocaleInitializer
  *  Initializes any functionality related to the application's localization and translation.
  * @package App\Initializer

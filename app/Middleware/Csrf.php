@@ -21,7 +21,7 @@ use Slim\Csrf\Guard;
 class Csrf
 {
     /**
-     * @param Request $request
+     * @param Request        $request
      * @param RequestHandler $handler
      *
      * @return Response

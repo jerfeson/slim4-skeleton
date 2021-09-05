@@ -54,17 +54,9 @@ abstract class Repository
     }
 
     /**
-     * @return Builder
-     */
-    protected function newQuery(): Builder
-    {
-        return $this->entity->newQuery();
-    }
-
-    /**
      * @param $id
      *
-     * @return Entity|mixed|null
+     * @return null|Entity|mixed
      */
     public function findById($id): ?Entity
     {
@@ -77,11 +69,49 @@ abstract class Repository
      * @param array $params
      * @param array $with
      *
-     * @return Entity[]|Collection
+     * @return Collection|Entity[]
      */
     public function findAllByPagination(int $start, int $limit, array $params = [], array $with = [])
     {
         return $this->queryWhere($params, $with)->limit($limit)->offset($start)->get();
+    }
+
+    /**
+     * @param array $params
+     * @param array $with
+     *
+     * @return Collection|object[]
+     */
+    public function findBy(array $params, array $with = [])
+    {
+        return $this->queryWhere($params, $with)->get();
+    }
+
+    /**
+     * @param array $params
+     * @param array $with
+     *
+     * @return null|Entity
+     */
+    public function findOneBy(array $params, array $with = []): ?object
+    {
+        return $this->queryWhere($params, $with)->limit(1)->get()->first();
+    }
+
+    /**
+     * @param RepositoryManager $repositoryManager
+     */
+    public function setRepositoryManager(RepositoryManager $repositoryManager): void
+    {
+        $this->repositoryManager = $repositoryManager;
+    }
+
+    /**
+     * @return Builder
+     */
+    protected function newQuery(): Builder
+    {
+        return $this->entity->newQuery();
     }
 
     /**
@@ -106,41 +136,11 @@ abstract class Repository
     }
 
     /**
-     * @param array $params
-     * @param array $with
-     *
-     * @return Collection|object[]
-     */
-    public function findBy(array $params, array $with = [])
-    {
-        return $this->queryWhere($params, $with)->get();
-    }
-
-    /**
-     * @param array $params
-     * @param array $with
-     *
-     * @return Entity|null
-     */
-    public function findOneBy(array $params, array $with = []): ?object
-    {
-        return $this->queryWhere($params, $with)->limit(1)->get()->first();
-    }
-
-    /**
      * @return RepositoryManager
      */
     protected function getRepositoryManager(): RepositoryManager
     {
         return $this->repositoryManager;
-    }
-
-    /**
-     * @param RepositoryManager $repositoryManager
-     */
-    public function setRepositoryManager(RepositoryManager $repositoryManager): void
-    {
-        $this->repositoryManager = $repositoryManager;
     }
 
     /**
