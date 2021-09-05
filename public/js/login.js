@@ -70,5 +70,4 @@ let login = function () {
 
 $(document).ready(function () {
     login.init()
-    $('#login').trigger("click")
 })
