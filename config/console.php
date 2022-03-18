@@ -4,7 +4,7 @@
 use App\App;
 use App\Helpers\ArrayUtils;
 
-$migrateCommand = [];
+$customCommands = [];
 
 if (App::isDevelopment()) {
     $migrations = scandir(MIGRATION_PATH);
@@ -13,15 +13,14 @@ if (App::isDevelopment()) {
         if ($migration == '.' || $migration === '..') {
             continue;
         }
-        $migrateCommand[] = 'Console\\Migration\\' . pathinfo($migration, PATHINFO_FILENAME);
+        
+        $customCommands[] = 'Console\\Migration\\' . pathinfo($migration, PATHINFO_FILENAME);
     }
 }
 
 // add your  custom commands here
-$customCommands = [
-    Console\SampleCommand::class,
-];
+$customCommands = Console\SampleCommand::class;
 
-$default['commands'] = ArrayUtils::arrayMergeRecursiveDistinct($customCommands, $migrateCommand);
+$default['commands'] = ArrayUtils::arrayMergeRecursiveDistinct($customCommands);
 
 return $default;
