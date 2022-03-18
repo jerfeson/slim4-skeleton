@@ -21,6 +21,6 @@ if (App::isDevelopment()) {
 // add your  custom commands here
 $commands = Console\SampleCommand::class;
 
-$default['commands'] = ArrayUtils::arrayMergeRecursiveDistinct($customCommands);
+$default['commands'] = ArrayUtils::arrayMergeRecursiveDistinct($commands);
 
 return $default;
