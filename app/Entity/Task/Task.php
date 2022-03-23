@@ -4,7 +4,7 @@ namespace App\Entity\Task;
 
 use App\Entity\Entity;
 
-class Task extends Entity
+class Task extends Entity implements \JsonSerializable
 {
     protected $table = 'task';
 
@@ -13,12 +13,14 @@ class Task extends Entity
     ];
 
     /**
-     * @param $description
-     * @return $this
+     * @return array
      */
-    public function setDescription($description): Task
+    public function jsonSerialize(): array
     {
-        $this->attributes['description'] = $description;
-        return $this;
+        return [
+          "id" => $this->attributes['id'],
+          "description" => $this->attributes['description'],
+          "done" => $this->attributes['done'],
+        ];
     }
 }

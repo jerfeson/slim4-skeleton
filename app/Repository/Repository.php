@@ -22,6 +22,12 @@ abstract class Repository
     private Entity $entity;
     private RepositoryManager $repositoryManager;
 
+    public function __construct()
+    {
+        $entity = $this->getEntityClass();
+        $this->setEntity(new $entity());
+    }
+
     /**
      * @return string
      */
