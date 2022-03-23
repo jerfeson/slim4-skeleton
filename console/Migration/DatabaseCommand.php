@@ -30,7 +30,7 @@ class DatabaseCommand extends Console
 
     protected function configure()
     {
-        $this->setName('app:create-database');
+        $this->setName('app:create-database-default');
         $this->addArgument('drop', InputArgument::OPTIONAL, 'Delete created tables', false);
         $this->setDescription('Create full database');
     }

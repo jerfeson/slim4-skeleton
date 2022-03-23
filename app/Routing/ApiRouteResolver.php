@@ -2,7 +2,9 @@
 
 namespace App\Routing;
 
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpNotFoundException;
@@ -23,7 +25,7 @@ class ApiRouteResolver
     private string $controllerClass = '';
 
     /**
-     * @param \Psr\Container\ContainerInterface $container
+     * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {
@@ -33,13 +35,14 @@ class ApiRouteResolver
     /**
      * Processa a rota e chama o controller correto.
      *
-     * @param Request  $request
+     * @param Request $request
      * @param Response $response
-     * @param array    $args
-     *
-     * @throws \Slim\Exception\HttpNotFoundException
+     * @param array $args
      *
      * @return Response
+     * @throws ContainerExceptionInterface
+     * @throws HttpNotFoundException
+     * @throws NotFoundExceptionInterface
      */
     public function __invoke(Request $request, Response $response, array $args): Response
     {
@@ -107,11 +110,13 @@ class ApiRouteResolver
     }
 
     /**
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface      $response
-     * @param array                                    $args
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
      *
      * @return mixed
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     private function dispatchToController(Request $request, Response $response, array $args)
     {

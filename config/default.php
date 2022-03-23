@@ -1,6 +1,12 @@
 <?php
 
 use App\App;
+use App\Factory\FileSystem;
+use App\Factory\Mailer;
+use App\Factory\Csrf;
+use App\Factory\AuthorizationServerFactory;
+
+
 
 $config = [];
 
@@ -97,11 +103,10 @@ $config['settings']['cache'][] = [
 ];
 
 $config['providers'] = [
-    App\Factory\FileSystem::class => 'http,console',
-    App\Factory\Mailer::class => 'http,console',
-    App\Factory\OAuthServer::class => 'http,console',
-    App\Factory\Validator::class => 'http,console',
-    App\Factory\Csrf::class => 'http,console',
+    FileSystem::class => 'http,console',
+    Mailer::class => 'http,console',
+    AuthorizationServerFactory::class => 'http,console',
+    Csrf::class => 'http,console',
 ];
 
 return $config;
