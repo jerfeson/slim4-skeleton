@@ -4,16 +4,16 @@ namespace App\Factory;
 
 use App\Entity\Task\Task;
 
-class TaskFactory implements FromJson
+class TaskFactory implements FromArray
 {
     /**
      * @param array $data
      * @return Task
      */
-    public static function fromJson(array $data): Task
+    public static function fromArray(array $data): Task
     {
         if (!isset($data['description'])) {
-            throw new \DomainException("Improve the corrects parameters");
+            throw new \InvalidArgumentException("Improve the corrects parameters");
         }
 
         $task = new Task();

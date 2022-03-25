@@ -83,6 +83,29 @@ abstract class Repository
     }
 
     /**
+     * @return Collection|Entity[]
+     */
+    public function findAll()
+    {
+        return $this->entity->all();
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function deleteById($id): bool
+    {
+        $entity = $this->findById($id);
+
+        if ($entity) {
+            return $entity->delete();
+        }
+
+        throw new \DomainException('Entity not found!');
+    }
+
+    /**
      * @param array $params
      * @param array $with
      *

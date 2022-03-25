@@ -12,6 +12,17 @@ class Task extends Entity implements \JsonSerializable
         'done' => 0
     ];
 
+    protected $fillable = [
+        'done',
+        'description',
+        'updated_at',
+    ];
+
+    public function setDescription($description)
+    {
+        $this->attributes['description'] = $description;
+    }
+
     /**
      * @return array
      */

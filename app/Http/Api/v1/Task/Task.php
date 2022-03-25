@@ -22,18 +22,39 @@ class Task extends ApiController
     public function postAction(): ResponseInterface
     {
         try {
+            $id = $this->getRequest()->getAttribute('id');
+
             $data = $this->getRequest()->getParsedBody();
 
-            $task = TaskFactory::fromJson($data);
+            if (!$data) {
+                throw new \DomainException("Informe os dados");
+            }
 
-            $this->repository->save($task);
+            if ($id) {
+                $newTask = TaskFactory::fromArray($data);
+
+                $task = $this->repository->findById($id);
+
+                if (!$task) {
+                    throw new \DomainException("Não achei");
+                }
+
+                $fields = $newTask->jsonSerialize();
+                unset($fields['id']);
+
+                $task->update($fields);
+            } else {
+                $task = TaskFactory::fromArray($data);
+                $this->repository->save($task);
+            }
+
         } catch (\Exception $exception) {
             return $this->respondWithJson([
-                "message" => 'Deu ruim'
+                "message" => $exception->getMessage()
             ], 500);
         }
 
-        return $this->getResponse()->withStatus(200);
+        return $this->respondWithJson($task->jsonSerialize(), 200);
     }
 
     /**
@@ -44,17 +65,43 @@ class Task extends ApiController
         try {
             $id = $this->getRequest()->getAttribute('id');
 
-            $task = $this->repository->findById($id);
+            if ($id) {
+                $tasks = $this->repository->findById($id);
+            } else {
+                $tasks = $this->repository->findAll();
+            }
 
-            if (!$task) {
+            if (!$tasks) {
                 throw new \DomainException("Não achei");
             }
 
-            return $this->respondWithJson($task->jsonSerialize(), 200);
+            return $this->respondWithJson($tasks->jsonSerialize(), 200);
         } catch (\Exception $exception) {
             return $this->respondWithJson([
                 "message" => 'não consegui achar'
             ], 500);
         }
+    }
+
+    /**
+     * @return ResponseInterface
+     */
+    public function deleteAction(): ResponseInterface
+    {
+        try {
+            $id = $this->getRequest()->getAttribute('id');
+
+            if (!$id) {
+                throw new \DomainException("Informe os dados");
+            }
+
+            $this->repository->deleteById($id);
+        } catch (\Exception $exception) {
+            return $this->respondWithJson([
+                "message" => 'não consegui achar'
+            ], 500);
+        }
+
+        return $this->getResponse()->withStatus(200);
     }
 }
