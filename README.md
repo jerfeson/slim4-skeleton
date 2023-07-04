@@ -63,15 +63,22 @@ Copy the file: config/env.example.php to config/development.php
     cp config/env.exemplo.php config/development.php
 
 Change the connection configuration in config/development.php:
+```php
+<?php
+$config = [
+    'database' => [
+        'default' => [
+            'driver' => 'mysql',
+            'host' => 'localhost',
+            'database' => 'default',
+            'username' => '',
+            'password' => ''
+        ]
+    ]
+];
 
-    'settings' => [
-        'database' => [
-            'default' => [
-                'driver'    => 'mysql',
-                'host'      => 'localhost',
-                'database'  => 'default',
-                'username'  => '',
-                'password'  => '',
+return $config;
+```
 
 
 ## Migrations

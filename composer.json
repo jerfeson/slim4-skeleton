@@ -16,10 +16,10 @@
     "ext-intl": "*",
     "ext-json": "*",
     "ext-fileinfo": "*",
-    "illuminate/contracts": "8.48.*",
-    "illuminate/database": "8.48.*",
-    "illuminate/pagination": "8.48.*",
-    "illuminate/support": "8.48.*",
+    "illuminate/contracts": "8.*",
+    "illuminate/database": "8.*",
+    "illuminate/pagination": "8.*",
+    "illuminate/support": "8.*",
     "php-di/php-di": "6.3.*",
     "league/flysystem": "1.0.*",
     "league/oauth2-server": "8.2.*",
@@ -94,11 +94,8 @@
     "test:coverage": "php vendor/bin/codecept run --coverage --coverage-xml --coverage-html",
     "schema:dump": "php bin/console.php schema-dump",
     "test": "php vendor/bin/codecept run --steps",
-    "console:example": "php public/index.php example",
-    "console:migrate": "php public/index.php migrate",
-    "console:migrates": "php bin/console.php migrations down",
-    "console:seeder": "php bin/console.php seeder",
-    "console:ms": "php bin/console.php migrations down && php bin/console.php seeder",
+    "console:sample": "php public/index.php app:sample",
+    "console:migrate": "php public/index.php app:create-database down",
     "npm:build": "npm rum build"
   }
 }

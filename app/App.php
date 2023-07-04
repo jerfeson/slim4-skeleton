@@ -213,7 +213,7 @@ final class App
         define('CONFIG_PATH', realpath(__DIR__ . '/../config/') . DS);
         define('STORAGE_PATH', realpath(__DIR__ . '/../storage/') . DS);
         define('RESOURCES_PATH', realpath(__DIR__ . '/../resources/') . DS);
-        define('MIGRATION_PATH', realpath(__DIR__ . '/../console/migration/') . DS);
+        define('MIGRATION_PATH', realpath(__DIR__ . '/../console/Migration/') . DS);
 
 //        if (self::$testMode || self::$hasTestingParam) {
 //            define('TESTS_DATA_PATH', realpath(__DIR__ . '/../tests/_data/') . DIRECTORY_SEPARATOR);
