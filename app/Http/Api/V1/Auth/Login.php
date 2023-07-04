@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Api\v1\Auth;
+namespace App\Http\Api\V1\Auth;
 
 use App\Http\Api\ApiController;
 use Psr\Http\Message\ResponseInterface;
