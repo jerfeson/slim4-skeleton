@@ -90,7 +90,7 @@ class ApiRouteResolver
      */
     private function getResourceClass(string $version, string $resource): string
     {
-        return sprintf('\\App\\Http\\Api\\V%s\\%s', $version, $this->getResourceName($resource));
+        return sprintf('\\App\\Http\\Api\\v%s\\%s', $version, $this->getResourceName($resource));
     }
 
     /**
